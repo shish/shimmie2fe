@@ -1,11 +1,20 @@
-h1 {
-  color: hotpink;
-  font-family: cursive;
+:root {
+  --page-bg: #ACE4A3;
+  --block-bg: #ACE4A3;
+  --block-border: #7EB977;
 }
+
 svg {
   /* border: 1px solid red; */
   height: 1em;
 }
+body {
+  background: url("static/bg.png") var(--page-bg);
+}
 section {
-  margin-top: 3em;
+  margin-top: 3.5em;
+}
+h1 {
+  color: hotpink;
+  font-family: cursive;
 }

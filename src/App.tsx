@@ -1,78 +1,77 @@
 import React, { useState } from "react";
-import { NavBar } from "./components/NavBar";
-import { ThumbnailGrid } from "./components/ThumbnailGrid";
-import { useQuery } from '@apollo/client'
 import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/client';
-import { graphql } from './gql';
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Route,
+    RouterProvider,
+} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { setContext } from '@apollo/client/link/context';
+
+import { NavBar } from "./components/NavBar";
+import { ErrorPage } from "./pages/ErrorPage";
+import { PostList } from "./pages/PostList";
+import { PostView } from "./pages/PostView";
+import { Signup } from "./pages/Signup";
 
 export const serverInfo = {
+    name: "My Site",
     root: 'http://127.0.0.1:8000'
 };
 
-const createApolloClient = (authToken) => {
-    return new ApolloClient({
-        link: new HttpLink({
-            uri: serverInfo.root + "/graphql",
+const createApolloClient = () => {
+    const httpLink = new HttpLink({
+        uri: serverInfo.root + "/graphql",
+    });
+    const authLink = setContext((_, { headers }) => {
+        // get the authentication token from local storage if it exists
+        const token = localStorage.getItem('session');
+        // return the headers to the context so httpLink can read them
+        return {
             headers: {
-                Authorization: `Bearer ${authToken}`
+                ...headers,
+                authorization: token ? `Bearer ${token}` : "",
             }
-        }),
+        }
+    });
+
+    return new ApolloClient({
+        link: authLink.concat(httpLink),
         cache: new InMemoryCache(),
     });
 };
 
-function Body(props) {
-    return <section>
-        {props.children}
-    </section>;
+function Root() {
+    return <article>
+        <NavBar />
+        <section>
+            <Outlet />
+        </section>
+    </article>;
 }
 
-const getMeRequest = graphql(/* GraphQL */ `
-  query getMe {
-    me {
-        name
-    }
-  }
-`)
-const getPostsRequest = graphql(/* GraphQL */ `
-  query getPosts {
-    posts(limit: 12) {
-        id
-        hash
-        image_link
-        thumb_link
-    }
-  }
-`)
-
-function UserInfo(props) {
-    return <div>{props.user ? props.user.name : "Anonymous"}</div>
+function defaultLoader(props) {
+    return props.params;
 }
 
-function Main() {
-    // const { data } = useQuery(getMeRequest, { variables: { first: 10 } })
-    const me = useQuery(getMeRequest, {});
-    const posts = useQuery(getPostsRequest, {});
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+            <Route index element={<PostList />} />
+            <Route path="post/:post_id" element={<PostView />} loader={defaultLoader} />
+            <Route path="signup" element={<Signup />} />
+            {/* ... etc. */}
+        </Route>
+    )
+);
 
-    if(me.loading) {return <b>Loading...</b>;}
-    if(me.error) {return <b>Error: {me.error.message}</b>;}
-
-    if(posts.loading) {return <b>Loading...</b>;}
-    if(posts.error) {return <b>Error: {posts.error.message}</b>;}
-
-    return (
-        <article>
-            <NavBar />
-            <Body>
-                <ThumbnailGrid posts={posts.data?.posts} />
-            </Body>
-            <UserInfo user={me.data?.me} />
-        </article>
-    );
-}
 export function App() {
-    let idToken = "test";
-    const [client] = useState(createApolloClient(idToken));
+    const [client] = useState(createApolloClient());
 
-    return <ApolloProvider client={client}><Main /></ApolloProvider>;
+    return <ApolloProvider client={client}>
+        <React.StrictMode>
+            <RouterProvider router={router} />
+        </React.StrictMode>
+    </ApolloProvider>;
 }

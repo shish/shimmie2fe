@@ -4,18 +4,37 @@
     top: 0;
     left: 0;
     right: 0;
-    border-bottom: 1px solid grey;
     padding: .5em;
+    background: var(--block-bg);
+    border-bottom: 1px solid var(--block-border);
 
     .flex {
-        margin-left: 1em;
-        margin-right: 1em;
+        margin: .25em 1em;
         display: flex;
         align-items: center;
-        INPUT {
-            flex: 1 1;
+        &>* {
             margin-left: 1em;
-            margin-right: 1em;
+            flex: 0 1 auto;
         }
+        &>*:first-child {
+            margin-left: 0em;
+        }
+        &>.fill {
+            flex: 1 1 auto;
+        }
+    }
+    .flex:nth-child(2) {
+        margin-top: 1em;
+    }
+}
+.tag {
+    border: 1px solid black;
+    padding: .3em 1em;
+    .uses::before {
+        content: "(";
+        padding-left: .5em;
+    }
+    .uses::after {
+        content: ")";
     }
 }

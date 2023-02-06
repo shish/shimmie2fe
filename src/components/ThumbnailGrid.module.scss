@@ -1,4 +1,17 @@
 .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    //grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: masonry;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: .5em;
+}
+
+.thumbnail {
+    display: block;
+    //border: 1px solid red;
+    text-align: center;
+    IMG {
+        max-width: 100%;
+        max-height: 50vw;
+    }
 }
