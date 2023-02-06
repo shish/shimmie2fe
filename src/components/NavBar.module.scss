@@ -1,0 +1,21 @@
+.header {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid grey;
+    padding: .5em;
+
+    .flex {
+        margin-left: 1em;
+        margin-right: 1em;
+        display: flex;
+        align-items: center;
+        INPUT {
+            flex: 1 1;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+h1 {
+  color: hotpink;
+  font-family: cursive;
+}
+svg {
+  /* border: 1px solid red; */
+  height: 1em;
+}
+section {
+  margin-top: 3em;
+}
