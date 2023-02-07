@@ -1,28 +1,39 @@
-import React, { useState } from 'react';
-import { graphql } from '../gql';
-import { Link } from "react-router-dom";
-import { FragmentType, useFragment } from '../gql/fragment-masking'
-import { UserName } from './UserName';
+import React from "react";
+import { graphql } from "../gql";
+import { FragmentType, useFragment } from "../gql/fragment-masking";
+import { UserName } from "./UserName";
+import { Block } from "./Block";
+import * as css from "./CommentList.module.scss";
 
 export const CommentFragment = graphql(/* GraphQL */ `
-  fragment CommentItem on Comment {
-    comment_id
-    owner { name }
-    comment
-  }
-`)
+    fragment CommentItem on Comment {
+        comment_id
+        owner {
+            name
+        }
+        comment
+    }
+`);
 
-function Comment(props: {
-    comment: FragmentType<typeof CommentFragment>
-  }) {
-    const comment = useFragment(CommentFragment, props.comment)
-    return <div><UserName user={comment.owner} />: {comment.comment}</div>;
+function Comment(props: { comment: FragmentType<typeof CommentFragment> }) {
+    const comment = useFragment(CommentFragment, props.comment);
+    return (
+        <Block left>
+            <UserName user={comment.owner} />:{' '}{comment.comment}
+        </Block>
+    );
 }
 
-export function CommentList(props: {comments: Array<any>}) {
+export function CommentList(props: { comments: Array<any> }) {
     return (
-        <div>
-            {props.comments.map(c => <Comment key={c.comment_id} comment={c} />)}
+        <div className={css.commentList}>
+            {props.comments.map((c) => (
+                <Comment key={c.comment_id} comment={c} />
+            ))}
+            <Block>
+                <textarea></textarea>
+                <input type="submit" value="Post Comment" />
+            </Block>
         </div>
     );
 }
