@@ -19,7 +19,7 @@ function Comment(props: { comment: FragmentType<typeof CommentFragment> }) {
     const comment = useFragment(CommentFragment, props.comment);
     return (
         <Block left>
-            <UserName user={comment.owner} />:{' '}{comment.comment}
+            <UserName user={comment.owner} />: {comment.comment}
         </Block>
     );
 }
