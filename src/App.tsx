@@ -18,9 +18,16 @@ import { PostList } from "./pages/PostList";
 import { PostView } from "./pages/PostView";
 import { Signup } from "./pages/Signup";
 import { Root } from "./pages/Root";
+import { About } from "./pages/About";
+import { WikiPage } from "./pages/WikiPage";
+import { UserPage } from "./pages/UserPage";
+import { Messages } from "./pages/Messages";
+import { Comments } from "./pages/Comments";
+import { Upload } from "./pages/Upload";
 
 export const serverInfo = {
     name: "My Site",
+    // root: "https://rule34.paheal.net",
     root: "http://127.0.0.1:8000",
 };
 
@@ -46,7 +53,7 @@ const createApolloClient = () => {
     });
 };
 
-function defaultLoader(props) {
+function dl(props) {
     return props.params;
 }
 
@@ -54,12 +61,15 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
             <Route index element={<PostList />} />
-            <Route
-                path="post/:post_id"
-                element={<PostView />}
-                loader={defaultLoader}
-            />
+            <Route path="about" element={<About />} />
+            <Route path="comments" element={<Comments />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="posts" element={<PostList />} />
+            <Route path="post/:post_id" element={<PostView />} loader={dl} />
             <Route path="signup" element={<Signup />} />
+            <Route path="upload" element={<Upload />} />
+            <Route path="user/:user" element={<UserPage />} />
+            <Route path="wiki/:page" element={<WikiPage />} />
             {/* ... etc. */}
         </Route>,
     ),

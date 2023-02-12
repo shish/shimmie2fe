@@ -1,10 +1,24 @@
+.voter {
+    display: flex;
+    flex-direction: column;
+    &>* {
+        flex: 0 0 auto;
+    }
+}
 .metadata {
-    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    &>* {
+        flex: 0 0 auto;
+    }
+    &>TABLE {
+        flex: 1 1 auto;
+    }
     TH {
-        text-align: right;
-        padding-right: .25em;
+        vertical-align: top;
     }
     TD {
-        text-align: left;
+        overflow-wrap: break-word;
     }
 }

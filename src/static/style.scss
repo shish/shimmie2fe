@@ -1,31 +1,42 @@
-/*
 :root {
   --page-bg: #ACE4A3;
   --block-bg: #ACE4A3;
   --block-border: #7EB977;
 }
-*/
+/*
 :root {
   --page-bg: #444;
   --block-bg: #BBB;
   --block-border: #999;
 }
+*/
 
 * {
   box-sizing: border-box;
 }
 svg {
-  /* border: 1px solid red; */
   height: 1em;
 }
 body {
   font-family: 'Arial', sans-serif;
-  //background-image: url("bg.png");
+  background-image: url("bg.png");
   background-color: var(--page-bg);
-}
-section {
-  margin-top: 3.5em;
 }
 A {
   text-decoration: none;
+}
+
+TABLE.form {
+  margin: auto;
+  TH {
+      text-align: right;
+      padding-right: .25em;
+  }
+  TD {
+      text-align: left;
+      INPUT[type="text"],
+      BUTTON {
+        width: 100%;
+      }
+  }
 }

@@ -2,25 +2,96 @@
     display: block;
     position: fixed;
     top: 0;
+    transition: top .3s ease;
     left: 0;
     right: 0;
     padding: .5em;
     background: var(--block-bg);
     border-bottom: 1px solid var(--block-border);
+    white-space: nowrap;
 
-    .flex {
+    .topbar {
         margin: .25em 1em;
         display: flex;
         align-items: center;
         &>* {
             margin-left: 1em;
-            flex: 0 1 auto;
+            flex: 0 0 auto;
+        }
+        &>*:first-child {
+            margin-left: 0em;
+        }
+        .logo {
+            height: 2em;
+            margin-top: -0.5em;
+            margin-bottom: -0.5em;
+        }
+        FORM {
+            flex: 1 1 auto;
+            display: flex;
+            border: 1px solid var(--block-border);
+            background: white;
+            padding-left: .2em;
+            border-radius: .2em;
+            overflow: hidden;
+            INPUT[type="text"] {
+                flex: 1 1 auto;
+                min-width: 0;
+                border: 0px;
+            }
+            INPUT[type="submit"],
+            BUTTON {
+                font-size: 0.65em;
+                flex: 0 0 auto;
+                min-width: 0;
+                border: 0px;
+                border-left: 1px solid var(--block-border);
+            }
+        }
+        .avatar {
+            width: 1em;
+            height: 1em;
+            vertical-align: "text-top";
+        }
+    }
+    .flex {
+        margin: .25em 1em;
+        display: flex;
+        align-items: center;
+        .logo {
+            height: 2em;
+            margin-top: -0.5em;
+            margin-bottom: -0.5em;
+        }
+        &>* {
+            margin-left: 1em;
+            flex: 0 0 auto;
         }
         &>*:first-child {
             margin-left: 0em;
         }
         &>.fill {
             flex: 1 1 auto;
+        }
+        FORM {
+            display: flex;
+            border: 1px solid var(--block-border);
+            background: white;
+        }
+        INPUT[type="text"],
+        INPUT[type="password"] {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        .avatar {
+            width: 1em;
+            height: 1em;
+            vertical-align: "text-top";
+        }
+    }
+    FORM.flex {
+        INPUT {
+            max-width: 10em;
         }
     }
     .flex:nth-child(2) {

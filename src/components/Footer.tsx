@@ -8,6 +8,7 @@ export function Footer(props) {
             <a href="/wiki/Terms%20of%20use">Terms of use</a> !!!{" "}
             <a href="/wiki/Privacy%20policy">Privacy policy</a> !!!{" "}
             <a href="/wiki/2257">18 U.S.C. §2257</a>
+            {/*
             <hr />
             Media © their respective owners,{" "}
             <a href="https://code.shishnet.org/shimmie2/">Shimmie</a> ©{" "}
@@ -16,6 +17,7 @@ export function Footer(props) {
                 The Team
             </a>{" "}
             2023.
+            */}
         </footer>
     );
 }
