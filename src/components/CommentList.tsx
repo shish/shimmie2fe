@@ -17,7 +17,7 @@ export const CommentFragment = graphql(/* GraphQL */ `
     }
 `);
 
-const createCommentMutation = graphql(/* GraphQL */ `
+const CREATE_COMMENT = graphql(/* GraphQL */ `
     mutation createComment($post_id: Int!, $comment: String!) {
         create_comment(post_id: $post_id, comment: $comment)
     }
@@ -48,7 +48,7 @@ export function CommentList(props: {
         props.postQ.refetch();
     };
 
-    const [createComment] = useMutation(createCommentMutation, {
+    const [createComment] = useMutation(CREATE_COMMENT, {
         update: updateCache,
     });
 

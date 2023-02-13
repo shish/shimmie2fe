@@ -16,6 +16,9 @@
 }
 svg {
   height: 1em;
+  path {
+    fill: currentColor;
+  }
 }
 body {
   font-family: 'Arial', sans-serif;

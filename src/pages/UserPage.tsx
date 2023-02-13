@@ -31,7 +31,7 @@ export function UserPage() {
 
     return (
         <article>
-            <Block>TODO: Show {user}</Block>
+            <Block>TODO: Show {user!.name}</Block>
         </article>
     );
 }

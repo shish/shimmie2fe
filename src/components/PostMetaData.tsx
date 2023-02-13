@@ -5,18 +5,45 @@ import ChevronUpIcon from "../icons/chevron-up.svg";
 import ChevronDownIcon from "../icons/chevron-down.svg";
 import * as css from "./PostMetaData.module.scss";
 import { Block } from "../components/Block";
+import { graphql } from "../gql";
+import { useMutation } from "@apollo/client";
 
 
-function Voter(props) {
-    const post = props.post;
+const CREATE_VOTE = graphql(`
+    mutation createVote($post_id: Int!, $score: Int!) {
+        create_vote(post_id: $post_id, score: $score)
+    }
+`);
+
+function Voter({ post, postQ }) {
+    const [voted, setVoted] = useState(post.my_vote);
+    const [createVote] = useMutation(CREATE_VOTE);
+
+    function vote(score) {
+        setVoted(score);
+        createVote({
+            variables: { post_id: post.post_id, score: score },
+        });
+        postQ.refetch();
+    }
+
     return <div className={css.voter}>
-        <ChevronUpIcon />
-        <span>{post.score}</span>
-        <ChevronDownIcon />
+        <ChevronUpIcon
+            className={voted == 1 ? css.voted : null}
+            onClick={() => vote(1)}
+        />
+        <span
+            className={voted == 0 ? css.voted : null}
+            onClick={() => vote(0)}
+        >{post.score}</span>
+        <ChevronDownIcon
+            className={voted == -1 ? css.voted : null}
+            onClick={() => vote(-1)}
+        />
     </div>;
 }
-export function PostMetaData(props) {
-    const post = props.post;
+
+export function PostMetaData({ post, postQ }) {
     const [editing, setEditing] = useState<boolean>(false);
     const [tags, setTags] = useState(post.tags.join(" "));
     const [source, setSource] = useState(post.source || "");
@@ -24,16 +51,20 @@ export function PostMetaData(props) {
     function save() {
         // FIXME
         setEditing(false);
+        postQ.refetch();
     }
 
     return <Block className={css.metadata}>
-        <Voter post={post} />
+        <Voter post={post} postQ={postQ} />
         <table className="form">
             <tbody>
                 <tr>
                     <th>Uploader</th>
                     <td>
                         <UserName user={post?.owner} />, {post?.posted}
+                    </td>
+                    <td rowSpan={4}>
+                        <img src={post?.owner?.avatar_url} />
                     </td>
                 </tr>
                 <tr>
@@ -63,8 +94,7 @@ export function PostMetaData(props) {
                     <td>{post?.info}</td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <td>
+                    <td colSpan={3}>
                         {
                             post?.locked ?
                                 <button disabled={true}>Locked</button> :
@@ -76,7 +106,6 @@ export function PostMetaData(props) {
                 </tr>
             </tbody>
         </table>
-        <img src={post?.owner?.avatar_url} />
     </Block>
         ;
 }

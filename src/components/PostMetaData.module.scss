@@ -4,29 +4,41 @@
     &>* {
         flex: 0 0 auto;
     }
+    .voted {
+        color: #C00;
+    }
 }
 .metadata {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     
     &>.voter {
         flex: 0 1 3em;
     }
     &>TABLE {
-        flex: 0 0 auto;
+        flex: 0 1 auto;
         margin: 0;
         TH {
             vertical-align: top;
         }
         TD {
-            overflow-wrap: break-word;
+            vertical-align: top;
+            overflow-wrap: anywhere;
+            STRONG {
+                font-size: .75em;
+                display: block;
+                position: relative;
+                left: -1em;
+            }
+            IMG {
+                margin-left: 1em;
+                aspect-ratio: 1/1;
+                height: 5em;
+                border: 1px solid var(--block-border);
+                border-radius: .5em;
+            }
         }
-    }
-    &>IMG {
-        flex: 0 0 auto;
-        border: 1px solid var(--block-border);
-        border-radius: .5em;
     }
 }

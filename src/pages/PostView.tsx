@@ -11,21 +11,28 @@ import { PostMetaData } from "../components/PostMetaData";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {
-        post(id: $post_id) {
-            id
-            hash
+        post(post_id: $post_id) {
+            post_id
             owner {
                 name
                 avatar_url
             }
+
+            image_link
+            thumb_link
+
             tags
             source
             locked
             info
             posted
-            image_link
-            thumb_link
+            
             score
+            my_vote
+
+            width
+            height
+
             comments {
                 comment_id
                 owner {
@@ -81,12 +88,14 @@ export function PostView() {
                     src={absurl(post!.image_link!)}
                     style={style}
                     onClick={updateScale}
+                    // width={post!.width}
+                    // height={post!.height}
                 />
             </Block>
-            <PostMetaData post={post} />
+            <PostMetaData postQ={q} post={post} />
             <CommentList
                 postQ={q}
-                post_id={post!.id!}
+                post_id={post!.post_id!}
                 comments={post!.comments!}
             />
         </article>

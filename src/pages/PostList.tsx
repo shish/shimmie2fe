@@ -9,10 +9,11 @@ import { LoadingPage } from "./LoadingPage";
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($start: Int, $tags: [String!]) {
         posts(start: $start, limit: 48, tags: $tags) {
-            id
-            image_link
+            post_id
             thumb_link
             tooltip
+            width
+            height
         }
     }
 `);

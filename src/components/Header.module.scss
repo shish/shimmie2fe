@@ -78,12 +78,8 @@
     .flex {
         margin: .25em 1em;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        .logo {
-            height: 2em;
-            margin-top: -0.5em;
-            margin-bottom: -0.5em;
-        }
         &>* {
             margin-left: 1em;
             flex: 0 0 auto;
@@ -103,11 +99,6 @@
         INPUT[type="password"] {
             flex: 1 1 auto;
             min-width: 0;
-        }
-        .avatar {
-            width: 1em;
-            height: 1em;
-            vertical-align: "text-top";
         }
     }
     FORM.flex {
