@@ -101,6 +101,9 @@
 .tag {
     border: 1px solid black;
     padding: .3em 1em;
+    .name {
+        font-size: 1em; // FIXME: no-op just to ensure .name is exported
+    }
     .uses::before {
         content: "(";
         padding-left: .5em;
