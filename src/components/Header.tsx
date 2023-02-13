@@ -9,7 +9,6 @@ import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
 import { serverInfo } from "../utils";
-import { nullthrows } from "../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
 
 const loginMutation = graphql(/* GraphQL */ `
@@ -97,7 +96,7 @@ function CompletionsBar(props: {
 }
 
 function UserBar(props) {
-    const me = nullthrows(props.meQ?.data?.me);
+    const me = props.meQ!.data!.me!;
 
     function logout() {
         localStorage.removeItem("session");
@@ -222,14 +221,16 @@ export function Header(props) {
                         <a onClick={() => toggleBar(Bars.USER)}>
                             {meQ?.data?.me?.name}
                         </a>
-                        {(meQ?.data?.me?.private_message_unread_count || 0) >
-                            0 && <BellIcon />}
                         {meQ?.data?.me?.avatar_url ? (
-                            <img
-                                src={meQ?.data?.me?.avatar_url}
-                                className={css.avatar}
-                                onClick={() => toggleBar(Bars.USER)}
-                            />
+                            <div>
+                                <img
+                                    src={meQ?.data?.me?.avatar_url}
+                                    className={css.avatar}
+                                    onClick={() => toggleBar(Bars.USER)}
+                                />
+                                {(meQ?.data?.me?.private_message_unread_count || 0) >
+                                    0 && <span>{meQ?.data?.me?.private_message_unread_count}</span>}
+                            </div>
                         ) : (
                             <UserIcon onClick={() => toggleBar(Bars.USER)} />
                         )}
@@ -239,7 +240,7 @@ export function Header(props) {
             {bar == Bars.NAV && <NavBar />}
             {bar == Bars.COMPLETIONS && (
                 <CompletionsBar
-                    start={nullthrows(search.split(" ").pop())}
+                    start={search.split(" ").pop()!}
                     setSearchPart={setSearchPart}
                 />
             )}

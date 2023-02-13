@@ -3,7 +3,6 @@ import { Block } from "../components/Block";
 import { useParams } from "react-router-dom";
 import { graphql } from "../gql";
 import { useQuery } from "@apollo/client";
-import { nullthrows } from "../utils";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
 
@@ -28,7 +27,7 @@ export function UserPage() {
         return <ErrorPage error={q.error} />;
     }
 
-    const user = nullthrows(q.data?.user);
+    const user = q.data!.user;
 
     return (
         <article>

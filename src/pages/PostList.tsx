@@ -2,7 +2,6 @@ import React from "react";
 import { ThumbnailGrid } from "../components/ThumbnailGrid";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../gql";
-import { nullthrows } from "../utils";
 import { useSearchParams } from "react-router-dom";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
@@ -37,7 +36,7 @@ export function PostList() {
 
     return (
         <article>
-            <ThumbnailGrid posts={nullthrows(q.data?.posts)} />
+            <ThumbnailGrid posts={q.data!.posts} />
         </article>
     );
 }

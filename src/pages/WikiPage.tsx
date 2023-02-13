@@ -4,7 +4,7 @@ import { graphql } from "../gql";
 import { useParams } from "react-router-dom";
 import { Block } from "../components/Block";
 import { UserName } from "../components/UserName";
-import { bbcode, nullthrows } from "../utils";
+import { bbcode } from "../utils";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
 
@@ -35,7 +35,7 @@ export function WikiPage() {
         return <ErrorPage error={q.error} />;
     }
 
-    const page = nullthrows(q.data?.wiki);
+    const page = q.data!.wiki;
     return (
         <article>
             <Block>

@@ -45,13 +45,34 @@
                 flex: 0 0 auto;
                 min-width: 0;
                 border: 0px;
+                padding-top: 0.3em;
                 border-left: 1px solid var(--block-border);
             }
         }
-        .avatar {
-            width: 1em;
-            height: 1em;
+        DIV {
             vertical-align: "text-top";
+            position: relative;
+            margin-top: -0.5em;
+            margin-bottom: -0.5em;
+            width: 2em;
+            height: 2em;
+            .avatar {
+                width: 2em;
+                height: 2em;
+                border-radius: .5em;
+                border: 1px solid var(--block-border)
+            }
+            SPAN {
+                position: absolute;
+                bottom: -0.2em;
+                right: -0.2em;
+                background: red;
+                border: 1px solid #800;
+                padding: 0 .2em;
+                border-radius: 1em;
+                font-size: 0.5em;
+                font-weight: bold;
+            }
         }
     }
     .flex {

@@ -1,0 +1,32 @@
+.voter {
+    display: flex;
+    flex-direction: column;
+    &>* {
+        flex: 0 0 auto;
+    }
+}
+.metadata {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    
+    &>.voter {
+        flex: 0 1 3em;
+    }
+    &>TABLE {
+        flex: 0 0 auto;
+        margin: 0;
+        TH {
+            vertical-align: top;
+        }
+        TD {
+            overflow-wrap: break-word;
+        }
+    }
+    &>IMG {
+        flex: 0 0 auto;
+        border: 1px solid var(--block-border);
+        border-radius: .5em;
+    }
+}

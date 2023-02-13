@@ -26,7 +26,7 @@ const createCommentMutation = graphql(/* GraphQL */ `
 function Comment(props: { comment: FragmentType<typeof CommentFragment> }) {
     const comment = useFragment(CommentFragment, props.comment);
     return (
-        <Block left>
+        <Block align="left">
             <UserName user={comment.owner} />: {bbcode(comment.comment)}
         </Block>
     );
