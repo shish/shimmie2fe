@@ -1,4 +1,8 @@
-import { serverInfo } from "./App";
+export const serverInfo = {
+    name: "My Site",
+    // root: "https://rule34.paheal.net",
+    root: "http://127.0.0.1:8000",
+};
 
 export function nullthrows<T>(x: T | null | undefined): T {
     if (x === null) throw new Error("Got an unexpected null :(");

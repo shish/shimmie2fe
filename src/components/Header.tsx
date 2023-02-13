@@ -8,7 +8,7 @@ import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
-import { serverInfo } from "../App";
+import { serverInfo } from "../utils";
 import { nullthrows } from "../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
 

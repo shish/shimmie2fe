@@ -24,12 +24,7 @@ import { UserPage } from "./pages/UserPage";
 import { Messages } from "./pages/Messages";
 import { Comments } from "./pages/Comments";
 import { Upload } from "./pages/Upload";
-
-export const serverInfo = {
-    name: "My Site",
-    // root: "https://rule34.paheal.net",
-    root: "http://127.0.0.1:8000",
-};
+import { serverInfo } from "./utils";
 
 const createApolloClient = () => {
     const httpLink = new HttpLink({
