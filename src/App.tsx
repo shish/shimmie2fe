@@ -28,7 +28,7 @@ import { Upload } from "./pages/Upload";
 export const serverInfo = {
     name: "My Site",
     // root: "https://rule34.paheal.net",
-    root: "http://127.0.0.1:8000",
+    root: "http://127.0.0.1:6000",
 };
 
 const createApolloClient = () => {
