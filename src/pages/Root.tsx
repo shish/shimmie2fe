@@ -22,6 +22,8 @@ export function Root() {
         setPrevScroll(curScroll);
     };
 
+    // FIXME: check that ScrollRestoration actually works, since
+    // we're scrolling a div and not the whole page
     return (
         <div className={css.page} onScroll={onScroll}>
             <ScrollRestoration />

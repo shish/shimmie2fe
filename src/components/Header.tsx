@@ -1,41 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import BellIcon from "../icons/bell.svg";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import BarsIcon from "../icons/bars.svg";
 import UserIcon from "../icons/user.svg";
 import MagnifiyingGlassIcon from "../icons/magnifying-glass.svg";
 import * as css from "./Header.module.scss";
 import { graphql } from "../gql";
-import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
 import { serverInfo } from "../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
+import { UserContext } from '../LoginProvider';
 
-const loginMutation = graphql(/* GraphQL */ `
-    mutation login($name: String!, $pass: String!) {
-        login(name: $name, pass: $pass) {
-            user {
-                name
-                private_message_unread_count
-                avatar_url
-            }
-            session
-            error
-        }
-    }
-`);
-
-const getMeRequest = graphql(/* GraphQL */ `
-    query getMe {
-        me {
-            name
-            private_message_unread_count
-            avatar_url
-        }
-    }
-`);
-
-const getTagsRequest = graphql(/* GraphQL */ `
+const GET_TAGS = graphql(/* GraphQL */ `
     query getTags($start: String!) {
         tags(search: $start, limit: 10) {
             tag
@@ -61,9 +36,9 @@ enum Bars {
     LOGIN,
 }
 
-function NavBar(props) {
+function NavBar() {
     return (
-        <div className={css.flex}>
+        <div className={css.nav}>
             <Link to="/upload">Upload</Link>
             <Link to="/comments">Comments</Link>
         </div>
@@ -74,12 +49,15 @@ function CompletionsBar(props: {
     start: string;
     setSearchPart: CallableFunction;
 }) {
-    const compQ = useQuery(getTagsRequest, {
+    const compQ = useQuery(GET_TAGS, {
         variables: { start: props.start },
     });
 
+    if (compQ.loading) { return <></> }
+    if (compQ.error) { return <div className={css.completions}>{compQ.error.message}</div> }
+
     return (
-        <div className={css.flex}>
+        <div className={css.completions}>
             {compQ?.data?.tags?.map((tu) => (
                 <span
                     className={css.tag}
@@ -95,49 +73,39 @@ function CompletionsBar(props: {
     );
 }
 
-function UserBar(props) {
-    const me = props.meQ!.data!.me!;
+function UserBar({ setBar }) {
+    const { me, logout } = useContext(UserContext);
+    const pmuc = me.private_message_unread_count;
 
-    function logout() {
-        localStorage.removeItem("session");
-        props.meQ.client.clearStore();
-        props.meQ.refetch();
-    }
-
+    // FIXME: make logout work
     return (
-        <div className={css.flex}>
-            <Link to={"/user/"+me.name}>My Profile</Link>
-            <Link to="/messages">Messages ({me.private_message_unread_count})</Link>
+        <div className={css.user}>
+            <Link to={"/user/" + me.name}>My Profile</Link>
+            <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <>({pmuc})</>}</Link>
             <span className={css.fill}></span>
-            <span onClick={logout}>Log Out</span>
+            <span onClick={() => {
+                logout();
+                setBar(Bars.NONE);
+            }}>Log Out</span>
         </div>
     );
 }
 
-function LoginBar(props) {
+function LoginBar({ setBar }) {
+    const { login } = useContext(UserContext);
     const [name, setName] = useState("");
     const [pass, setPass] = useState("");
-    const updateCache = (cache, { data }) => {
-        if (data.login.user.name && data.login.session) {
-            localStorage.setItem(
-                "session",
-                data.login.user.name + ":" + data.login.session,
-            );
-            props.setBar(Bars.NONE);
-        }
-        cache.writeQuery({
-            query: getMeRequest,
-            data: { me: data.login.user },
-        });
-    };
-    const [login] = useMutation(loginMutation, { update: updateCache });
 
+    // FIXME: display UserContext.login_error
     return (
         <form
-            className={css.flex}
+            className={css.login}
             onSubmit={(e) => {
                 e.preventDefault();
-                login({ variables: { name, pass } });
+                login({
+                    variables: { name, pass },
+                    onCompleted: () => setBar(Bars.NONE),
+                });
             }}
         >
             <span className={css.fill}></span>
@@ -154,15 +122,16 @@ function LoginBar(props) {
                 onChange={(e) => setPass(e.target.value)}
             />
             <input type="submit" value="Log In" />
-            <Link onClick={(e) => props.setBar(Bars.NONE)} to="/signup">
+            <Link onClick={(e) => setBar(Bars.NONE)} to="/signup">
                 Sign Up
             </Link>
         </form>
     );
 }
 
-export function Header(props) {
+export function Header() {
     let [searchParams, setSearchParams] = useSearchParams();
+    const { me, is_anon } = useContext(UserContext);
 
     // Overall bits
     const [bar, setBar] = useState(Bars.NONE);
@@ -170,7 +139,7 @@ export function Header(props) {
         setBar(bar == b ? Bars.NONE : b);
     }
     const location = useLocation();
-    useEffect(() => {setBar(Bars.NONE)}, [location]);
+    useEffect(() => { setBar(Bars.NONE) }, [location]);
 
     // Search Bits
     const [search, setSearch] = useState(searchParams.get("tags") ?? "");
@@ -180,11 +149,7 @@ export function Header(props) {
         setInputFocus();
     }
 
-    // Login bits
-    const meQ = useQuery(getMeRequest, { pollInterval: 10 * 1000 });
-
     // Handy vars for rendering
-    const is_anon = meQ?.data?.me?.name && meQ?.data?.me?.name == "Anonymous";
     const logo = (new URL("../static/logo.png", import.meta.url)).toString();
 
     return (
@@ -219,17 +184,17 @@ export function Header(props) {
                 ) : (
                     <>
                         <a onClick={() => toggleBar(Bars.USER)}>
-                            {meQ?.data?.me?.name}
+                            {me.name}
                         </a>
-                        {meQ?.data?.me?.avatar_url ? (
+                        {me.avatar_url ? (
                             <div>
                                 <img
-                                    src={meQ?.data?.me?.avatar_url}
+                                    src={me.avatar_url}
                                     className={css.avatar}
                                     onClick={() => toggleBar(Bars.USER)}
                                 />
-                                {(meQ?.data?.me?.private_message_unread_count || 0) >
-                                    0 && <span>{meQ?.data?.me?.private_message_unread_count}</span>}
+                                {(me.private_message_unread_count || 0) >
+                                    0 && <span>{me.private_message_unread_count}</span>}
                             </div>
                         ) : (
                             <UserIcon onClick={() => toggleBar(Bars.USER)} />
@@ -244,7 +209,7 @@ export function Header(props) {
                     setSearchPart={setSearchPart}
                 />
             )}
-            {bar == Bars.USER && <UserBar meQ={meQ} />}
+            {bar == Bars.USER && <UserBar setBar={setBar} />}
             {bar == Bars.LOGIN && <LoginBar setBar={setBar} />}
         </header>
     );

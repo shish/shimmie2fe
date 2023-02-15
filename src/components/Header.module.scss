@@ -75,11 +75,15 @@
             }
         }
     }
-    .flex {
+    .nav,
+    .completions,
+    .user,
+    .login {
         margin: .25em 1em;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        margin-top: 1em;
         &>* {
             margin-left: 1em;
             flex: 0 0 auto;
@@ -101,13 +105,10 @@
             min-width: 0;
         }
     }
-    FORM.flex {
+    .login {
         INPUT {
-            max-width: 10em;
+            max-width: 6em;
         }
-    }
-    .flex:nth-child(2) {
-        margin-top: 1em;
     }
 }
 .tag {

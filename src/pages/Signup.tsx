@@ -9,6 +9,7 @@ export function Signup() {
     const [email, setEmail] = useState("");
 
     function submit(e) {
+        // FIXME: implement signup
         e.preventDefault();
     }
 

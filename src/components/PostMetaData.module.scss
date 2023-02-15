@@ -1,6 +1,9 @@
 .voter {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 0.3em;
+    align-items: center;
+    justify-content: start;
     &>* {
         flex: 0 0 auto;
     }
@@ -9,16 +12,8 @@
     }
 }
 .metadata {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    
-    &>.voter {
-        flex: 0 1 3em;
-    }
-    &>TABLE {
-        flex: 0 1 auto;
+    TABLE {
+        width: 100%;
         margin: 0;
         TH {
             vertical-align: top;
@@ -26,6 +21,7 @@
         TD {
             vertical-align: top;
             overflow-wrap: anywhere;
+            padding-left: 1em;
             STRONG {
                 font-size: .75em;
                 display: block;
@@ -33,12 +29,14 @@
                 left: -1em;
             }
             IMG {
-                margin-left: 1em;
                 aspect-ratio: 1/1;
-                height: 5em;
+                height: 100%;
                 border: 1px solid var(--block-border);
                 border-radius: .5em;
             }
+        }
+        TR:last-child TD {
+            padding-left: 0;
         }
     }
 }

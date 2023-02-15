@@ -4,7 +4,7 @@ import { Block } from "../components/Block";
 export function Upload() {
     return (
         <article>
-            <Block>Upload~</Block>
+            <Block>TODO: Upload~</Block>
         </article>
     );
 }

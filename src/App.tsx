@@ -25,6 +25,7 @@ import { Messages } from "./pages/Messages";
 import { Comments } from "./pages/Comments";
 import { Upload } from "./pages/Upload";
 import { serverInfo } from "./utils";
+import { LoginProvider } from "./LoginProvider";
 
 const createApolloClient = () => {
     const httpLink = new HttpLink({
@@ -63,9 +64,8 @@ const router = createBrowserRouter(
             <Route path="post/:post_id" element={<PostView />} loader={dl} />
             <Route path="signup" element={<Signup />} />
             <Route path="upload" element={<Upload />} />
-            <Route path="user/:user" element={<UserPage />} />
-            <Route path="wiki/:page" element={<WikiPage />} />
-            {/* ... etc. */}
+            <Route path="user/:user_name" element={<UserPage />} />
+            <Route path="wiki/:page_title" element={<WikiPage />} />
         </Route>,
     ),
 );
@@ -76,7 +76,9 @@ export function App() {
     return (
         <ApolloProvider client={client}>
             <React.StrictMode>
-                <RouterProvider router={router} />
+                <LoginProvider>
+                    <RouterProvider router={router} />
+                </LoginProvider>
             </React.StrictMode>
         </ApolloProvider>
     );

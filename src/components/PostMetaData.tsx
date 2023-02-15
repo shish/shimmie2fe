@@ -9,6 +9,27 @@ import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
 
 
+const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
+    fragment PostMetadataFragment on Post {
+        owner {
+            name
+            avatar_url
+        }
+        tags
+        source
+        locked
+        info
+        posted
+    }
+`);
+
+const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
+    fragment PostScoreFragment on Post {
+        score
+        my_vote
+    }
+`);
+
 const CREATE_VOTE = graphql(`
     mutation createVote($post_id: Int!, $score: Int!) {
         create_vote(post_id: $post_id, score: $score)
@@ -49,27 +70,26 @@ export function PostMetaData({ post, postQ }) {
     const [source, setSource] = useState(post.source || "");
 
     function save() {
-        // FIXME
+        // FIXME: implement metadata setting
         setEditing(false);
         postQ.refetch();
     }
 
     return <Block className={css.metadata}>
-        <Voter post={post} postQ={postQ} />
         <table className="form">
             <tbody>
                 <tr>
-                    <th>Uploader</th>
-                    <td>
+                    <td width="99%">
+                        <strong>Uploader</strong>
                         <UserName user={post?.owner} />, {post?.posted}
                     </td>
-                    <td rowSpan={4}>
+                    <td rowSpan={3}>
                         <img src={post?.owner?.avatar_url} />
                     </td>
                 </tr>
                 <tr>
-                    <th>Tags</th>
                     <td>
+                        <strong>Tags</strong>
                         {editing ?
                             <input type="text" name="tags" value={tags} onChange={(e) => setTags(e.target.value)} /> :
                             tags.split(" ").map((t) => (
@@ -81,20 +101,28 @@ export function PostMetaData({ post, postQ }) {
                     </td>
                 </tr>
                 <tr>
-                    <th>Source</th>
                     <td>
+                        <strong>Source</strong>
                         {editing ?
                             <input type="text" name="source" value={source} onChange={(e) => setSource(e.target.value)} /> :
-                            <a href={source}>{source}</a>
+                            source ?
+                                <a href={source}>{source}</a> :
+                                "(Unknown)"
                         }
                     </td>
                 </tr>
                 <tr>
-                    <th>Info</th>
-                    <td>{post?.info}</td>
+                    <td>
+                        <strong>Info</strong>
+                        {post?.info}
+                    </td>
+                    <td>
+                        <strong>Score</strong>
+                        <Voter post={post} postQ={postQ} />
+                    </td>
                 </tr>
                 <tr>
-                    <td colSpan={3}>
+                    <td colSpan={2}>
                         {
                             post?.locked ?
                                 <button disabled={true}>Locked</button> :
@@ -106,6 +134,5 @@ export function PostMetaData({ post, postQ }) {
                 </tr>
             </tbody>
         </table>
-    </Block>
-        ;
+    </Block>;
 }

@@ -4,7 +4,7 @@ import { Block } from "../components/Block";
 export function Comments() {
     return (
         <article>
-            <Block>Comments~</Block>
+            <Block>TODO: Comments~</Block>
         </article>
     );
 }

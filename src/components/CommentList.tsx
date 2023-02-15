@@ -7,11 +7,12 @@ import { Block } from "./Block";
 import * as css from "./CommentList.module.scss";
 import { bbcode } from "../utils";
 
-export const CommentFragment = graphql(/* GraphQL */ `
-    fragment CommentItem on Comment {
+export const COMMENT_FRAGMENT = graphql(/* GraphQL */ `
+    fragment CommentFragment on Comment {
         comment_id
         owner {
             name
+            avatar_url
         }
         comment
     }
@@ -23,8 +24,8 @@ const CREATE_COMMENT = graphql(/* GraphQL */ `
     }
 `);
 
-function Comment(props: { comment: FragmentType<typeof CommentFragment> }) {
-    const comment = useFragment(CommentFragment, props.comment);
+function Comment(props: { comment: FragmentType<typeof COMMENT_FRAGMENT> }) {
+    const comment = useFragment(COMMENT_FRAGMENT, props.comment);
     return (
         <Block align="left">
             <UserName user={comment.owner} />: {bbcode(comment.comment)}
@@ -38,18 +39,16 @@ export function CommentList(props: {
     comments: Array<any>;
 }) {
     const [comment, setComment] = useState("");
-    const updateCache = (cache, { data }) => {
-        /*
-        cache.writeQuery({
-            query: getMeRequest,
-            data: { me: data.login.user },
-        });
-        */
-        props.postQ.refetch();
-    };
-
     const [createComment] = useMutation(CREATE_COMMENT, {
-        update: updateCache,
+        update: (cache, { data }) => {
+            /*
+            cache.writeQuery({
+                query: getMeRequest,
+                data: { me: data.login.user },
+            });
+            */
+            props.postQ.refetch();
+        },
     });
 
     return (
@@ -64,6 +63,7 @@ export function CommentList(props: {
                         createComment({
                             variables: { post_id: props.post_id, comment },
                         });
+                        setComment("");
                     }}
                 >
                     <textarea

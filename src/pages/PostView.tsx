@@ -2,44 +2,30 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../gql";
 import { useParams } from "react-router-dom";
-import { Block } from "../components/Block";
 import { CommentList } from "../components/CommentList";
 import { absurl } from "../utils";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
 import { PostMetaData } from "../components/PostMetaData";
+import * as css from "./Root.module.scss";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {
         post(post_id: $post_id) {
             post_id
-            owner {
-                name
-                avatar_url
-            }
+
+            ...PostMetadataFragment
+            ...PostScoreFragment
 
             image_link
             thumb_link
 
-            tags
-            source
-            locked
-            info
-            posted
-            
-            score
-            my_vote
-
             width
             height
+            mime
 
             comments {
-                comment_id
-                owner {
-                    name
-                    avatar_url
-                }
-                comment
+                ...CommentFragment
             }
         }
     }
@@ -53,6 +39,7 @@ enum Scale {
 
 export function PostView() {
     let { post_id } = useParams();
+    // FIXME: poll for updates?
     const q = useQuery(GET_POST, {
         variables: { post_id: parseInt(post_id!, 10) },
     });
@@ -83,20 +70,25 @@ export function PostView() {
 
     return (
         <article>
-            <Block>
+            {post!.mime!.startsWith("image/") &&
                 <img
-                    src={absurl(post!.image_link!)}
+                    src={absurl(post!.image_link)}
                     style={style}
                     onClick={updateScale}
-                    // width={post!.width}
-                    // height={post!.height}
-                />
-            </Block>
+                    className={css.block}
+                />}
+            {post!.mime!.startsWith("video/") &&
+                <video
+                    src={absurl(post!.image_link)}
+                    style={{display: "block", width: "100%"}}
+                    controls={true}
+                    className={css.block}
+                />}
             <PostMetaData postQ={q} post={post} />
             <CommentList
                 postQ={q}
-                post_id={post!.post_id!}
-                comments={post!.comments!}
+                post_id={post!.post_id}
+                comments={post!.comments}
             />
         </article>
     );
