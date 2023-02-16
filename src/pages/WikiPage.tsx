@@ -23,11 +23,15 @@ const GET_WIKI = graphql(`
 `);
 
 export function WikiPage() {
+    ///////////////////////////////////////////////////////////////////
+    // Hooks
     let { page_title } = useParams();
     const q = useQuery(GET_WIKI, {
         variables: { title: page_title },
     });
 
+    ///////////////////////////////////////////////////////////////////
+    // Hook edge case handling
     if (q.loading) {
         return <LoadingPage />;
     }
@@ -35,7 +39,10 @@ export function WikiPage() {
         return <ErrorPage error={q.error} />;
     }
 
+    ///////////////////////////////////////////////////////////////////
+    // Render
     const page = q.data!.wiki;
+    
     return (
         <article>
             <Block>

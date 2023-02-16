@@ -7,6 +7,7 @@ import * as css from "./PostMetaData.module.scss";
 import { Block } from "../components/Block";
 import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
+import { Avatar } from "./Avatar";
 
 
 const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
@@ -48,6 +49,7 @@ function Voter({ post, postQ }) {
         postQ.refetch();
     }
 
+    // FIXME: don't show up / down if user has no vote permissions
     return <div className={css.voter}>
         <ChevronUpIcon
             className={voted == 1 ? css.voted : null}
@@ -75,16 +77,17 @@ export function PostMetaData({ post, postQ }) {
         postQ.refetch();
     }
 
+    // FIXME: don't show edit button if user has no edit permissions
     return <Block className={css.metadata}>
         <table className="form">
             <tbody>
                 <tr>
                     <td width="99%">
                         <strong>Uploader</strong>
-                        <UserName user={post?.owner} />, {post?.posted}
+                        <UserName user={post.owner} />, {post.posted}
                     </td>
                     <td rowSpan={3}>
-                        <img src={post?.owner?.avatar_url} />
+                        <Avatar user={post.owner} />
                     </td>
                 </tr>
                 <tr>

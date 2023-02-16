@@ -3,11 +3,15 @@ import { Block } from "../components/Block";
 import { graphql } from "../gql";
 
 export function Signup() {
+    ///////////////////////////////////////////////////////////////////
+    // Hooks
     const [username, setUsername] = useState("");
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const [email, setEmail] = useState("");
 
+    ///////////////////////////////////////////////////////////////////
+    // Render
     function submit(e) {
         // FIXME: implement signup
         e.preventDefault();

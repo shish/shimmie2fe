@@ -9,6 +9,7 @@ import { Form, Link } from "react-router-dom";
 import { serverInfo } from "../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { UserContext } from '../LoginProvider';
+import { Permission } from "../gql/graphql";
 
 const GET_TAGS = graphql(/* GraphQL */ `
     query getTags($start: String!) {
@@ -74,14 +75,14 @@ function CompletionsBar(props: {
 }
 
 function UserBar({ setBar }) {
-    const { me, logout } = useContext(UserContext);
+    const { me, logout, can } = useContext(UserContext);
     const pmuc = me.private_message_unread_count;
 
     // FIXME: make logout work
     return (
         <div className={css.user}>
             <Link to={"/user/" + me.name}>My Profile</Link>
-            <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <>({pmuc})</>}</Link>
+            {can(Permission.ReadPm) && <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <> ({pmuc})</>}</Link>}
             <span className={css.fill}></span>
             <span onClick={() => {
                 logout();

@@ -109,6 +109,9 @@
         INPUT {
             max-width: 6em;
         }
+        INPUT[type="submit"] {
+            width: auto;
+        }
     }
 }
 .tag {

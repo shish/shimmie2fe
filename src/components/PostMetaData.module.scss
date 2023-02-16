@@ -13,26 +13,10 @@
 }
 .metadata {
     TABLE {
-        width: 100%;
-        margin: 0;
-        TH {
-            vertical-align: top;
-        }
         TD {
-            vertical-align: top;
             overflow-wrap: anywhere;
-            padding-left: 1em;
-            STRONG {
-                font-size: .75em;
-                display: block;
-                position: relative;
-                left: -1em;
-            }
             IMG {
-                aspect-ratio: 1/1;
                 height: 100%;
-                border: 1px solid var(--block-border);
-                border-radius: .5em;
             }
         }
         TR:last-child TD {

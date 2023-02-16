@@ -4,6 +4,7 @@
   --block-border: #7EB977;
   --block-width: 40em;
 }
+
 /*
 :root {
   --page-bg: #444;
@@ -15,32 +16,66 @@
 * {
   box-sizing: border-box;
 }
+
 svg {
   height: 1em;
+
   path {
     fill: currentColor;
   }
 }
+
 body {
   font-family: 'Arial', sans-serif;
   background-image: url("bg.png");
   background-color: var(--page-bg);
 }
+
 A {
   text-decoration: none;
 }
+TEXTAREA {
+  width: 100%;
+  height: 5em;
+}
+INPUT {
+  width: 100%;
+}
 
 TABLE.form {
-  margin: auto;
-  TH {
-      text-align: right;
-      padding-right: .25em;
-  }
+  width: 100%;
+
   TD {
-      text-align: left;
-      INPUT[type="text"],
-      BUTTON {
-        width: 100%;
-      }
+    text-align: left;
+    vertical-align: top;
+    padding-left: 1em;
+
+    STRONG {
+      font-size: .75em;
+      display: block;
+      position: relative;
+      left: -1em;
+    }
+
+    INPUT[type="text"],
+    BUTTON {
+      width: 100%;
+    }
   }
+}
+
+.block {
+  text-align: center;
+  padding: .5em;
+  margin: .25em auto;
+  background: var(--block-bg);
+  border: 1px solid var(--block-border);    
+  max-width: var(--block-width);
+}
+
+.avatar {
+  aspect-ratio: 1/1;
+  height: 100%;
+  border: 1px solid var(--block-border);
+  border-radius: .5em;
 }

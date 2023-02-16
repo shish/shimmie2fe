@@ -7,7 +7,6 @@ import { absurl } from "../utils";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
 import { PostMetaData } from "../components/PostMetaData";
-import * as css from "./Root.module.scss";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {
@@ -38,6 +37,8 @@ enum Scale {
 }
 
 export function PostView() {
+    ///////////////////////////////////////////////////////////////////
+    // Hooks
     let { post_id } = useParams();
     // FIXME: poll for updates?
     const q = useQuery(GET_POST, {
@@ -45,6 +46,8 @@ export function PostView() {
     });
     const [scale, setScale] = useState(Scale.FIT_BOTH);
 
+    ///////////////////////////////////////////////////////////////////
+    // Hook edge case handling
     if (q.loading) {
         return <LoadingPage />;
     }
@@ -52,7 +55,12 @@ export function PostView() {
         return <ErrorPage error={q.error} />;
     }
     const post = q.data?.post;
+    if (!post) {
+        return <ErrorPage error={{message: `No post with the ID ${post_id}`}} />;
+    }
 
+    ///////////////////////////////////////////////////////////////////
+    // Render
     function updateScale() {
         if (scale == Scale.FIT_BOTH) setScale(Scale.FIT_WIDTH);
         if (scale == Scale.FIT_WIDTH) setScale(Scale.NONE);
@@ -68,27 +76,28 @@ export function PostView() {
         style['maxWidth'] = "100%";
     }
 
+    // FIXME: next / prev links
     return (
         <article>
-            {post!.mime!.startsWith("image/") &&
+            {post.mime!.startsWith("image/") &&
                 <img
-                    src={absurl(post!.image_link)}
+                    src={absurl(post.image_link)}
                     style={style}
                     onClick={updateScale}
-                    className={css.block}
+                    className="block"
                 />}
             {post!.mime!.startsWith("video/") &&
                 <video
-                    src={absurl(post!.image_link)}
+                    src={absurl(post.image_link)}
                     style={{display: "block", width: "100%"}}
                     controls={true}
-                    className={css.block}
+                    className="block"
                 />}
             <PostMetaData postQ={q} post={post} />
             <CommentList
                 postQ={q}
-                post_id={post!.post_id}
-                comments={post!.comments}
+                post_id={post.post_id}
+                comments={post.comments}
             />
         </article>
     );

@@ -19,6 +19,8 @@ const GET_POSTS = graphql(/* GraphQL */ `
 `);
 
 export function PostList() {
+    ///////////////////////////////////////////////////////////////////
+    // Hooks
     let [searchParams, setSearchParams] = useSearchParams();
 
     const q = useQuery(GET_POSTS, {
@@ -28,6 +30,8 @@ export function PostList() {
         },
     });
 
+    ///////////////////////////////////////////////////////////////////
+    // Hook edge case handling
     if (q.loading) {
         return <LoadingPage />;
     }
@@ -35,6 +39,8 @@ export function PostList() {
         return <ErrorPage error={q.error} />;
     }
 
+    ///////////////////////////////////////////////////////////////////
+    // Render
     return (
         <article>
             <ThumbnailGrid posts={q.data!.posts} />

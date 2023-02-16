@@ -5,34 +5,16 @@ import { useMutation } from "@apollo/client";
 import { FragmentType, useFragment } from "./gql/fragment-masking";
 import { LoadingPage } from "./pages/LoadingPage";
 import { ErrorPage } from "./pages/ErrorPage";
-
-type UserContext = {
-    me: {
-        name: string,
-        private_message_unread_count: number | null,
-        avatar_url: string | null,    
-    },
-    is_anon: boolean,
-    login: CallableFunction,
-    logout: CallableFunction,
-};
-
-export const UserContext = React.createContext<UserContext>({
-    me: {
-        name: "Anonymous",
-        private_message_unread_count: 0,
-        avatar_url: null,
-    },
-    is_anon: true,
-    login: (props) => { },
-    logout: () => { },
-});
+import { MeFragmentFragment, Permission } from "./gql/graphql";
 
 const ME_FRAGMENT = graphql(`
     fragment MeFragment on User {
         name
         private_message_unread_count
         avatar_url
+        class {
+            permissions
+        }
     }
 `);
 
@@ -55,6 +37,29 @@ const LOGIN = graphql(`
         }
     }
 `);
+
+type UserContext = {
+    me: MeFragmentFragment,
+    is_anon: boolean,
+    login: CallableFunction,
+    logout: CallableFunction,
+    can: CallableFunction,
+};
+
+export const UserContext = React.createContext<UserContext>({
+    me: {
+        name: "Anonymous",
+        private_message_unread_count: 0,
+        avatar_url: null,
+        class: {
+            permissions: [],
+        }
+    },
+    is_anon: true,
+    login: (props) => { },
+    logout: () => { },
+    can: (action: string): boolean => { return false; }
+});
 
 export function LoginProvider(props) {
     const q = useQuery(GET_ME, { pollInterval: 10 * 1000 });
@@ -91,7 +96,11 @@ export function LoginProvider(props) {
         q.refetch();
     }
 
-    return <UserContext.Provider value={{ me, is_anon, login, logout }}>
+    function can(action: Permission): boolean {
+        return me.class.permissions.includes(action);
+    }
+
+    return <UserContext.Provider value={{ me, is_anon, login, logout, can }}>
         {props.children}
     </UserContext.Provider>
 
