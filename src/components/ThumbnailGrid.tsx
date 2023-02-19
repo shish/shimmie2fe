@@ -1,5 +1,5 @@
 import React from "react";
-import * as css from "./ThumbnailGrid.module.scss";
+import css from "./ThumbnailGrid.module.scss";
 
 import { Link } from "react-router-dom";
 import { absurl } from "../utils";

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { UserName } from "./basics/UserName";
 import { Tag } from "./basics/Tag";
-import ChevronUpIcon from "../icons/chevron-up.svg";
-import ChevronDownIcon from "../icons/chevron-down.svg";
-import * as css from "./PostMetaData.module.scss";
 import { Block } from "./basics/Block";
 import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
 import { Avatar } from "./basics/Avatar";
 import { FormItem } from "./FormItem";
 
+import { ReactComponent as ChevronUpIcon } from "../icons/chevron-up.svg";
+import { ReactComponent as ChevronDownIcon } from "../icons/chevron-down.svg";
+import css from "./PostMetaData.module.scss";
 
+
+// eslint-disable-next-line
 const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadataFragment on Post {
         owner {
@@ -25,6 +27,7 @@ const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     }
 `);
 
+// eslint-disable-next-line
 const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostScoreFragment on Post {
         score
@@ -53,15 +56,15 @@ function Voter({ post, postQ }) {
     // FIXME: don't show up / down if user has no vote permissions
     return <div className={css.voter}>
         <ChevronUpIcon
-            className={voted == 1 ? css.voted : null}
+            className={voted === 1 ? css.voted : null}
             onClick={() => vote(1)}
         />
         <span
-            className={voted == 0 ? css.voted : null}
+            className={voted === 0 ? css.voted : null}
             onClick={() => vote(0)}
         >{post.score}</span>
         <ChevronDownIcon
-            className={voted == -1 ? css.voted : null}
+            className={voted === -1 ? css.voted : null}
             onClick={() => vote(-1)}
         />
     </div>;

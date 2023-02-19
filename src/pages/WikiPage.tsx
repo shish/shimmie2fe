@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../gql";
 import { useParams } from "react-router-dom";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Block } from "../components/basics/Block";
 
 export function About() {

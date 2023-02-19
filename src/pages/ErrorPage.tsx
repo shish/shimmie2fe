@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouteError } from "react-router-dom";
 
 export function ErrorPage(props) {
-    const error: any = props.error ?? useRouteError();
+    const routeError = useRouteError();
+    const error: any = props.error ?? routeError;
     console.error(error);
 
     return (

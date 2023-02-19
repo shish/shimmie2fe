@@ -1,36 +1,51 @@
 {
-    "name": "shimmie2fe",
-    "repository": "https://github.com/shish/shimmie2fe",
-    "license": "GPL-3.0-only",
-    "browserslist": "> 0.5%, last 2 versions, not dead",
-    "source": "src/index.html",
-    "devDependencies": {
-        "@parcel/transformer-sass": "^2.8.3",
-        "@types/jest": "^29.4.0",
-        "cypress": "^12.6.0",
-        "jest": "^29.4.1",
-        "parcel": "^2.8.3",
-        "prettier": "^2.8.3",
-        "process": "^0.11.10",
-        "ts-jest": "^29.0.5"
-    },
-    "scripts": {
-        "build": "parcel build --public-url . src/index.html",
-        "watch": "parcel watch --public-url . src/index.html",
-        "serve": "parcel serve --port 1238 src/index.html",
-        "format": "prettier --write 'src/**/*.ts{,x}' --tab-width 4 --trailing-comma all",
-        "test": "jest --verbose",
-        "codegen": "graphql-codegen"
-    },
-    "dependencies": {
-        "@apollo/client": "^3.7.7",
-        "@graphql-codegen/cli": "^3.0.0",
-        "@graphql-codegen/client-preset": "^2.0.0",
-        "@parcel/transformer-svg-react": "^2.8.3",
-        "@types/react": "^18.0.27",
-        "@types/react-dom": "^18.0.10",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-router-dom": "^6.8.0"
-    }
+  "name": "shimmie2fe",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.7.8",
+    "@graphql-codegen/cli": "^3.0.0",
+    "@graphql-codegen/client-preset": "^2.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.12",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "cypress": "^12.6.0",
+    "sass": "^1.58.3"
+  }
 }

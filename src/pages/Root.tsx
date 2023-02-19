@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import * as css from "./Root.module.scss";
+import css from "./Root.module.scss";
 
 export function Root() {
     const [prevScroll, setPrevScroll] = useState(0);

@@ -27,6 +27,8 @@ import { Upload } from "./pages/Upload";
 import { serverInfo } from "./utils";
 import { LoginProvider } from "./LoginProvider";
 
+import "./static/style.scss";
+
 const createApolloClient = () => {
     const httpLink = new HttpLink({
         uri: serverInfo.root + "/graphql",

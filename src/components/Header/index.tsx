@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import BarsIcon from "../icons/bars.svg";
-import UserIcon from "../icons/user.svg";
-import MagnifiyingGlassIcon from "../icons/magnifying-glass.svg";
-import * as css from "./Header.module.scss";
-import { graphql } from "../gql";
+import { graphql } from "../../gql";
 import { useQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
-import { serverInfo } from "../utils";
+import { serverInfo } from "../../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
-import { UserContext } from '../LoginProvider';
-import { Permission } from "../gql/graphql";
+import { UserContext } from '../../LoginProvider';
+import { Permission } from "../../gql/graphql";
+
+import { ReactComponent as BarsIcon } from "../../icons/bars.svg";
+import { ReactComponent as UserIcon } from "../../icons/user.svg";
+import { ReactComponent as MagnifiyingGlassIcon } from "../../icons/magnifying-glass.svg";
+import css from "./style.module.scss";
 
 const GET_TAGS = graphql(/* GraphQL */ `
     query getTags($start: String!) {
@@ -132,13 +133,14 @@ function LoginBar({ setBar }) {
 }
 
 export function Header() {
-    let [searchParams, setSearchParams] = useSearchParams();
+    // eslint-disable-next-line
+    let [searchParams, _setSearchParams] = useSearchParams();
     const { me, is_anon } = useContext(UserContext);
 
     // Overall bits
     const [bar, setBar] = useState(Bars.NONE);
     function toggleBar(b: Bars) {
-        setBar(bar == b ? Bars.NONE : b);
+        setBar(bar === b ? Bars.NONE : b);
     }
     const location = useLocation();
     useEffect(() => { setBar(Bars.NONE) }, [location]);
@@ -152,7 +154,7 @@ export function Header() {
     }
 
     // Handy vars for rendering
-    const logo = (new URL("../static/logo.png", import.meta.url)).toString();
+    const logo = (new URL("./logo.png", import.meta.url)).toString();
 
     return (
         <header id="site-header" className={css.header}>
@@ -185,12 +187,13 @@ export function Header() {
                     </>
                 ) : (
                     <>
-                        <a onClick={() => toggleBar(Bars.USER)}>
+                        <span onClick={() => toggleBar(Bars.USER)}>
                             {me.name}
-                        </a>
+                        </span>
                         <div>
                             {me.avatar_url ? (
                                 <img
+                                    alt="avatar"
                                     src={me.avatar_url}
                                     className={css.avatar}
                                     data-cy="user-icon"
@@ -205,15 +208,15 @@ export function Header() {
                     </>
                 )}
             </div>
-            {bar == Bars.NAV && <NavBar />}
-            {bar == Bars.COMPLETIONS && (
+            {bar === Bars.NAV && <NavBar />}
+            {bar === Bars.COMPLETIONS && (
                 <CompletionsBar
                     start={search.split(" ").pop()!}
                     setSearchPart={setSearchPart}
                 />
             )}
-            {bar == Bars.USER && <UserBar setBar={setBar} />}
-            {bar == Bars.LOGIN && <LoginBar setBar={setBar} />}
+            {bar === Bars.USER && <UserBar setBar={setBar} />}
+            {bar === Bars.LOGIN && <LoginBar setBar={setBar} />}
         </header>
     );
 }

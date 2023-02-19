@@ -1,7 +1,7 @@
 import React from "react";
-import * as css from "./Footer.module.scss";
+import css from "./style.module.scss";
 
-export function Footer(props) {
+export function Footer() {
     return (
         <footer className={css.footer}>
             <a href="mailto:staff@paheal.net">Contact</a> !!!{" "}

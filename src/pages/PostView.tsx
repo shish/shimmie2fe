@@ -62,17 +62,17 @@ export function PostView() {
     ///////////////////////////////////////////////////////////////////
     // Render
     function updateScale() {
-        if (scale == Scale.FIT_BOTH) setScale(Scale.FIT_WIDTH);
-        if (scale == Scale.FIT_WIDTH) setScale(Scale.NONE);
-        if (scale == Scale.NONE) setScale(Scale.FIT_BOTH);
+        if (scale === Scale.FIT_BOTH) setScale(Scale.FIT_WIDTH);
+        if (scale === Scale.FIT_WIDTH) setScale(Scale.NONE);
+        if (scale === Scale.NONE) setScale(Scale.FIT_BOTH);
     }
 
     let style = { margin: "auto" };
-    if (scale == Scale.FIT_BOTH) {
+    if (scale === Scale.FIT_BOTH) {
         style['maxWidth'] = "100%";
         style['maxHeight'] = "90vh";
     }
-    if (scale == Scale.FIT_WIDTH) {
+    if (scale === Scale.FIT_WIDTH) {
         style['maxWidth'] = "100%";
     }
 
@@ -81,6 +81,7 @@ export function PostView() {
         <article>
             {post.mime!.startsWith("image/") &&
                 <img
+                    alt="main"
                     src={absurl(post.image_link)}
                     style={style}
                     onClick={updateScale}

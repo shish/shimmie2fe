@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Block } from "../components/basics/Block";
-import { graphql } from "../gql";
 import { FormItem } from "../components/FormItem";
 
 export function Signup() {

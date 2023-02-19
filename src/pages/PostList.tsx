@@ -22,7 +22,8 @@ const GET_POSTS = graphql(/* GraphQL */ `
 export function PostList() {
     ///////////////////////////////////////////////////////////////////
     // Hooks
-    const [searchParams, setSearchParams] = useSearchParams();
+    // eslint-disable-next-line
+    const [searchParams, _setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get("page") ?? "1");
     const tags = searchParams.get("tags")?.split(" ") ?? [];
 

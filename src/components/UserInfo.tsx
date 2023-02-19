@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "./basics/Avatar";
 import { Block } from "./basics/Block";
-import * as css from "./UserInfo.module.scss";
+import css from "./UserInfo.module.scss";
 
 export function UserInfo({ user }) {
     return <Block className={css.userInfo}>

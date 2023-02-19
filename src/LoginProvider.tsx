@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "./gql";
 import { useMutation } from "@apollo/client";
-import { FragmentType, useFragment } from "./gql/fragment-masking";
+import { useFragment as frag } from "./gql/fragment-masking";
 import { LoadingPage } from "./pages/LoadingPage";
 import { ErrorPage } from "./pages/ErrorPage";
 import { MeFragmentFragment, Permission } from "./gql/graphql";
@@ -38,7 +38,7 @@ const LOGIN = graphql(`
     }
 `);
 
-type UserContext = {
+type UserContextType = {
     me: MeFragmentFragment,
     is_anon: boolean,
     login: CallableFunction,
@@ -46,7 +46,7 @@ type UserContext = {
     can: CallableFunction,
 };
 
-export const UserContext = React.createContext<UserContext>({
+export const UserContext = React.createContext<UserContextType>({
     me: {
         name: "Anonymous",
         private_message_unread_count: 0,
@@ -66,7 +66,7 @@ export function LoginProvider(props) {
     const [login] = useMutation(LOGIN, {
         update: (cache, { data }) => {
             if (!data) { console.log("Login returned no data"); return; }
-            const user = useFragment(ME_FRAGMENT, data.login.user);
+            const user = frag(ME_FRAGMENT, data.login.user);
 
             if (user.name && data.login.session) {
                 localStorage.setItem(
@@ -90,8 +90,8 @@ export function LoginProvider(props) {
     if (q.error) {
         return <ErrorPage error={q.error} />;
     }
-    const me = useFragment(ME_FRAGMENT, q!.data!.me);
-    const is_anon = me.name == "Anonymous";
+    const me = frag(ME_FRAGMENT, q!.data!.me);
+    const is_anon = me.name === "Anonymous";
 
     function logout() {
         localStorage.removeItem("session");

@@ -34,7 +34,7 @@ function Comment(props: { comment: FragmentType<typeof COMMENT_FRAGMENT> }) {
     );
 }
 
-function CommentComposer({post_id, postQ}) {
+function CommentComposer({post_id, postQ}: {post_id: number, postQ: any}) {
     const { can } = useContext(UserContext);
     const [comment, setComment] = useState("");
     const [createComment] = useMutation(CREATE_COMMENT, {
