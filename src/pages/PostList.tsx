@@ -5,6 +5,7 @@ import { graphql } from "../gql";
 import { useSearchParams } from "react-router-dom";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
+import { Block } from "../components/Block";
 
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($start: Int, $tags: [String!]) {
@@ -21,12 +22,14 @@ const GET_POSTS = graphql(/* GraphQL */ `
 export function PostList() {
     ///////////////////////////////////////////////////////////////////
     // Hooks
-    let [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = parseInt(searchParams.get("page") ?? "1");
+    const tags = searchParams.get("tags")?.split(" ") ?? [];
 
     const q = useQuery(GET_POSTS, {
         variables: {
-            start: (parseInt(searchParams.get("page") ?? "1") - 1) * 48,
-            tags: searchParams.get("tags")?.split(" ") ?? [],
+            start: (page - 1) * 48,
+            tags: tags,
         },
     });
 
@@ -38,12 +41,16 @@ export function PostList() {
     if (q.error) {
         return <ErrorPage error={q.error} />;
     }
+    let posts = q.data!.posts;
 
     ///////////////////////////////////////////////////////////////////
     // Render
     return (
         <article>
-            <ThumbnailGrid posts={q.data!.posts} />
+            {posts.length > 0 ?
+                <ThumbnailGrid posts={posts} /> :
+                <Block>No posts tagged with <code>{tags.join(" ")}</code></Block>
+            }
         </article>
     );
 }

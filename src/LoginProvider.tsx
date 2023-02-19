@@ -78,6 +78,9 @@ export function LoginProvider(props) {
                 query: GET_ME,
                 data: { me: data.login.user },
             });
+        },
+        onCompleted: () => {
+            q.client.resetStore();
         }
     });
 
@@ -92,7 +95,7 @@ export function LoginProvider(props) {
 
     function logout() {
         localStorage.removeItem("session");
-        q.client.clearStore();
+        q.client.resetStore();
         q.refetch();
     }
 

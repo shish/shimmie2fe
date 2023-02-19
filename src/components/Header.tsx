@@ -84,7 +84,8 @@ function UserBar({ setBar }) {
             <Link to={"/user/" + me.name}>My Profile</Link>
             {can(Permission.ReadPm) && <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <> ({pmuc})</>}</Link>}
             <span className={css.fill}></span>
-            <span onClick={() => {
+            <span onClick={(e) => {
+                e.preventDefault();
                 logout();
                 setBar(Bars.NONE);
             }}>Log Out</span>
@@ -113,7 +114,7 @@ function LoginBar({ setBar }) {
             <input
                 type="text"
                 value={name}
-                placeholder="User name"
+                placeholder="User Name"
                 onChange={(e) => setName(e.target.value)}
             />
             <input
@@ -156,7 +157,7 @@ export function Header() {
     return (
         <header id="site-header" className={css.header}>
             <div className={css.topbar}>
-                <BarsIcon onClick={() => toggleBar(Bars.NAV)} />
+                <BarsIcon data-cy="hamburger" onClick={() => toggleBar(Bars.NAV)} />
                 <Link to="/">
                     <img
                         className={css.logo}
@@ -180,26 +181,27 @@ export function Header() {
                 </Form>
                 {is_anon ? (
                     <>
-                        <UserIcon onClick={() => toggleBar(Bars.LOGIN)} />
+                        <UserIcon data-cy="user-icon" onClick={() => toggleBar(Bars.LOGIN)} />
                     </>
                 ) : (
                     <>
                         <a onClick={() => toggleBar(Bars.USER)}>
                             {me.name}
                         </a>
-                        {me.avatar_url ? (
-                            <div>
+                        <div>
+                            {me.avatar_url ? (
                                 <img
                                     src={me.avatar_url}
                                     className={css.avatar}
+                                    data-cy="user-icon"
                                     onClick={() => toggleBar(Bars.USER)}
                                 />
-                                {(me.private_message_unread_count || 0) >
-                                    0 && <span>{me.private_message_unread_count}</span>}
-                            </div>
-                        ) : (
-                            <UserIcon onClick={() => toggleBar(Bars.USER)} />
-                        )}
+                            ) : (
+                                <UserIcon data-cy="user-icon" onClick={() => toggleBar(Bars.USER)} />
+                            )}
+                            {(me.private_message_unread_count || 0) >
+                                0 && <span>{me.private_message_unread_count}</span>}
+                        </div>
                     </>
                 )}
             </div>

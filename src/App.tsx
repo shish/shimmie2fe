@@ -35,12 +35,16 @@ const createApolloClient = () => {
         // get the authentication token from local storage if it exists
         const token = localStorage.getItem("session");
         // return the headers to the context so httpLink can read them
-        return {
-            headers: {
-                ...headers,
-                authorization: token ? `Bearer ${token}` : "",
-            },
-        };
+        if(token) {
+            return {
+                headers: {
+                    ...headers,
+                    authorization: `Bearer ${token}`,
+                },
+            }
+        } else {
+            return { headers };
+        }
     });
 
     return new ApolloClient({
@@ -48,10 +52,6 @@ const createApolloClient = () => {
         cache: new InMemoryCache(),
     });
 };
-
-function dl(props) {
-    return props.params;
-}
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -61,7 +61,7 @@ const router = createBrowserRouter(
             <Route path="comments" element={<Comments />} />
             <Route path="messages" element={<Messages />} />
             <Route path="posts" element={<PostList />} />
-            <Route path="post/:post_id" element={<PostView />} loader={dl} />
+            <Route path="post/:post_id" element={<PostView />} />
             <Route path="signup" element={<Signup />} />
             <Route path="upload" element={<Upload />} />
             <Route path="user/:user_name" element={<UserPage />} />
