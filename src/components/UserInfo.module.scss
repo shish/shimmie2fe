@@ -1,0 +1,11 @@
+.userInfo {
+    display: flex;
+    flex-direction: row;
+
+    DIV {
+        flex: 1 1 auto;
+    }
+    IMG {
+        flex: 0 0 auto;
+    }
+}

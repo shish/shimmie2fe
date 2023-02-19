@@ -1,6 +1,13 @@
 /// <reference types="Cypress" />
 
 describe('login cycle', () => {
+    it('signup', () => {
+        cy.visit('/')
+        cy.get('[data-cy="user-icon"]').click()
+        cy.contains("Sign Up").click()
+        //expect(true).to.equal(false)
+    })
+
     it('login with button', () => {
         cy.visit('/')
         cy.contains("demo").should('not.exist')

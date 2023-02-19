@@ -5,7 +5,7 @@ import { graphql } from "../gql";
 import { useSearchParams } from "react-router-dom";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
-import { Block } from "../components/Block";
+import { Block } from "../components/basics/Block";
 
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($start: Int, $tags: [String!]) {

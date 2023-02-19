@@ -42,34 +42,32 @@ TEXTAREA {
   width: 100%;
   height: 5em;
 }
-INPUT {
+INPUT,
+BUTTON {
   width: 100%;
 }
 
+.formItem {
+  text-align: left;
+  padding-left: 1em;
+  LABEL {
+    font-weight: bold;
+    font-size: .75em;
+    display: block;
+    position: relative;
+    left: -1em;
+  }
+}
 TABLE.form {
   width: 100%;
 
   TD {
     text-align: left;
     vertical-align: top;
-    padding-left: 1em;
-
-    STRONG {
-      font-size: .75em;
-      display: block;
-      position: relative;
-      left: -1em;
-    }
-
-    INPUT[type="text"],
-    BUTTON {
-      width: 100%;
-    }
   }
 }
 
 .block {
-  text-align: center;
   padding: .5em;
   margin: .25em auto;
   background: var(--block-bg);

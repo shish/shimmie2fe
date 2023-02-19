@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Block } from "../components/Block";
+import { Block } from "../components/basics/Block";
 import { graphql } from "../gql";
+import { FormItem } from "../components/FormItem";
 
 export function Signup() {
     ///////////////////////////////////////////////////////////////////
@@ -21,68 +22,47 @@ export function Signup() {
         <article>
             <Block>
                 <form onSubmit={submit}>
-                    <table className="form">
-                        <tbody>
-                            <tr>
-                                <th>Username</th>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={username}
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        }
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Password</th>
-                                <td>
-                                    <input
-                                        type="password"
-                                        value={password1}
-                                        onChange={(e) =>
-                                            setPassword1(e.target.value)
-                                        }
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Repeat Password</th>
-                                <td>
-                                    <input
-                                        type="password"
-                                        value={password2}
-                                        onChange={(e) =>
-                                            setPassword2(e.target.value)
-                                        }
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                <td>
-                                    <input type="submit" value="Sign Up" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <FormItem label="Username">
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) =>
+                                setUsername(e.target.value)
+                            }
+                            required
+                        />
+                    </FormItem>
+                    <FormItem label="Password">
+                        <input
+                            type="password"
+                            value={password1}
+                            onChange={(e) =>
+                                setPassword1(e.target.value)
+                            }
+                            required
+                        />
+                    </FormItem>
+                    <FormItem label="Repeat Password">
+                        <input
+                            type="password"
+                            value={password2}
+                            onChange={(e) =>
+                                setPassword2(e.target.value)
+                            }
+                            required
+                        />
+                    </FormItem>
+                    <FormItem label="Email">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                            required
+                        />
+                    </FormItem>
+                    <input type="submit" value="Sign Up" />
                 </form>
             </Block>
         </article>

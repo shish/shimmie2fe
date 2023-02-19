@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../gql";
 import { useParams } from "react-router-dom";
-import { Block } from "../components/Block";
-import { UserName } from "../components/UserName";
+import { Block } from "../components/basics/Block";
+import { UserName } from "../components/basics/UserName";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
-import { BBCode } from "../components/BBCode";
+import { BBCode } from "../components/basics/BBCode";
 
 const GET_WIKI = graphql(`
     query getWiki($title: String!) {

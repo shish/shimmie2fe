@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Block } from "../components/Block";
 import { Link, useParams } from "react-router-dom";
 import { graphql } from "../gql";
 import { useQuery } from "@apollo/client";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
-import { Avatar } from "../components/Avatar";
 import { MessageComposer } from "../components/MessageComposer";
+import { UserInfo } from "../components/UserInfo";
 
 const GET_USER = graphql(`
     query getUser($user: String!) {
@@ -42,14 +41,7 @@ export function UserPage() {
 
     return (
         <article>
-            <Block>
-                <Avatar user={user} />
-                <br/>{user.name}
-                <br/>Joined: {user.join_date.split(" ")[0]}
-                <br/><Link to={"/posts?tags=user="+user.name}>Posts uploaded</Link>
-                <br/><Link to={"/posts?tags=upvoted_by="+user.name}>Upvotes</Link>
-                {" / "}<Link to={"/posts?tags=downvoted_by="+user.name}>Downvotes</Link>
-            </Block>
+            <UserInfo user={user} />
             <MessageComposer to_user_id={user.user_id} />
         </article>
     );

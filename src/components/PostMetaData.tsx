@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { UserName } from "../components/UserName";
-import { Tag } from "../components/Tag";
+import { UserName } from "./basics/UserName";
+import { Tag } from "./basics/Tag";
 import ChevronUpIcon from "../icons/chevron-up.svg";
 import ChevronDownIcon from "../icons/chevron-down.svg";
 import * as css from "./PostMetaData.module.scss";
-import { Block } from "../components/Block";
+import { Block } from "./basics/Block";
 import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
-import { Avatar } from "./Avatar";
+import { Avatar } from "./basics/Avatar";
+import { FormItem } from "./FormItem";
 
 
 const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
@@ -83,8 +84,9 @@ export function PostMetaData({ post, postQ }) {
             <tbody>
                 <tr>
                     <td width="99%">
-                        <strong>Uploader</strong>
-                        <UserName user={post.owner} />, {post.posted}
+                        <FormItem label="Uploader">
+                            <UserName user={post.owner} />, {post.posted}
+                        </FormItem>
                     </td>
                     <td rowSpan={3}>
                         <Avatar user={post.owner} />
@@ -92,36 +94,36 @@ export function PostMetaData({ post, postQ }) {
                 </tr>
                 <tr>
                     <td>
-                        <strong>Tags</strong>
-                        {editing ?
-                            <input type="text" name="tags" value={tags} onChange={(e) => setTags(e.target.value)} /> :
-                            tags.split(" ").map((t) => (
-                                <span key={t}>
-                                    <Tag tag={t} />{" "}
-                                </span>
-                            ))
-                        }
+                        <FormItem label="Tags">
+                            {editing ?
+                                <input type="text" name="tags" value={tags} onChange={(e) => setTags(e.target.value)} /> :
+                                tags.split(" ").map((t) => (
+                                    <span key={t}>
+                                        <Tag tag={t} />{" "}
+                                    </span>
+                                ))
+                            }
+                        </FormItem>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <strong>Source</strong>
-                        {editing ?
-                            <input type="text" name="source" value={source} onChange={(e) => setSource(e.target.value)} /> :
-                            source ?
-                                <a href={source}>{source}</a> :
-                                "(Unknown)"
-                        }
+                        <FormItem label="Source">
+                            {editing ?
+                                <input type="text" name="source" value={source} onChange={(e) => setSource(e.target.value)} /> :
+                                source ?
+                                    <a href={source}>{source}</a> :
+                                    "(Unknown)"
+                            }
+                        </FormItem>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <strong>Info</strong>
-                        {post?.info}
+                        <FormItem label="Info">{post?.info}</FormItem>
                     </td>
                     <td>
-                        <strong>Score</strong>
-                        <Voter post={post} postQ={postQ} />
+                        <FormItem label="Score"><Voter post={post} postQ={postQ} /></FormItem>
                     </td>
                 </tr>
                 <tr>
