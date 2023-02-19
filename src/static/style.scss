@@ -19,10 +19,14 @@
 
 svg {
   height: 1em;
+  display: block;
 
   path {
     fill: currentColor;
   }
+}
+IMG {
+  display: block;
 }
 
 body {

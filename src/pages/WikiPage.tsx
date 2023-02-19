@@ -4,9 +4,9 @@ import { graphql } from "../gql";
 import { useParams } from "react-router-dom";
 import { Block } from "../components/Block";
 import { UserName } from "../components/UserName";
-import { bbcode } from "../utils";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
+import { BBCode } from "../components/BBCode";
 
 const GET_WIKI = graphql(`
     query getWiki($title: String!) {
@@ -46,7 +46,7 @@ export function WikiPage() {
     return (
         <article>
             <Block>
-                {bbcode(page.body)}
+                <BBCode>{page.body}</BBCode>
             </Block>
             <Block>
                 v{page.revision}, last edited by <UserName user={page.owner} /> on {page.date}

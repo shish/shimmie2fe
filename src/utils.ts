@@ -10,7 +10,3 @@ export function absurl(path: string): string {
     }
     return serverInfo.root + path;
 }
-
-export function bbcode(text: string): string {
-    return `<bbcode>${text}</bbcode>`;
-}
