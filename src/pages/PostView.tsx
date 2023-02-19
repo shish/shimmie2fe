@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../gql";
+import { graphql, useFragment as fragCast } from "../gql";
 import { useParams } from "react-router-dom";
 import { CommentList } from "../components/CommentList";
 import { absurl } from "../utils";
 import { ErrorPage } from "./ErrorPage";
 import { LoadingPage } from "./LoadingPage";
-import { PostMetaData } from "../components/PostMetaData";
+import { PostMetaData, POST_METADATA_FRAGMENT } from "../components/PostMetaData";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {
@@ -14,7 +14,6 @@ const GET_POST = graphql(/* GraphQL */ `
             post_id
 
             ...PostMetadataFragment
-            ...PostScoreFragment
 
             image_link
             thumb_link
@@ -76,6 +75,8 @@ export function PostView() {
         style['maxWidth'] = "100%";
     }
 
+    const post_metadata = fragCast(POST_METADATA_FRAGMENT, post);
+
     // FIXME: next / prev links
     return (
         <article>
@@ -87,14 +88,14 @@ export function PostView() {
                     onClick={updateScale}
                     className="block"
                 />}
-            {post!.mime!.startsWith("video/") &&
+            {post.mime!.startsWith("video/") &&
                 <video
                     src={absurl(post.image_link)}
                     style={{display: "block", width: "100%"}}
                     controls={true}
                     className="block"
                 />}
-            <PostMetaData postQ={q} post={post} />
+            <PostMetaData postQ={q} post={post_metadata} />
             <CommentList
                 postQ={q}
                 post_id={post.post_id}

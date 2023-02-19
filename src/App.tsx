@@ -6,6 +6,7 @@ import {
     HttpLink,
 } from "@apollo/client";
 import {
+    createMemoryRouter,
     createBrowserRouter,
     createRoutesFromElements,
     Route,
@@ -71,6 +72,35 @@ const router = createBrowserRouter(
         </Route>,
     ),
 );
+
+// Set up all the app scaffolding (login, router, etc) but only
+// holding a single component, for easy component testing
+export function DevApp({ component }) {
+    const FAKE_EVENT = { name: "test event" };
+    const routes = [
+      {
+        path: "/events/:id",
+        element: component,
+        loader: () => FAKE_EVENT,
+      },
+    ];
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/", "/events/123"],
+      initialIndex: 1,
+    });
+
+    const [client] = useState(createApolloClient());
+
+    return (
+        <ApolloProvider client={client}>
+            <React.StrictMode>
+                <LoginProvider>
+                    <RouterProvider router={router} />
+                </LoginProvider>
+            </React.StrictMode>
+        </ApolloProvider>
+    );
+}
 
 export function App() {
     const [client] = useState(createApolloClient());

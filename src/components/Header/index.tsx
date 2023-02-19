@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { graphql } from "../../gql";
 import { useQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
-import { serverInfo } from "../../utils";
+import { get_word, replace_word, serverInfo } from "../../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { UserContext } from '../../LoginProvider';
 import { Permission } from "../../gql/graphql";
@@ -10,7 +10,8 @@ import { Permission } from "../../gql/graphql";
 import { ReactComponent as BarsIcon } from "../../icons/bars.svg";
 import { ReactComponent as UserIcon } from "../../icons/user.svg";
 import { ReactComponent as MagnifiyingGlassIcon } from "../../icons/magnifying-glass.svg";
-import css from "./style.module.scss";
+import css from "./Header.module.scss";
+import logo from "./logo.png";
 
 const GET_TAGS = graphql(/* GraphQL */ `
     query getTags($start: String!) {
@@ -147,15 +148,19 @@ export function Header() {
 
     // Search Bits
     const [search, setSearch] = useState(searchParams.get("tags") ?? "");
+    const [searchPos, setSearchPos] = useState(0);
     const [inputRef, setInputFocus] = useFocus();
+    useEffect(() => {
+        document.addEventListener('selectionchange', () => {
+            setSearchPos(inputRef.current.selectionStart);
+        });
+    })
     function setSearchPart(tag: string) {
-        setSearch(search.split(" ").slice(0, -1).concat([tag]).join(" ") + " ");
+        setSearch(replace_word(search, searchPos, tag));
         setInputFocus();
     }
 
     // Handy vars for rendering
-    const logo = (new URL("./logo.png", import.meta.url)).toString();
-
     return (
         <header id="site-header" className={css.header}>
             <div className={css.topbar}>
@@ -211,7 +216,7 @@ export function Header() {
             {bar === Bars.NAV && <NavBar />}
             {bar === Bars.COMPLETIONS && (
                 <CompletionsBar
-                    start={search.split(" ").pop()!}
+                    start={get_word(search, searchPos)!}
                     setSearchPart={setSearchPart}
                 />
             )}

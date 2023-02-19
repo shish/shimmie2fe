@@ -1,35 +1,42 @@
 import React, { useState } from "react";
-import { UserName } from "./basics/UserName";
-import { Tag } from "./basics/Tag";
-import { Block } from "./basics/Block";
-import { graphql } from "../gql";
+import { graphql, useFragment as fragCast } from "../../gql";
 import { useMutation } from "@apollo/client";
-import { Avatar } from "./basics/Avatar";
-import { FormItem } from "./FormItem";
+import { FormItem } from "../FormItem";
+import { PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../gql/graphql";
 
-import { ReactComponent as ChevronUpIcon } from "../icons/chevron-up.svg";
-import { ReactComponent as ChevronDownIcon } from "../icons/chevron-down.svg";
+import { UserName } from "../basics/UserName";
+import { Tag } from "../basics/Tag";
+import { Block } from "../basics/Block";
+import { Avatar } from "../basics/Avatar";
+
+import { ReactComponent as ChevronUpIcon } from "../../icons/chevron-up.svg";
+import { ReactComponent as ChevronDownIcon } from "../../icons/chevron-down.svg";
 import css from "./PostMetaData.module.scss";
 
-
-// eslint-disable-next-line
-const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
+export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadataFragment on Post {
+        post_id
+
         owner {
             name
             avatar_url
         }
+
         tags
         source
         locked
         info
         posted
+
+        ...PostScoreFragment
     }
 `);
 
 // eslint-disable-next-line
 const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostScoreFragment on Post {
+        post_id
+
         score
         my_vote
     }
@@ -41,7 +48,7 @@ const CREATE_VOTE = graphql(`
     }
 `);
 
-function Voter({ post, postQ }) {
+function Voter({ post, postQ }: { post: PostScoreFragmentFragment, postQ: any}) {
     const [voted, setVoted] = useState(post.my_vote);
     const [createVote] = useMutation(CREATE_VOTE);
 
@@ -70,7 +77,7 @@ function Voter({ post, postQ }) {
     </div>;
 }
 
-export function PostMetaData({ post, postQ }) {
+export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragment, postQ: any}) {
     const [editing, setEditing] = useState<boolean>(false);
     const [tags, setTags] = useState(post.tags.join(" "));
     const [source, setSource] = useState(post.source || "");
@@ -126,7 +133,7 @@ export function PostMetaData({ post, postQ }) {
                         <FormItem label="Info">{post?.info}</FormItem>
                     </td>
                     <td>
-                        <FormItem label="Score"><Voter post={post} postQ={postQ} /></FormItem>
+                        <FormItem label="Score"><Voter post={fragCast(POST_SCORE_FRAGMENT, post)} postQ={postQ} /></FormItem>
                     </td>
                 </tr>
                 <tr>

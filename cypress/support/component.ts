@@ -20,6 +20,9 @@ import './commands'
 // require('./commands')
 
 import { mount } from 'cypress/react18'
+import React from "react";
+import "../../src/static/style.scss";
+import { DevApp } from '../../src/App';
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -34,32 +37,10 @@ declare global {
 }
 
 //Cypress.Commands.add('mount', mount)
-
-//import { mount } from 'cypress/react18'
-import { createMemoryRouter, RouterProvider } from 'react-router-dom'
-import React from "react";
-
 Cypress.Commands.add('mount', (component, options = {}) => {
-  const { routerProps = { initialEntries: ['/'] }, ...mountOptions } = options
-
-  const FAKE_EVENT = { name: "test event" };
-  const routes = [
-    {
-      path: "/events/:id",
-      element: component, //React.createElement(component),
-      loader: () => FAKE_EVENT,
-    },
-  ];
-  const router = createMemoryRouter(routes, {
-    initialEntries: ["/", "/events/123"],
-    initialIndex: 1,
-  });
-  const provider = React.createElement(RouterProvider, {router});
-
-  return mount(provider, mountOptions)
+  const provider = React.createElement(DevApp, { component });
+  return mount(provider, options)
 })
-
-import "../../src/static/style.scss";
 
 // Example use:
 // cy.mount(<MyComponent />)

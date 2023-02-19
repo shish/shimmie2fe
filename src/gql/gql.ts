@@ -20,11 +20,11 @@ const documents = {
     "\n    mutation createComment($post_id: Int!, $comment: String!) {\n        create_comment(post_id: $post_id, comment: $comment)\n    }\n": types.CreateCommentDocument,
     "\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n": types.GetTagsDocument,
     "\n    mutation createPrivateMessage($to_user_id: Int!, $subject: String!, $message: String!) {\n        create_private_message(to_user_id: $to_user_id, subject: $subject, message: $message)\n    }\n": types.CreatePrivateMessageDocument,
-    "\n    fragment PostMetadataFragment on Post {\n        owner {\n            name\n            avatar_url\n        }\n        tags\n        source\n        locked\n        info\n        posted\n    }\n": types.PostMetadataFragmentFragmentDoc,
-    "\n    fragment PostScoreFragment on Post {\n        score\n        my_vote\n    }\n": types.PostScoreFragmentFragmentDoc,
+    "\n    fragment PostMetadataFragment on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScoreFragment\n    }\n": types.PostMetadataFragmentFragmentDoc,
+    "\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n": types.PostScoreFragmentFragmentDoc,
     "\n    mutation createVote($post_id: Int!, $score: Int!) {\n        create_vote(post_id: $post_id, score: $score)\n    }\n": types.CreateVoteDocument,
     "\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tooltip\n            width\n            height\n        }\n    }\n": types.GetPostsDocument,
-    "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n            ...PostScoreFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetPostDocument,
+    "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetPostDocument,
     "\n    query getUser($user: String!) {\n        user(name: $user) {\n            user_id\n            name\n            join_date\n            avatar_url\n        }\n    }\n": types.GetUserDocument,
     "\n    query getWiki($title: String!) {\n        wiki(title: $title) {\n            title\n            body\n            revision\n            date\n            owner {\n                name\n            }\n        }\n    }\n": types.GetWikiDocument,
 };
@@ -74,11 +74,11 @@ export function graphql(source: "\n    mutation createPrivateMessage($to_user_id
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment PostMetadataFragment on Post {\n        owner {\n            name\n            avatar_url\n        }\n        tags\n        source\n        locked\n        info\n        posted\n    }\n"): (typeof documents)["\n    fragment PostMetadataFragment on Post {\n        owner {\n            name\n            avatar_url\n        }\n        tags\n        source\n        locked\n        info\n        posted\n    }\n"];
+export function graphql(source: "\n    fragment PostMetadataFragment on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScoreFragment\n    }\n"): (typeof documents)["\n    fragment PostMetadataFragment on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScoreFragment\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment PostScoreFragment on Post {\n        score\n        my_vote\n    }\n"): (typeof documents)["\n    fragment PostScoreFragment on Post {\n        score\n        my_vote\n    }\n"];
+export function graphql(source: "\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n"): (typeof documents)["\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -90,7 +90,7 @@ export function graphql(source: "\n    query getPosts($start: Int, $tags: [Strin
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n            ...PostScoreFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n            ...PostScoreFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
+export function graphql(source: "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
