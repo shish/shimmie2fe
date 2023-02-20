@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
-import { graphql, useFragment as fragCast } from "../../gql";
+import { graphql, useFragment as fragCast } from "../../../gql";
 import { useMutation } from "@apollo/client";
-import { FormItem } from "../FormItem";
-import { Permission, PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../gql/graphql";
+import { FormItem } from "../../../components/basics/FormItem";
+import { Permission, PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../../gql/graphql";
 
-import { UserName } from "../basics/UserName";
-import { Tag } from "../basics/Tag";
-import { Block } from "../basics/Block";
-import { Avatar } from "../basics/Avatar";
+import { UserName } from "../../../components/basics/UserName";
+import { Tag } from "../../../components/basics/Tag";
+import { Block } from "../../../components/basics/Block";
+import { Avatar } from "../../../components/basics/Avatar";
 
-import { ReactComponent as ChevronUpIcon } from "../../icons/chevron-up.svg";
-import { ReactComponent as ChevronDownIcon } from "../../icons/chevron-down.svg";
+import { ReactComponent as ChevronUpIcon } from "./chevron-up.svg";
+import { ReactComponent as ChevronDownIcon } from "./chevron-down.svg";
 import css from "./PostMetaData.module.scss";
-import { UserContext } from "../../LoginProvider";
+import { UserContext } from "../../../providers/LoginProvider";
 
 export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadataFragment on Post {

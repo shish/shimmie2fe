@@ -1,9 +1,9 @@
 /// <reference types="Cypress" />
-/// <reference path="../../../cypress/support/component.ts" />
+/// <reference path="../../../../cypress/support/component.ts" />
 
 import React from "react";
 import { PostMetaData } from ".";
-import { PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../gql/graphql";
+import { PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../../gql/graphql";
 
 describe('test', () => {
   const post: PostMetadataFragmentFragment&PostScoreFragmentFragment = {

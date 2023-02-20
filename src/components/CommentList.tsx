@@ -2,11 +2,9 @@ import React, { useState, useContext } from "react";
 import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
 import { FragmentType, useFragment } from "../gql/fragment-masking";
-import { UserName } from "./basics/UserName";
-import { Block } from "./basics/Block";
-import { UserContext } from '../LoginProvider';
+import { UserContext } from '../providers/LoginProvider';
 import { Permission } from "../gql/graphql";
-import { BBCode } from "./basics/BBCode";
+import { BBCode, Block, UserName } from "./basics";
 
 export const COMMENT_FRAGMENT = graphql(/* GraphQL */ `
     fragment CommentFragment on Comment {

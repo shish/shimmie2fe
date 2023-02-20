@@ -1,11 +1,11 @@
 import React from "react";
-import { ThumbnailGrid } from "../components/ThumbnailGrid";
+import { ThumbnailGrid } from "./ThumbnailGrid";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../gql";
+import { graphql } from "../../gql";
 import { useSearchParams } from "react-router-dom";
-import { ErrorPage } from "./ErrorPage";
-import { LoadingPage } from "./LoadingPage";
-import { Block } from "../components/basics/Block";
+import { ErrorPage } from "../ErrorPage";
+import { LoadingPage } from "../LoadingPage";
+import { Block } from "../../components/basics";
 
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($start: Int, $tags: [String!]) {

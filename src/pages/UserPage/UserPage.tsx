@@ -1,11 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { graphql } from "../gql";
+import { graphql } from "../../gql";
 import { useQuery } from "@apollo/client";
-import { ErrorPage } from "./ErrorPage";
-import { LoadingPage } from "./LoadingPage";
-import { MessageComposer } from "../components/MessageComposer";
-import { UserInfo } from "../components/UserInfo";
+import { ErrorPage } from "../ErrorPage";
+import { LoadingPage } from "../LoadingPage";
+import { MessageComposer } from "../../components/MessageComposer";
+import { UserInfo } from "./UserInfo";
 
 const GET_USER = graphql(`
     query getUser($user: String!) {

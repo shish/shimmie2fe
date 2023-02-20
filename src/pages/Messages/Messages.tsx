@@ -1,5 +1,5 @@
 import React from "react";
-import { Block } from "../components/basics/Block";
+import { Block } from "../../components/basics/Block";
 
 export function Messages() {
     return (

@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { graphql } from "../../gql";
+import { graphql } from "../../../gql";
 import { useLazyQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
-import { get_word, replace_word, serverInfo } from "../../utils";
+import { get_word, replace_word, serverInfo } from "../../../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
-import { UserContext } from '../../LoginProvider';
-import { Permission } from "../../gql/graphql";
+import { UserContext } from '../../../providers/LoginProvider';
+import { Permission } from "../../../gql/graphql";
 
-import { ReactComponent as BarsIcon } from "../../icons/bars.svg";
-import { ReactComponent as UserIcon } from "../../icons/user.svg";
-import { ReactComponent as MagnifiyingGlassIcon } from "../../icons/magnifying-glass.svg";
+import { ReactComponent as BarsIcon } from "./bars.svg";
+import { ReactComponent as UserIcon } from "./user.svg";
+import { ReactComponent as MagnifiyingGlassIcon } from "./magnifying-glass.svg";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
 

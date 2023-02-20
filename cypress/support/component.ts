@@ -21,9 +21,8 @@ import './commands'
 
 import { mount } from 'cypress/react18'
 import React from "react";
-import "../../src/static/style.scss";
 import { DevApp } from '../../src/App';
-import { GET_ME } from '../../src/LoginProvider';
+import { GET_ME } from '../../src/providers/LoginProvider';
 import { MountOptions, MountReturn } from 'cypress/react'
 import { Permission } from '../../src/gql/graphql';
 

@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-/// <reference path="../../../cypress/support/component.ts" />
+/// <reference path="../../../../cypress/support/component.ts" />
 
 import React from "react";
 import { UserInfo } from ".";

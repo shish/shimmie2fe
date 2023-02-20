@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
-import { UserContext } from '../LoginProvider';
+import { UserContext } from '../providers/LoginProvider';
 import { graphql } from "../gql";
 import { Permission } from "../gql/graphql";
 

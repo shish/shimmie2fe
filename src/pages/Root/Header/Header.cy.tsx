@@ -1,8 +1,8 @@
 /// <reference types="Cypress" />
-/// <reference path="../../../cypress/support/component.ts" />
+/// <reference path="../../../../cypress/support/component.ts" />
 
 import React from "react";
-import { GET_TAGS, Header } from ".";
+import { GET_TAGS, Header } from "./Header";
 
 describe('test', () => {
   it('autocomplete', () => {

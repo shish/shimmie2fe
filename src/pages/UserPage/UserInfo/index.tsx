@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Avatar } from "../basics/Avatar";
-import { Block } from "../basics/Block";
+import { Avatar } from "../../../components/basics/Avatar";
+import { Block } from "../../../components/basics/Block";
 
 import css from "./UserInfo.module.scss";
 

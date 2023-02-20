@@ -8,28 +8,13 @@ import {
 import { MockedProvider } from "@apollo/client/testing"
 import {
     createMemoryRouter,
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
     RouterProvider,
 } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 
-import { ErrorPage } from "./pages/ErrorPage";
-import { PostList } from "./pages/PostList";
-import { PostView } from "./pages/PostView";
-import { Signup } from "./pages/Signup";
-import { Root } from "./pages/Root";
-import { About } from "./pages/About";
-import { WikiPage } from "./pages/WikiPage";
-import { UserPage } from "./pages/UserPage";
-import { Messages } from "./pages/Messages";
-import { Comments } from "./pages/Comments";
-import { Upload } from "./pages/Upload";
+import { router } from "./pages";
 import { serverInfo } from "./utils";
-import { LoginProvider } from "./LoginProvider";
-
-import "./static/style.scss";
+import { LoginProvider } from "./providers/LoginProvider";
 
 const createApolloClient = () => {
     const httpLink = new HttpLink({
@@ -57,22 +42,6 @@ const createApolloClient = () => {
     });
 };
 
-const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
-            <Route index element={<PostList />} />
-            <Route path="about" element={<About />} />
-            <Route path="comments" element={<Comments />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="posts" element={<PostList />} />
-            <Route path="post/:post_id" element={<PostView />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="upload" element={<Upload />} />
-            <Route path="user/:user_name" element={<UserPage />} />
-            <Route path="wiki/:page_title" element={<WikiPage />} />
-        </Route>,
-    ),
-);
 
 // Set up all the app scaffolding (login, router, etc) but only
 // holding a single component, for easy component testing

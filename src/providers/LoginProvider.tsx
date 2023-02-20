@@ -1,11 +1,11 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "./gql";
+import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
-import { useFragment as fragCast } from "./gql/fragment-masking";
-import { LoadingPage } from "./pages/LoadingPage";
-import { ErrorPage } from "./pages/ErrorPage";
-import { MeFragmentFragment, Permission } from "./gql/graphql";
+import { useFragment as fragCast } from "../gql/fragment-masking";
+import { LoadingPage } from "../pages/LoadingPage";
+import { ErrorPage } from "../pages/ErrorPage";
+import { MeFragmentFragment, Permission } from "../gql/graphql";
 
 const ME_FRAGMENT = graphql(`
     fragment MeFragment on User {
