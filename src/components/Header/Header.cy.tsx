@@ -2,14 +2,56 @@
 /// <reference path="../../../cypress/support/component.ts" />
 
 import React from "react";
-import { Header } from ".";
+import { GET_TAGS, Header } from ".";
 
 describe('test', () => {
   it('playground', () => {
   })
 
   it('autocomplete', () => {
-    cy.mount(<Header />)
+    const mocks = [
+      {
+        request: {query: GET_TAGS, variables: {start: ""}},
+        result: {data: {tags: []}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "t"}},
+        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "ta"}},
+        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "tag"}},
+        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "tagm"}},
+        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "tagme"}},
+        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "c"}},
+        result: {data: {tags: [{tag: "cake", uses: 5}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "ca"}},
+        result: {data: {tags: [{tag: "cake", uses: 5}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "cak"}},
+        result: {data: {tags: [{tag: "cake", uses: 5}]}}
+      },
+      {
+        request: {query: GET_TAGS, variables: {start: "cake"}},
+        result: {data: {tags: [{tag: "cake", uses: 5}]}}
+      },
+    ];
+    cy.mount(<Header />, { mocks })
 
     cy.get('[name="tags"]').clear().type("tag")
     cy.contains("tagme").click()
@@ -21,8 +63,6 @@ describe('test', () => {
       ($el[0] as HTMLInputElement).selectionEnd = 2;
     })
     cy.contains("tagme").click()
-    cy.get('[name="tags"]').should('have.value', 'tagme cake ')
+    cy.get('[name="tags"]').should('have.value', 'tagme cake')
   })
-
-  // FIXME: set caret
 })

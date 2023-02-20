@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { graphql, useFragment as fragCast } from "../../gql";
 import { useMutation } from "@apollo/client";
 import { FormItem } from "../FormItem";
-import { PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../gql/graphql";
+import { Permission, PostMetadataFragmentFragment, PostScoreFragmentFragment } from "../../gql/graphql";
 
 import { UserName } from "../basics/UserName";
 import { Tag } from "../basics/Tag";
@@ -12,6 +12,7 @@ import { Avatar } from "../basics/Avatar";
 import { ReactComponent as ChevronUpIcon } from "../../icons/chevron-up.svg";
 import { ReactComponent as ChevronDownIcon } from "../../icons/chevron-down.svg";
 import css from "./PostMetaData.module.scss";
+import { UserContext } from "../../LoginProvider";
 
 export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadataFragment on Post {
@@ -52,7 +53,7 @@ function Voter({ post, postQ }: { post: PostScoreFragmentFragment, postQ: any}) 
     const [voted, setVoted] = useState(post.my_vote);
     const [createVote] = useMutation(CREATE_VOTE);
 
-    function vote(score) {
+    function vote(score: number) {
         setVoted(score);
         createVote({
             variables: { post_id: post.post_id, score: score },
@@ -78,6 +79,7 @@ function Voter({ post, postQ }: { post: PostScoreFragmentFragment, postQ: any}) 
 }
 
 export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragment, postQ: any}) {
+    const { can } = useContext(UserContext);
     const [editing, setEditing] = useState<boolean>(false);
     const [tags, setTags] = useState(post.tags.join(" "));
     const [source, setSource] = useState(post.source || "");
@@ -85,7 +87,7 @@ export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragme
     function save() {
         // FIXME: implement metadata setting
         setEditing(false);
-        postQ.refetch();
+        if(postQ) postQ.refetch();
     }
 
     // FIXME: don't show edit button if user has no edit permissions
@@ -136,6 +138,7 @@ export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragme
                         <FormItem label="Score"><Voter post={fragCast(POST_SCORE_FRAGMENT, post)} postQ={postQ} /></FormItem>
                     </td>
                 </tr>
+                {can(Permission.EditImageTag) &&
                 <tr>
                     <td colSpan={2}>
                         {
@@ -147,6 +150,7 @@ export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragme
                         }
                     </td>
                 </tr>
+                }
             </tbody>
         </table>
     </Block>;

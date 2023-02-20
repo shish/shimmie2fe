@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "./gql";
 import { useMutation } from "@apollo/client";
-import { useFragment as frag } from "./gql/fragment-masking";
+import { useFragment as fragCast } from "./gql/fragment-masking";
 import { LoadingPage } from "./pages/LoadingPage";
 import { ErrorPage } from "./pages/ErrorPage";
 import { MeFragmentFragment, Permission } from "./gql/graphql";
@@ -18,7 +18,7 @@ const ME_FRAGMENT = graphql(`
     }
 `);
 
-const GET_ME = graphql(`
+export const GET_ME = graphql(`
     query getMe {
         me {
             ...MeFragment
@@ -56,17 +56,17 @@ export const UserContext = React.createContext<UserContextType>({
         }
     },
     is_anon: true,
-    login: (props) => { },
+    login: (props: any): void => { },
     logout: () => { },
     can: (action: string): boolean => { return false; }
 });
 
-export function LoginProvider(props) {
+export function LoginProvider(props: any) {
     const q = useQuery(GET_ME, { pollInterval: 10 * 1000 });
     const [login] = useMutation(LOGIN, {
         update: (cache, { data }) => {
             if (!data) { console.log("Login returned no data"); return; }
-            const user = frag(ME_FRAGMENT, data.login.user);
+            const user = fragCast(ME_FRAGMENT, data.login.user);
 
             if (user.name && data.login.session) {
                 localStorage.setItem(
@@ -90,7 +90,7 @@ export function LoginProvider(props) {
     if (q.error) {
         return <ErrorPage error={q.error} />;
     }
-    const me = frag(ME_FRAGMENT, q!.data!.me);
+    const me = fragCast(ME_FRAGMENT, q!.data!.me);
     const is_anon = me.name === "Anonymous";
 
     function logout() {
@@ -100,7 +100,7 @@ export function LoginProvider(props) {
     }
 
     function can(action: Permission): boolean {
-        return me.class.permissions.includes(action);
+        return me.class?.permissions?.includes(action) ?? false;
     }
 
     return <UserContext.Provider value={{ me, is_anon, login, logout, can }}>

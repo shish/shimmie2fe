@@ -9,4 +9,4 @@ if (container) {
     const root = createRoot(container);
     root.render(<App />);
 }
-reportWebVitals(console.log);
+reportWebVitals(/*console.log*/);

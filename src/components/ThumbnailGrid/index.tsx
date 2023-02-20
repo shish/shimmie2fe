@@ -4,7 +4,7 @@ import { absurl } from "../../utils";
 
 import css from "./ThumbnailGrid.module.scss";
 
-function Thumbnail({ post }) {
+function Thumbnail({ post }: { post: any }) {
     return (
         <Link className={css.thumbnail} to={"/post/" + post.post_id}>
             <img

@@ -23,6 +23,9 @@ import { mount } from 'cypress/react18'
 import React from "react";
 import "../../src/static/style.scss";
 import { DevApp } from '../../src/App';
+import { GET_ME } from '../../src/LoginProvider';
+import { MountOptions, MountReturn } from 'cypress/react'
+import { Permission } from '../../src/gql/graphql';
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -30,15 +33,41 @@ import { DevApp } from '../../src/App';
 // with a <reference path="./component" /> at the top of your spec.
 declare global {
   namespace Cypress {
-    interface Chainable {
-      mount: typeof mount
+    interface Chainable<Subject> {
+      mount(
+        component: React.ReactNode,
+        options?: MountOptions & { mocks?: any[] }
+      ): Cypress.Chainable<MountReturn>
     }
   }
 }
 
 //Cypress.Commands.add('mount', mount)
-Cypress.Commands.add('mount', (component, options = {}) => {
-  const provider = React.createElement(DevApp, { component });
+Cypress.Commands.add('mount', (component, options: any = {}) => {
+  let mocks = options.mocks ?? [];
+  // DevApp includes LoginProvider which does this
+  mocks.unshift({
+    request: {
+      query: GET_ME,
+      variables: {}
+    },
+    result: {
+      data: {
+        me: {
+          __typename: "User",
+          name: "Mochael",
+          private_message_unread_count: 0,
+          avatar_url: "a",
+          class: {
+            permissions: [
+              Permission.EditImageTag
+            ],
+          }
+        }
+      }
+    }
+  });
+  const provider = React.createElement(DevApp, { component, mocks });
   return mount(provider, options)
 })
 

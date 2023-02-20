@@ -27,7 +27,7 @@ export function WikiPage() {
     // Hooks
     let { page_title } = useParams();
     const q = useQuery(GET_WIKI, {
-        variables: { title: page_title },
+        variables: { title: page_title! },
     });
 
     ///////////////////////////////////////////////////////////////////

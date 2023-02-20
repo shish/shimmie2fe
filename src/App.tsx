@@ -5,6 +5,7 @@ import {
     InMemoryCache,
     HttpLink,
 } from "@apollo/client";
+import { MockedProvider } from "@apollo/client/testing"
 import {
     createMemoryRouter,
     createBrowserRouter,
@@ -38,7 +39,7 @@ const createApolloClient = () => {
         // get the authentication token from local storage if it exists
         const token = localStorage.getItem("session");
         // return the headers to the context so httpLink can read them
-        if(token) {
+        if (token) {
             return {
                 headers: {
                     ...headers,
@@ -75,43 +76,42 @@ const router = createBrowserRouter(
 
 // Set up all the app scaffolding (login, router, etc) but only
 // holding a single component, for easy component testing
-export function DevApp({ component }) {
+export function DevApp({ component, mocks }: { component: any, mocks: any[] }) {
     const FAKE_EVENT = { name: "test event" };
+    const tree =
+        <React.StrictMode>
+            <MockedProvider mocks={mocks} addTypename={true}>
+                <LoginProvider>
+                    {component}
+                </LoginProvider>
+            </MockedProvider>
+        </React.StrictMode>;
     const routes = [
-      {
-        path: "/events/:id",
-        element: component,
-        loader: () => FAKE_EVENT,
-      },
+        {
+            path: "/events/:id",
+            element: tree,
+            loader: () => FAKE_EVENT,
+        },
     ];
     const router = createMemoryRouter(routes, {
-      initialEntries: ["/", "/events/123"],
-      initialIndex: 1,
+        initialEntries: ["/", "/events/123"],
+        initialIndex: 1,
     });
 
-    const [client] = useState(createApolloClient());
-
-    return (
-        <ApolloProvider client={client}>
-            <React.StrictMode>
-                <LoginProvider>
-                    <RouterProvider router={router} />
-                </LoginProvider>
-            </React.StrictMode>
-        </ApolloProvider>
-    );
+    // router on the outside so that it can handle errors from other middleware
+    return <RouterProvider router={router} />;
 }
 
 export function App() {
     const [client] = useState(createApolloClient());
 
     return (
-        <ApolloProvider client={client}>
-            <React.StrictMode>
+        <React.StrictMode>
+            <ApolloProvider client={client}>
                 <LoginProvider>
                     <RouterProvider router={router} />
                 </LoginProvider>
-            </React.StrictMode>
-        </ApolloProvider>
+            </ApolloProvider>
+        </React.StrictMode>
     );
 }

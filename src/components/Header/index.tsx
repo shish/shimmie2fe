@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { graphql } from "../../gql";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { Form, Link } from "react-router-dom";
 import { get_word, replace_word, serverInfo } from "../../utils";
 import { useSearchParams, useLocation } from "react-router-dom";
@@ -13,7 +13,7 @@ import { ReactComponent as MagnifiyingGlassIcon } from "../../icons/magnifying-g
 import css from "./Header.module.scss";
 import logo from "./logo.png";
 
-const GET_TAGS = graphql(/* GraphQL */ `
+export const GET_TAGS = graphql(/* GraphQL */ `
     query getTags($start: String!) {
         tags(search: $start, limit: 10) {
             tag
@@ -52,12 +52,20 @@ function CompletionsBar(props: {
     start: string;
     setSearchPart: CallableFunction;
 }) {
-    const compQ = useQuery(GET_TAGS, {
+    const [go, compQ] = useLazyQuery(GET_TAGS, {
         variables: { start: props.start },
     });
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          go()
+        }, 500)    
+        return () => clearTimeout(timer)
+      }, [go, props.start])
+
     if (compQ.loading) { return <></> }
     if (compQ.error) { return <div className={css.completions}>{compQ.error.message}</div> }
+    if ((compQ.data?.tags?.length ?? 0) === 0) { return <></> }
 
     return (
         <div className={css.completions}>
@@ -76,11 +84,10 @@ function CompletionsBar(props: {
     );
 }
 
-function UserBar({ setBar }) {
+function UserBar({ setBar }: { setBar: CallableFunction }) {
     const { me, logout, can } = useContext(UserContext);
     const pmuc = me.private_message_unread_count;
 
-    // FIXME: make logout work
     return (
         <div className={css.user}>
             <Link to={"/user/" + me.name}>My Profile</Link>
@@ -95,7 +102,7 @@ function UserBar({ setBar }) {
     );
 }
 
-function LoginBar({ setBar }) {
+function LoginBar({ setBar }: { setBar: CallableFunction }) {
     const { login } = useContext(UserContext);
     const [name, setName] = useState("");
     const [pass, setPass] = useState("");

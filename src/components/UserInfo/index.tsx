@@ -6,7 +6,7 @@ import { Block } from "../basics/Block";
 
 import css from "./UserInfo.module.scss";
 
-export function UserInfo({ user }) {
+export function UserInfo({ user }: { user: any }) {
     return <Block className={css.userInfo}>
         <div>
             {user.name}

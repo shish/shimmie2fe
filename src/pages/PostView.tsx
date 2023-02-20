@@ -66,7 +66,7 @@ export function PostView() {
         if (scale === Scale.NONE) setScale(Scale.FIT_BOTH);
     }
 
-    let style = { margin: "auto" };
+    let style: any = { margin: "auto" };
     if (scale === Scale.FIT_BOTH) {
         style['maxWidth'] = "100%";
         style['maxHeight'] = "90vh";

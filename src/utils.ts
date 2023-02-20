@@ -35,7 +35,7 @@ export function get_word(s: string, p: number): string {
 
 export function replace_word(s: string, p: number, r: string): string {
     const [ start, end ] = find_word(s, p);
-    return s.substring(0, start) + r + (s[end] == " " ? "" : " ") + s.substring(end);
+    return s.substring(0, start) + r + (s[end] === " " ? "" : " ") + s.substring(end);
 }
 
 

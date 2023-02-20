@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
 
-export function ErrorPage(props) {
+export function ErrorPage(props: any) {
     const routeError = useRouteError();
     const error: any = props.error ?? routeError;
     console.error(error);

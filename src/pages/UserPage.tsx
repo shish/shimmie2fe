@@ -23,7 +23,7 @@ export function UserPage() {
     // Hooks
     let { user_name } = useParams();
     const q = useQuery(GET_USER, {
-        variables: { user: user_name },
+        variables: { user: user_name! },
     });
 
     ///////////////////////////////////////////////////////////////////
