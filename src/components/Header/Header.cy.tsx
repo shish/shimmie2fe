@@ -5,9 +5,6 @@ import React from "react";
 import { GET_TAGS, Header } from ".";
 
 describe('test', () => {
-  it('playground', () => {
-  })
-
   it('autocomplete', () => {
     const mocks = [
       {
@@ -64,5 +61,23 @@ describe('test', () => {
     })
     cy.contains("tagme").click()
     cy.get('[name="tags"]').should('have.value', 'tagme cake')
+  })
+
+  it('navbar', () => {
+    cy.mount(<Header />)
+    cy.get('[data-cy="hamburger"]').click()
+    cy.contains("Upload") // FIXME: only if user has permission
+    cy.contains("Comments")
+  })
+
+  it('userbar', () => {
+    cy.mount(<Header />)
+    cy.get('[data-cy="user-icon"]').click()
+    cy.contains("My Profile")
+    cy.contains("Log Out")
+  })
+
+  it('playground', () => {
+    cy.mount(<Header />)
   })
 })

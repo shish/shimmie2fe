@@ -5,7 +5,7 @@ import React from "react";
 import { ThumbnailGrid } from ".";
 
 describe('test', () => {
-  const posts = [];
+  const posts: any[] = [];
   it('playground', () => {
     cy.mount(<ThumbnailGrid posts={posts} />)
   })

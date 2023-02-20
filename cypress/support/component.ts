@@ -57,7 +57,7 @@ Cypress.Commands.add('mount', (component, options: any = {}) => {
           __typename: "User",
           name: "Mochael",
           private_message_unread_count: 0,
-          avatar_url: "a",
+          avatar_url: "https://www.gravatar.com/avatar/fd4960ec4e2fde2de7d56dbdf5b00c1c.jpg?s=80&d=&r=g&cacheBreak=2023-02-19",
           class: {
             permissions: [
               Permission.EditImageTag
