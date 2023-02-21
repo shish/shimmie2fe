@@ -2,8 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { graphql } from "../../gql";
 import { useQuery } from "@apollo/client";
-import { ErrorPage } from "../ErrorPage";
-import { LoadingPage } from "../LoadingPage";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { MessageComposer } from "../../components/MessageComposer";
 import { UserInfo } from "./UserInfo";
 

@@ -3,8 +3,8 @@ import { useQuery } from "@apollo/client";
 import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
 import { useFragment as fragCast } from "../gql/fragment-masking";
-import { LoadingPage } from "../pages/LoadingPage";
-import { ErrorPage } from "../pages/ErrorPage";
+import { LoadingPage } from "../pages/LoadingPage/LoadingPage";
+import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 import { MeFragmentFragment, Permission } from "../gql/graphql";
 
 const ME_FRAGMENT = graphql(`
@@ -100,7 +100,7 @@ export function LoginProvider(props: any) {
     }
 
     function can(action: Permission): boolean {
-        return me.class?.permissions?.includes(action) ?? false;
+        return me.class.permissions.includes(action);
     }
 
     return <UserContext.Provider value={{ me, is_anon, login, logout, can }}>

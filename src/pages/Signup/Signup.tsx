@@ -1,7 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Block } from "../components/basics/Block";
-import { FormItem } from "../components/basics/FormItem";
+import { Block, FormItem } from "../../components/basics";
 
 export function Signup() {
     ///////////////////////////////////////////////////////////////////

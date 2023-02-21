@@ -5,17 +5,17 @@ import {
     Route,
 } from "react-router-dom";
 
-import { ErrorPage } from "./ErrorPage";
-import { PostList } from "./PostList";
-import { PostView } from "./PostView";
-import { Signup } from "./Signup";
-import { Root } from "./Root";
-import { About } from "./About";
-import { WikiPage } from "./WikiPage";
-import { UserPage } from "./UserPage";
-import { Messages } from "./Messages";
-import { Comments } from "./Comments";
-import { Upload } from "./Upload";
+import { ErrorPage } from "./ErrorPage/ErrorPage";
+import { PostList } from "./PostList/PostList";
+import { PostView } from "./PostView/PostView";
+import { Signup } from "./Signup/Signup";
+import { Root } from "./Root/Root";
+import { About } from "./About/About";
+import { WikiPage } from "./WikiPage/WikiPage";
+import { UserPage } from "./UserPage/UserPage";
+import { Messages } from "./Messages/Messages";
+import { Comments } from "./Comments/Comments";
+import { Upload } from "./Upload/Upload";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

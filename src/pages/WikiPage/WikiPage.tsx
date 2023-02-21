@@ -1,12 +1,10 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../gql";
+import { graphql } from "../../gql";
 import { useParams } from "react-router-dom";
-import { Block } from "../components/basics/Block";
-import { UserName } from "../components/basics/UserName";
-import { ErrorPage } from "./ErrorPage";
-import { LoadingPage } from "./LoadingPage";
-import { BBCode } from "../components/basics/BBCode";
+import { Block, UserName, BBCode } from "../../components/basics";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { LoadingPage } from "../LoadingPage/LoadingPage";
 
 const GET_WIKI = graphql(`
     query getWiki($title: String!) {

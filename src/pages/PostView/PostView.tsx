@@ -4,8 +4,8 @@ import { graphql, useFragment as fragCast } from "../../gql";
 import { useParams } from "react-router-dom";
 import { CommentList } from "../../components/CommentList";
 import { absurl } from "../../utils";
-import { ErrorPage } from "../ErrorPage";
-import { LoadingPage } from "../LoadingPage";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { PostMetaData, POST_METADATA_FRAGMENT } from "./PostMetaData";
 
 const GET_POST = graphql(/* GraphQL */ `

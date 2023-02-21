@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
+import { Block } from "../../components/basics";
 
 export function ErrorPage(props: any) {
     const routeError = useRouteError();
@@ -8,11 +9,13 @@ export function ErrorPage(props: any) {
 
     return (
         <article id="error-page">
-            <h1>Oops!</h1>
-            <p>Sorry, an unexpected error has occurred.</p>
-            <p>
-                <i>{error.statusText || error.message}</i>
-            </p>
+            <Block>
+                <h1>Oops!</h1>
+                <p>Sorry, an unexpected error has occurred.</p>
+                <p>
+                    <i>{error.statusText || error.message}</i>
+                </p>
+            </Block>
         </article>
     );
 }
