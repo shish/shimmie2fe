@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
+    "\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n": types.GetTagsDocument,
     "\n    fragment CommentFragment on Comment {\n        comment_id\n        owner {\n            name\n            avatar_url\n        }\n        comment\n    }\n": types.CommentFragmentFragmentDoc,
     "\n    mutation createComment($post_id: Int!, $comment: String!) {\n        create_comment(post_id: $post_id, comment: $comment)\n    }\n": types.CreateCommentDocument,
     "\n    mutation createPrivateMessage($to_user_id: Int!, $subject: String!, $message: String!) {\n        create_private_message(to_user_id: $to_user_id, subject: $subject, message: $message)\n    }\n": types.CreatePrivateMessageDocument,
@@ -21,7 +22,6 @@ const documents = {
     "\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n": types.PostScoreFragmentFragmentDoc,
     "\n    mutation createVote($post_id: Int!, $score: Int!) {\n        create_vote(post_id: $post_id, score: $score)\n    }\n": types.CreateVoteDocument,
     "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetPostDocument,
-    "\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n": types.GetTagsDocument,
     "\n    query getUser($user: String!) {\n        user(name: $user) {\n            user_id\n            name\n            join_date\n            avatar_url\n        }\n    }\n": types.GetUserDocument,
     "\n    query getWiki($title: String!) {\n        wiki(title: $title) {\n            title\n            body\n            revision\n            date\n            owner {\n                name\n            }\n        }\n    }\n": types.GetWikiDocument,
     "\n    fragment MeFragment on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n": types.MeFragmentFragmentDoc,
@@ -43,6 +43,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n"): (typeof documents)["\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -75,10 +79,6 @@ export function graphql(source: "\n    mutation createVote($post_id: Int!, $scor
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMetadataFragment\n\n            image_link\n            thumb_link\n\n            width\n            height\n            mime\n\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n"): (typeof documents)["\n    query getTags($start: String!) {\n        tags(search: $start, limit: 10) {\n            tag\n            uses\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

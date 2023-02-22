@@ -1,0 +1,39 @@
+.uploadForm {
+    &>*+* {
+        margin-top: 1em;
+    }
+}
+.fou {
+    display: flex;
+    gap: 1em;
+    INPUT[type="file"] {
+        flex: 1 1 auto;
+    }
+    I {
+        flex: 0 0 auto;
+        display: block;
+    }
+    INPUT[type="url"] {
+        flex: 1 1 auto;
+    }
+}
+.dropTarget {
+    height: 100%;
+    display: flex;
+    DIV {
+        margin: auto;
+    }
+}
+.fileEntry {
+    display: flex;
+    gap: 1em;
+    &>DIV {
+        flex: 1 1 auto;
+    }
+    &>IMG {
+        width: 8em;
+        max-height: 6em;
+        object-fit: contain;
+        flex: 0 0 auto;
+    }
+}

@@ -1,0 +1,42 @@
+.autoComplete {
+    position: relative;
+
+    .completions {
+        position: absolute;
+        z-index: 1;
+        top: 1.2em;
+        left: .2em;
+        right: .2em;
+        border-radius: 0 0 .2em .2em;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        border: 1px solid var(--block-border);
+        overflow: hidden;
+        .tag:hover {
+            background: var(--block-bg);
+        }
+        .tag {
+            padding: .1em .3em;
+            display: flex;
+            font-size: 0.75em;
+            .name {
+                flex: 1 1 auto;
+                font-size: 1em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .uses {
+                flex: 0 0 auto;
+            }
+            .uses::before {
+                content: "(";
+                padding-left: .5em;
+            }
+            .uses::after {
+                content: ")";
+            }
+        }
+    }
+}

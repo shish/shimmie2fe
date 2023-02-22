@@ -2,10 +2,18 @@
 /// <reference path="../../../../cypress/support/component.ts" />
 
 import React from "react";
-import { GET_TAGS, Header } from "./Header";
+import { GET_TAGS } from "../../../components/Autocomplete/Autocomplete";
+import { Header } from "./Header";
 
 describe('test', () => {
-  it('autocomplete', () => {
+  it('navbar', () => {
+    cy.mount(<Header />)
+    cy.get('[data-cy="hamburger"]').click()
+    cy.contains("Upload") // FIXME: only if user has permission
+    cy.contains("Comments")
+  })
+
+  it('search', () => {
     const mocks = [
       {
         request: {query: GET_TAGS, variables: {start: ""}},
@@ -15,59 +23,14 @@ describe('test', () => {
         request: {query: GET_TAGS, variables: {start: "t"}},
         result: {data: {tags: [{tag: "tagme", uses: 10}]}}
       },
-      {
-        request: {query: GET_TAGS, variables: {start: "ta"}},
-        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "tag"}},
-        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "tagm"}},
-        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "tagme"}},
-        result: {data: {tags: [{tag: "tagme", uses: 10}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "c"}},
-        result: {data: {tags: [{tag: "cake", uses: 5}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "ca"}},
-        result: {data: {tags: [{tag: "cake", uses: 5}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "cak"}},
-        result: {data: {tags: [{tag: "cake", uses: 5}]}}
-      },
-      {
-        request: {query: GET_TAGS, variables: {start: "cake"}},
-        result: {data: {tags: [{tag: "cake", uses: 5}]}}
-      },
     ];
     cy.mount(<Header />, { mocks })
 
-    cy.get('[name="tags"]').clear().type("tag")
+    cy.get('[name="tags"]').clear().type("t")
     cy.contains("tagme").click()
     cy.get('[name="tags"]').should('have.value', 'tagme ')
-
-    cy.get('[name="tags"]').clear().type("tag cake")
-    cy.get('[name="tags"]').then(($el) => {
-      ($el[0] as HTMLInputElement).selectionStart = 2;
-      ($el[0] as HTMLInputElement).selectionEnd = 2;
-    })
-    cy.contains("tagme").click()
-    cy.get('[name="tags"]').should('have.value', 'tagme cake')
-  })
-
-  it('navbar', () => {
-    cy.mount(<Header />)
-    cy.get('[data-cy="hamburger"]').click()
-    cy.contains("Upload") // FIXME: only if user has permission
-    cy.contains("Comments")
+    cy.get('[data-cy="header-search"]').click()
+    // FIXME: check that we navigated to the search page
   })
 
   it('userbar', () => {

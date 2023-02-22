@@ -1,40 +1,21 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { graphql } from "../../../gql";
-import { useLazyQuery } from "@apollo/client";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Link } from "react-router-dom";
-import { get_word, replace_word, serverInfo } from "../../../utils";
-import { useSearchParams, useLocation } from "react-router-dom";
+import { serverInfo } from "../../../utils";
+import { useLocation } from "react-router-dom";
 import { UserContext } from '../../../providers/LoginProvider';
 import { Permission } from "../../../gql/graphql";
+import { useSearchParams } from "react-router-dom";
 
+import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 import { ReactComponent as BarsIcon } from "./bars.svg";
 import { ReactComponent as UserIcon } from "./user.svg";
 import { ReactComponent as MagnifiyingGlassIcon } from "./magnifying-glass.svg";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
 
-export const GET_TAGS = graphql(/* GraphQL */ `
-    query getTags($start: String!) {
-        tags(search: $start, limit: 10) {
-            tag
-            uses
-        }
-    }
-`);
-
-function useFocus(): [any, CallableFunction] {
-    const htmlElRef = useRef<HTMLElement>(null);
-    const setFocus = () => {
-        htmlElRef.current && htmlElRef.current.focus();
-    };
-
-    return [htmlElRef, setFocus];
-}
-
 enum Bars {
     NONE,
     NAV,
-    COMPLETIONS,
     USER,
     LOGIN,
 }
@@ -48,42 +29,6 @@ function NavBar() {
     );
 }
 
-function CompletionsBar(props: {
-    start: string;
-    setSearchPart: CallableFunction;
-}) {
-    const [go, compQ] = useLazyQuery(GET_TAGS, {
-        variables: { start: props.start },
-    });
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-          go()
-        }, 500)    
-        return () => clearTimeout(timer)
-      }, [go, props.start])
-
-    if (compQ.loading) { return <></> }
-    if (compQ.error) { return <div className={css.completions}>{compQ.error.message}</div> }
-    if ((compQ.data?.tags?.length ?? 0) === 0) { return <></> }
-
-    return (
-        <div className={css.completions}>
-            {compQ?.data?.tags?.map((tu) => (
-                <span
-                    className={css.tag}
-                    key={tu.tag}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => props.setSearchPart(tu.tag)}
-                >
-                    <span className={css.name}>{tu.tag}</span>
-                    <span className={css.uses}>{tu.uses}</span>
-                </span>
-            ))}
-        </div>
-    );
-}
-
 function UserBar({ setBar }: { setBar: CallableFunction }) {
     const { me, logout, can } = useContext(UserContext);
     const pmuc = me.private_message_unread_count;
@@ -91,7 +36,8 @@ function UserBar({ setBar }: { setBar: CallableFunction }) {
     return (
         <div className={css.user}>
             <Link to={"/user/" + me.name}>My Profile</Link>
-            {can(Permission.ReadPm) && <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <> ({pmuc})</>}</Link>}
+            {can(Permission.ReadPm) &&
+                <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <> ({pmuc})</>}</Link>}
             <span className={css.fill}></span>
             <span onClick={(e) => {
                 e.preventDefault();
@@ -141,9 +87,10 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
 }
 
 export function Header() {
+    const { me, is_anon } = useContext(UserContext);
     // eslint-disable-next-line
     let [searchParams, _setSearchParams] = useSearchParams();
-    const { me, is_anon } = useContext(UserContext);
+    const [search, setSearch] = useState(searchParams.get("tags") ?? "");
 
     // Overall bits
     const [bar, setBar] = useState(Bars.NONE);
@@ -152,20 +99,6 @@ export function Header() {
     }
     const location = useLocation();
     useEffect(() => { setBar(Bars.NONE) }, [location]);
-
-    // Search Bits
-    const [search, setSearch] = useState(searchParams.get("tags") ?? "");
-    const [searchPos, setSearchPos] = useState(0);
-    const [inputRef, setInputFocus] = useFocus();
-    useEffect(() => {
-        document.addEventListener('selectionchange', () => {
-            setSearchPos(inputRef.current.selectionStart);
-        });
-    })
-    function setSearchPart(tag: string) {
-        setSearch(replace_word(search, searchPos, tag));
-        setInputFocus();
-    }
 
     // Handy vars for rendering
     return (
@@ -180,18 +113,8 @@ export function Header() {
                     />
                 </Link>
                 <Form className={css.fill} method="get" action="/posts">
-                    <input
-                        type="text"
-                        name="tags"
-                        autoComplete="off"
-                        value={search}
-                        className={css.fill}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onFocus={() => setBar(Bars.COMPLETIONS)}
-                        onBlur={() => setBar(Bars.NONE)}
-                        ref={inputRef}
-                    />
-                    <button><MagnifiyingGlassIcon /></button>
+                    <Autocomplete name="tags" value={search} onValue={(v) => setSearch(v)} />
+                    <button data-cy="header-search"><MagnifiyingGlassIcon /></button>
                 </Form>
                 {is_anon ? (
                     <>
@@ -202,7 +125,7 @@ export function Header() {
                         <span onClick={() => toggleBar(Bars.USER)}>
                             {me.name}
                         </span>
-                        <div>
+                        <div className={css.userIcon}>
                             {me.avatar_url ? (
                                 <img
                                     alt="avatar"
@@ -221,12 +144,6 @@ export function Header() {
                 )}
             </div>
             {bar === Bars.NAV && <NavBar />}
-            {bar === Bars.COMPLETIONS && (
-                <CompletionsBar
-                    start={get_word(search, searchPos)!}
-                    setSearchPart={setSearchPart}
-                />
-            )}
             {bar === Bars.USER && <UserBar setBar={setBar} />}
             {bar === Bars.LOGIN && <LoginBar setBar={setBar} />}
         </header>

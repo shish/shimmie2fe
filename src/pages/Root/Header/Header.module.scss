@@ -14,12 +14,9 @@
         margin: .25em 1em;
         display: flex;
         align-items: center;
+        gap: 1em;
         &>* {
-            margin-left: 1em;
             flex: 0 0 auto;
-        }
-        &>*:first-child {
-            margin-left: 0em;
         }
         .logo {
             height: 2em;
@@ -29,29 +26,26 @@
         FORM {
             flex: 1 1 auto;
             display: flex;
-            border: 1px solid var(--block-border);
-            background: white;
-            padding-left: .2em;
-            border-radius: .2em;
-            overflow: hidden;
-            INPUT[type="text"] {
+            DIV {
                 flex: 1 1 auto;
-                min-width: 0;
-                border: 0px;
+                INPUT[type="text"] {
+                    border: 1px solid var(--block-border);
+                    border-right: 0;
+                    border-radius: .2em 0 0 .2em;
+                }
             }
-            INPUT[type="submit"],
             BUTTON {
                 font-size: 0.65em;
                 flex: 0 0 auto;
                 min-width: 0;
                 width: auto;
                 border: 0px;
-                padding-top: 0.3em;
-                border-left: 1px solid var(--block-border);
+                padding-top: 0.2em;
+                border-radius: 0 .2em .2em 0;
+                border: 1px solid var(--block-border);
             }
         }
-        DIV {
-            vertical-align: "text-top";
+        .userIcon {
             position: relative;
             margin-top: -0.5em;
             margin-bottom: -0.5em;
@@ -77,7 +71,6 @@
         }
     }
     .nav,
-    .completions,
     .user,
     .login {
         margin: .25em 1em;
@@ -113,19 +106,5 @@
         INPUT[type="submit"] {
             width: auto;
         }
-    }
-}
-.tag {
-    border: 1px solid black;
-    padding: .3em 1em;
-    .name {
-        font-size: 1em; // FIXME: no-op just to ensure .name is exported
-    }
-    .uses::before {
-        content: "(";
-        padding-left: .5em;
-    }
-    .uses::after {
-        content: ")";
     }
 }
