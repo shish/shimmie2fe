@@ -1,79 +1,32 @@
 import React, { FormEvent, useState } from "react";
 import { Autocomplete } from "../../components/Autocomplete/Autocomplete";
 import { Block, FormItem } from "../../components/basics";
-import { serverInfo } from "../../utils";
+import { human_size, serverInfo } from "../../utils";
 
 import css from "./Upload.module.scss";
 
 type FileState = {
-    data: File | null,
-    url: string | null,
+    data?: File,
+    url?: string,
     tags: string,
     source: string,
-    img: string | null,
+    error?: string
+}
+type UploadResults = {
+    error?: string,
+    results?: {
+        error?: string,
+        image_id?: number
+    }[],
 }
 export function Upload() {
     const [commonTags, setCommonTags] = useState("");
     const [commonSource, setCommonSource] = useState("");
     const [files, setFiles] = useState<FileState[]>([]);
+    const [thumbs, setThumbs] = useState<{[id: string]: string}>({})
     const [uploading, setUploading] = useState(false);
-    const [result, setResult] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [dragActive, setDragActive] = useState(false);
-
-    function upload(e: FormEvent) {
-        e.preventDefault();
-        setUploading(true);
-
-        const data = new FormData();
-        data.append(`common_tags`, commonTags)
-        data.append(`common_source`, commonSource)
-        files.forEach((file, i) => {
-            if (!file.data && !file.url) return;
-
-            if (file.data) {
-                data.append(`data${i}`, file.data, file.data.name);
-            }
-            else if (file.url) {
-                data.append(`url${i}`, file.url)
-            }
-            data.append(`tags${i}`, file.tags)
-            data.append(`source${i}`, file.source)
-        });
-
-        // https://httpbin.org/post
-        fetch(serverInfo.root + '/graphql_upload', {
-            method: 'POST',
-            body: data,
-        })
-            .then((res) => res.json())
-            .then((data) => setResult(JSON.stringify(data)))
-            .catch((err) => setError(err))
-            .finally(() => setUploading(false));
-    }
-
-    ///////////////////////////////////////////////////////////////////
-    // For editing existing files
-    function cancelFile(n: number) {
-        setFiles(
-            files.slice(0, n).concat(files.slice(n+1))
-        );
-    }
-    function setUrl(n: number, u: string) {
-        let new_files = [...files];
-        new_files[n].url = u;
-        setFiles(new_files);
-    }
-    function setTags(n: number, t: string) {
-        let new_files = [...files];
-        new_files[n].tags = t;
-        setFiles(new_files);
-    }
-    function setSource(n: number, s: string) {
-        let new_files = [...files];
-        new_files[n].source = s;
-        setFiles(new_files);
-    }
 
     ///////////////////////////////////////////////////////////////////
     // For appending new files
@@ -104,22 +57,96 @@ export function Upload() {
         for (let i = 0; i < fs.length; i++) {
             let fd: FileState = {
                 data: fs[i],
-                url: null,
                 tags: "",
                 source: "",
-                img: null,
             };
             new_files.push(fd);
-            // FIXME: need to tell react that the promise happened
-            let fr = new FileReader();
-            fr.onload = function () {
-                if (fr.result) {
-                    fd.img = fr.result?.toString();
-                };
+            if(fs[i].type.startsWith("image/")) {
+                let fr = new FileReader();
+                fr.onload = function () {
+                    setThumbs((thumbs) => {
+                        let new_thumbs = {...thumbs};
+                        if (fr.result) {
+                            new_thumbs[fs[i].name] = fr.result?.toString();
+                        }
+                        return new_thumbs;
+                    });
+                }
+                fr.readAsDataURL(fs[i]);    
             }
-            fr.readAsDataURL(fs[i]);
         }
         setFiles(new_files);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+    // For editing existing files
+    function cancelFile(n: number) {
+        setFiles(
+            files.slice(0, n).concat(files.slice(n+1))
+        );
+    }
+    function setUrl(n: number, u: string) {
+        let new_files = [...files];
+        new_files[n].url = u;
+        setFiles(new_files);
+    }
+    function setTags(n: number, t: string) {
+        let new_files = [...files];
+        new_files[n].tags = t;
+        setFiles(new_files);
+    }
+    function setSource(n: number, s: string) {
+        let new_files = [...files];
+        new_files[n].source = s;
+        setFiles(new_files);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+    // Actually upload
+    function upload(e: FormEvent) {
+        e.preventDefault();
+        setUploading(true);
+        setError(null);
+
+        const data = new FormData();
+        data.append(`common_tags`, commonTags)
+        data.append(`common_source`, commonSource)
+        files.forEach((file, i) => {
+            if (!file.data && !file.url) return;
+
+            if (file.data) {
+                data.append(`data${i}`, file.data, file.data.name);
+            }
+            else if (file.url) {
+                data.append(`url${i}`, file.url)
+            }
+            data.append(`tags${i}`, file.tags)
+            data.append(`source${i}`, file.source)
+        });
+
+        // https://httpbin.org/post
+        fetch(serverInfo.root + '/graphql_upload', {
+            method: 'POST',
+            body: data,
+            headers: new Headers({
+                'Authorization': 'Bearer '+localStorage.getItem("session"),
+            }), 
+        })
+            .then((res) => res.json())
+            .then((data: UploadResults) => {
+                if(data.error) {
+                    setError(data.error);
+                }
+                if(data.results) {
+                    let new_files = [...files];
+                    data.results.map((r, n) => {
+                        new_files[n].error = r.error;
+                    });
+                    setFiles(new_files);
+                }
+            })
+            .catch((err) => setError(JSON.stringify(err)))
+            .finally(() => setUploading(false));
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -127,7 +154,7 @@ export function Upload() {
     function getLabel(n: number, fs: FileState) {
         const cancel = <span onClick={(e) => cancelFile(n)}>(X)</span>;
         if (fs.url) return <>{n + 1}: Transload {cancel}</>;
-        if (fs.data) return <>{n + 1}: {fs.data.name} {cancel}</>;
+        if (fs.data) return <>{n + 1}: {fs.data.name} ({fs.data.type}, {human_size(fs.data.size)}) {cancel}</>;
         return <>{n + 1}: Empty</>;
     }
 
@@ -162,12 +189,13 @@ export function Upload() {
                             <FormItem key={n} label={getLabel(n, file)}>
                                 <div className={css.fileEntry}>
                                     <div>
-                                        {file.url !== null &&
+                                        {file.url !== undefined &&
                                             <input
                                                 type="url"
                                                 placeholder="Enter URL"
                                                 value={file.url}
                                                 onChange={(e) => setUrl(n, e.target.value)}
+                                                autoFocus={true}
                                             />}
                                         <Autocomplete
                                             name={`tags${n}`}
@@ -181,8 +209,12 @@ export function Upload() {
                                             value={file.source}
                                             onChange={(e) => setSource(n, e.target.value)}
                                         />
+                                        {file.error &&
+                                            <div className={css.error}>{file.error}</div>}
                                     </div>
-                                    {file.img && <img alt="Upload" src={file.img} />}
+                                    {file.data?.name &&
+                                        thumbs[file.data?.name] &&
+                                        <img alt="Upload" src={thumbs[file.data?.name]} />}
                                 </div>
                             </FormItem>
                         )}
@@ -203,11 +235,9 @@ export function Upload() {
                                     onChange={(e) => {
                                         let new_files = [...files];
                                         new_files.push({
-                                            data: null,
                                             url: e.target.value,
                                             tags: "",
                                             source: "",
-                                            img: null,
                                         })
                                         setFiles(new_files);
                                         e.target.value = "";
@@ -217,10 +247,15 @@ export function Upload() {
                         </FormItem>
                         <input
                             type="submit"
-                            value={uploading ? "Upload in progress..." : "Upload"}
-                            disabled={uploading}
+                            value={
+                                files.length == 0 ?
+                                    "No files selected" :
+                                    uploading ?
+                                        "Upload in progress..." :
+                                        "Upload"
+                            }
+                            disabled={files.length == 0 || uploading}
                         />
-                        {result}
                         {error}
                     </form>
                 </Block>

@@ -25,6 +25,8 @@ function NavBar() {
         <div className={css.nav}>
             <Link to="/upload">Upload</Link>
             <Link to="/comments">Comments</Link>
+            <Link to="/tags/map">Tags</Link>
+            <Link to="/wiki/Index">Wiki</Link>
         </div>
     );
 }

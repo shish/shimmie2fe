@@ -13,6 +13,7 @@ import { Root } from "./Root/Root";
 import { About } from "./About/About";
 import { WikiPage } from "./WikiPage/WikiPage";
 import { UserPage } from "./UserPage/UserPage";
+import { TagsPage } from "./TagsPage/TagsPage";
 import { Messages } from "./Messages/Messages";
 import { Comments } from "./Comments/Comments";
 import { Upload } from "./Upload/Upload";
@@ -30,6 +31,7 @@ export const router = createBrowserRouter(
             <Route path="upload" element={<Upload />} />
             <Route path="user/:user_name" element={<UserPage />} />
             <Route path="wiki/:page_title" element={<WikiPage />} />
+            <Route path="tags/:layout" element={<TagsPage />} />
         </Route>,
     ),
 );

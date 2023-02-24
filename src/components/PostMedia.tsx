@@ -1,0 +1,59 @@
+import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { graphql, useFragment as fragCast } from "../gql";
+import { absurl } from "../utils";
+import { PostMediaFragmentFragment } from "../gql/graphql";
+
+export const POST_MEDIA_FRAGMENT = graphql(/* GraphQL */ `
+    fragment PostMediaFragment on Post {
+        mime
+        image_link
+    }
+`);
+
+enum Scale {
+    NONE,
+    FIT_BOTH,
+    FIT_WIDTH,
+}
+
+export function PostMedia({ post }: { post: PostMediaFragmentFragment }) {
+    const [scale, setScale] = useState(Scale.FIT_BOTH);
+
+    function updateScale() {
+        if (scale === Scale.FIT_BOTH) setScale(Scale.FIT_WIDTH);
+        if (scale === Scale.FIT_WIDTH) setScale(Scale.NONE);
+        if (scale === Scale.NONE) setScale(Scale.FIT_BOTH);
+    }
+
+    let style: any = { margin: "0 auto" };
+    if (scale === Scale.FIT_BOTH) {
+        style['maxWidth'] = "100%";
+        style['maxHeight'] = "90vh";
+    }
+    if (scale === Scale.FIT_WIDTH) {
+        style['maxWidth'] = "100%";
+    }
+
+    if (post.mime!.startsWith("image/")) {
+        return <img
+            alt="main"
+            src={absurl(post.image_link)}
+            style={style}
+            onClick={updateScale}
+            className="block"
+        />
+    }
+    else if (post.mime!.startsWith("video/")) {
+
+        return <video
+            src={absurl(post.image_link)}
+            style={{ display: "block", width: "100%" }}
+            controls={true}
+            className="block"
+        />
+    }
+    else {
+        return <div>Unknown mime type: {post.mime}</div>
+    }
+}

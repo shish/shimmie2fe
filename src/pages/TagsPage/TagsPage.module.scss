@@ -1,0 +1,12 @@
+.initial {
+    display: inline-block;
+    border: 1px solid var(--block-border);
+    width: 2em;
+    height: 2em;
+    display: inline-flex;
+    border-radius: .5em;
+    margin: 0.2em;
+    SPAN {
+        margin: auto;
+    }
+}

@@ -20,6 +20,16 @@
         display: flex;
         flex-direction: column;
         gap: 0.5em;
+        &>H3 {
+            border: 1px solid var(--block-border);
+            background-color: var(--header-bg);
+            margin-bottom: 0;
+            text-align: center;
+            padding: 0.5em;
+            flex: 0 0 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         &>.block {
             flex: 1 1 auto;
         }

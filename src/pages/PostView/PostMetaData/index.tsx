@@ -50,6 +50,7 @@ const CREATE_VOTE = graphql(`
 `);
 
 function Voter({ post, postQ }: { post: PostScoreFragmentFragment, postQ: any}) {
+    const { can } = useContext(UserContext);
     const [voted, setVoted] = useState(post.my_vote);
     const [createVote] = useMutation(CREATE_VOTE);
 
@@ -61,8 +62,7 @@ function Voter({ post, postQ }: { post: PostScoreFragmentFragment, postQ: any}) 
         postQ.refetch();
     }
 
-    // FIXME: don't show up / down if user has no vote permissions
-    return <div className={css.voter}>
+    return can(Permission.CreateVote) ? <div className={css.voter}>
         <ChevronUpIcon
             className={voted === 1 ? css.voted : null}
             onClick={() => vote(1)}
@@ -75,7 +75,7 @@ function Voter({ post, postQ }: { post: PostScoreFragmentFragment, postQ: any}) 
             className={voted === -1 ? css.voted : null}
             onClick={() => vote(-1)}
         />
-    </div>;
+    </div> : <span>{post.score}</span>;
 }
 
 export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragment, postQ: any}) {

@@ -1,8 +1,9 @@
 import React from "react";
-import { ThumbnailGrid } from "./ThumbnailGrid";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../../gql";
 import { useSearchParams } from "react-router-dom";
+
+import { ThumbnailGrid } from "./ThumbnailGrid";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { Block } from "../../components/basics";

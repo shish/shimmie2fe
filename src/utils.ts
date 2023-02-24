@@ -38,4 +38,10 @@ export function replace_word(s: string, p: number, r: string): string {
     return s.substring(0, start) + r + (s[end] === " " ? "" : " ") + s.substring(end);
 }
 
-
+export function human_size(n: number): string {
+    let scale = "B";
+    if(n > 1024) { scale = "KB"; n /= 1024; }
+    if(n > 1024) { scale = "MB"; n /= 1024; }
+    if(n > 1024) { scale = "GB"; n /= 1024; }
+    return n.toFixed(0) + scale;
+}

@@ -36,3 +36,18 @@ describe('replace_word', () => {
     });
 });
 
+describe('human_size', () => {
+    test('B', () => {
+        expect(u.human_size(123)).toEqual("123B");
+    });
+    test('K', () => {
+        expect(u.human_size(12345)).toEqual("12KB");
+    });
+    test('M', () => {
+        expect(u.human_size(1234567)).toEqual("1MB");
+    });
+    test('G', () => {
+        expect(u.human_size(1234567890)).toEqual("1GB");
+    });
+});
+
