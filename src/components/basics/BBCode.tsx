@@ -60,7 +60,7 @@ export function BBCode(props: { children: string }) {
     }
 
     html = html.replace(
-        /\[\[([^\|\]]+)\|([^\]]+)\]\]/gs,
+        /\[\[([^|\]]+)\|([^\]]+)\]\]/gs,
         '<a href="/wiki/$1">$2</a>',
     );
     html = html.replace(/\[\[([^\]]+)\]\]/gs, '<a href="/wiki/$1">$1</a>');

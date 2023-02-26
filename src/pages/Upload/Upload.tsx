@@ -138,6 +138,7 @@ export function Upload() {
                     let new_files = [...files];
                     data.results.map((r, n) => {
                         new_files[n].error = r.error;
+                        return 0; // FIXME: map expects a return value, what if we don't need one?
                     });
                     setFiles(new_files);
                 }

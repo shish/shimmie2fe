@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../../gql";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Block, Tag } from "../../components/basics";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
@@ -19,7 +19,7 @@ const GET_ALL_TAGS = graphql(`
 export function TagsPage() {
     ///////////////////////////////////////////////////////////////////
     // Hooks
-    let { layout } = useParams();
+    // let { layout } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const q = useQuery(GET_ALL_TAGS, {
         variables: { start: searchParams.get("starts_with") ?? "t" },
@@ -51,9 +51,9 @@ export function TagsPage() {
         <article>
             <Block>
                 {initials.map((c) => (
-                    <a className={css.initial} onClick={(e) => goToLetter(c)}>
+                    <div className={css.initial} onClick={(e) => goToLetter(c)}>
                         <span>{c}</span>
-                    </a>
+                    </div>
                 ))}
                 <hr />
                 {tags.map((tag) => (

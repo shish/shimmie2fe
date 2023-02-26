@@ -23,7 +23,7 @@ const GET_COMMENTED_POSTS = graphql(/* GraphQL */ `
 `);
 
 export function Comments() {
-    const [searchParams, _setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams(); // _setSearchParams
     const page = parseInt(searchParams.get("page") ?? "1");
     const q = useQuery(GET_COMMENTED_POSTS, {
         variables: {
