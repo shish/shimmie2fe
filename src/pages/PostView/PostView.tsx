@@ -41,7 +41,9 @@ export function PostView() {
     }
     const post = q.data?.post;
     if (!post) {
-        return <ErrorPage error={{message: `No post with the ID ${post_id}`}} />;
+        return (
+            <ErrorPage error={{ message: `No post with the ID ${post_id}` }} />
+        );
     }
 
     ///////////////////////////////////////////////////////////////////

@@ -6,24 +6,24 @@ import { human_size, serverInfo } from "../../utils";
 import css from "./Upload.module.scss";
 
 type FileState = {
-    data?: File,
-    url?: string,
-    tags: string,
-    source: string,
-    error?: string
-}
+    data?: File;
+    url?: string;
+    tags: string;
+    source: string;
+    error?: string;
+};
 type UploadResults = {
-    error?: string,
+    error?: string;
     results?: {
-        error?: string,
-        image_id?: number
-    }[],
-}
+        error?: string;
+        image_id?: number;
+    }[];
+};
 export function Upload() {
     const [commonTags, setCommonTags] = useState("");
     const [commonSource, setCommonSource] = useState("");
     const [files, setFiles] = useState<FileState[]>([]);
-    const [thumbs, setThumbs] = useState<{[id: string]: string}>({})
+    const [thumbs, setThumbs] = useState<{ [id: string]: string }>({});
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [dragActive, setDragActive] = useState(false);
@@ -43,7 +43,7 @@ export function Upload() {
         } else if (e.type === "dragleave") {
             setDragActive(false);
         }
-    };
+    }
     function handleDrop(e: any) {
         e.preventDefault();
         e.stopPropagation();
@@ -61,18 +61,18 @@ export function Upload() {
                 source: "",
             };
             new_files.push(fd);
-            if(fs[i].type.startsWith("image/")) {
+            if (fs[i].type.startsWith("image/")) {
                 let fr = new FileReader();
                 fr.onload = function () {
                     setThumbs((thumbs) => {
-                        let new_thumbs = {...thumbs};
+                        let new_thumbs = { ...thumbs };
                         if (fr.result) {
                             new_thumbs[fs[i].name] = fr.result?.toString();
                         }
                         return new_thumbs;
                     });
-                }
-                fr.readAsDataURL(fs[i]);    
+                };
+                fr.readAsDataURL(fs[i]);
             }
         }
         setFiles(new_files);
@@ -81,9 +81,7 @@ export function Upload() {
     ///////////////////////////////////////////////////////////////////
     // For editing existing files
     function cancelFile(n: number) {
-        setFiles(
-            files.slice(0, n).concat(files.slice(n+1))
-        );
+        setFiles(files.slice(0, n).concat(files.slice(n + 1)));
     }
     function setUrl(n: number, u: string) {
         let new_files = [...files];
@@ -109,35 +107,34 @@ export function Upload() {
         setError(null);
 
         const data = new FormData();
-        data.append(`common_tags`, commonTags)
-        data.append(`common_source`, commonSource)
+        data.append(`common_tags`, commonTags);
+        data.append(`common_source`, commonSource);
         files.forEach((file, i) => {
             if (!file.data && !file.url) return;
 
             if (file.data) {
                 data.append(`data${i}`, file.data, file.data.name);
+            } else if (file.url) {
+                data.append(`url${i}`, file.url);
             }
-            else if (file.url) {
-                data.append(`url${i}`, file.url)
-            }
-            data.append(`tags${i}`, file.tags)
-            data.append(`source${i}`, file.source)
+            data.append(`tags${i}`, file.tags);
+            data.append(`source${i}`, file.source);
         });
 
         // https://httpbin.org/post
-        fetch(serverInfo.root + '/graphql_upload', {
-            method: 'POST',
+        fetch(serverInfo.root + "/graphql_upload", {
+            method: "POST",
             body: data,
             headers: new Headers({
-                'Authorization': 'Bearer '+localStorage.getItem("session"),
-            }), 
+                Authorization: "Bearer " + localStorage.getItem("session"),
+            }),
         })
             .then((res) => res.json())
             .then((data: UploadResults) => {
-                if(data.error) {
+                if (data.error) {
                     setError(data.error);
                 }
-                if(data.results) {
+                if (data.results) {
                     let new_files = [...files];
                     data.results.map((r, n) => {
                         new_files[n].error = r.error;
@@ -153,8 +150,19 @@ export function Upload() {
     // Rendering
     function getLabel(n: number, fs: FileState) {
         const cancel = <span onClick={(e) => cancelFile(n)}>(X)</span>;
-        if (fs.url) return <>{n + 1}: Transload {cancel}</>;
-        if (fs.data) return <>{n + 1}: {fs.data.name} ({fs.data.type}, {human_size(fs.data.size)}) {cancel}</>;
+        if (fs.url)
+            return (
+                <>
+                    {n + 1}: Transload {cancel}
+                </>
+            );
+        if (fs.data)
+            return (
+                <>
+                    {n + 1}: {fs.data.name} ({fs.data.type},{" "}
+                    {human_size(fs.data.size)}) {cancel}
+                </>
+            );
         return <>{n + 1}: Empty</>;
     }
 
@@ -165,10 +173,17 @@ export function Upload() {
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
         >
-            {dragActive ?
-                <Block className={css.dropTarget}><div>Drop Here</div></Block> :
+            {dragActive ? (
+                <Block className={css.dropTarget}>
+                    <div>Drop Here</div>
+                </Block>
+            ) : (
                 <Block>
-                    <form onSubmit={upload} className={css.uploadForm} method="POST">
+                    <form
+                        onSubmit={upload}
+                        className={css.uploadForm}
+                        method="POST"
+                    >
                         <FormItem label="Common Tags">
                             <Autocomplete
                                 name="common_tags"
@@ -182,21 +197,26 @@ export function Upload() {
                                 name="common_source"
                                 placeholder="Source"
                                 value={commonSource}
-                                onChange={(e) => setCommonSource(e.target.value)}
+                                onChange={(e) =>
+                                    setCommonSource(e.target.value)
+                                }
                             />
                         </FormItem>
-                        {files.map((file, n) =>
+                        {files.map((file, n) => (
                             <FormItem key={n} label={getLabel(n, file)}>
                                 <div className={css.fileEntry}>
                                     <div>
-                                        {file.url !== undefined &&
+                                        {file.url !== undefined && (
                                             <input
                                                 type="url"
                                                 placeholder="Enter URL"
                                                 value={file.url}
-                                                onChange={(e) => setUrl(n, e.target.value)}
+                                                onChange={(e) =>
+                                                    setUrl(n, e.target.value)
+                                                }
                                                 autoFocus={true}
-                                            />}
+                                            />
+                                        )}
                                         <Autocomplete
                                             name={`tags${n}`}
                                             placeholder={"Tags"}
@@ -207,23 +227,32 @@ export function Upload() {
                                             name={`source${n}`}
                                             placeholder={"Source"}
                                             value={file.source}
-                                            onChange={(e) => setSource(n, e.target.value)}
+                                            onChange={(e) =>
+                                                setSource(n, e.target.value)
+                                            }
                                         />
-                                        {file.error &&
-                                            <div className={css.error}>{file.error}</div>}
+                                        {file.error && (
+                                            <div className={css.error}>
+                                                {file.error}
+                                            </div>
+                                        )}
                                     </div>
                                     {file.data?.name &&
-                                        thumbs[file.data?.name] &&
-                                        <img alt="Upload" src={thumbs[file.data?.name]} />}
+                                        thumbs[file.data?.name] && (
+                                            <img
+                                                alt="Upload"
+                                                src={thumbs[file.data?.name]}
+                                            />
+                                        )}
                                 </div>
                             </FormItem>
-                        )}
+                        ))}
                         <FormItem label="Add">
                             <div className={css.fou}>
                                 <input
                                     type="file"
                                     onChange={(e) => {
-                                        setData(e.target.files)
+                                        setData(e.target.files);
                                         e.target.value = "";
                                     }}
                                     multiple={true}
@@ -238,7 +267,7 @@ export function Upload() {
                                             url: e.target.value,
                                             tags: "",
                                             source: "",
-                                        })
+                                        });
                                         setFiles(new_files);
                                         e.target.value = "";
                                     }}
@@ -248,18 +277,18 @@ export function Upload() {
                         <input
                             type="submit"
                             value={
-                                files.length === 0 ?
-                                    "No files selected" :
-                                    uploading ?
-                                        "Upload in progress..." :
-                                        "Upload"
+                                files.length === 0
+                                    ? "No files selected"
+                                    : uploading
+                                    ? "Upload in progress..."
+                                    : "Upload"
                             }
                             disabled={files.length === 0 || uploading}
                         />
                         {error}
                     </form>
                 </Block>
-            }
+            )}
         </article>
     );
 }

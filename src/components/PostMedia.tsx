@@ -28,37 +28,38 @@ export function PostMedia({ post }: { post: PostMediaFragmentFragment }) {
 
     let style: any = { objectFit: "contain" };
     if (scale === Scale.NONE) {
-        style['width'] = "auto";
-        style['maxWidth'] = "none";
-        style['maxHeight'] = "none";
+        style["width"] = "auto";
+        style["maxWidth"] = "none";
+        style["maxHeight"] = "none";
     }
     if (scale === Scale.FIT_BOTH) {
-        style['maxWidth'] = "100%";
-        style['maxHeight'] = "90vh";
+        style["maxWidth"] = "100%";
+        style["maxHeight"] = "90vh";
     }
     //if (scale === Scale.FIT_WIDTH) {
     //    style['maxWidth'] = "100%";
     //}
 
     if (post.mime!.startsWith("image/")) {
-        return <img
-            alt="main"
-            src={absurl(post.image_link)}
-            style={style}
-            onClick={updateScale}
-            className="block"
-        />
-    }
-    else if (post.mime!.startsWith("video/")) {
-
-        return <video
-            src={absurl(post.image_link)}
-            style={{ display: "block", width: "100%" }}
-            controls={true}
-            className="block"
-        />
-    }
-    else {
-        return <div>Unknown mime type: {post.mime}</div>
+        return (
+            <img
+                alt="main"
+                src={absurl(post.image_link)}
+                style={style}
+                onClick={updateScale}
+                className="block"
+            />
+        );
+    } else if (post.mime!.startsWith("video/")) {
+        return (
+            <video
+                src={absurl(post.image_link)}
+                style={{ display: "block", width: "100%" }}
+                controls={true}
+                className="block"
+            />
+        );
+    } else {
+        return <div>Unknown mime type: {post.mime}</div>;
     }
 }

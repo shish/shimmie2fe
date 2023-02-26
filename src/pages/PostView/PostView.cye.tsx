@@ -1,11 +1,11 @@
 /// <reference types="Cypress" />
 
-export {}
+export {};
 
-describe('view post', () => {
-    it('select a post', () => {
-        cy.visit('/')
-        cy.get('[href^="/post/"]').first().click()
-        cy.contains("Uploader").should('exist')
-    })
-})
+describe("view post", () => {
+    it("select a post", () => {
+        cy.visit("/");
+        cy.get('[href^="/post/"]').first().click();
+        cy.contains("Uploader").should("exist");
+    });
+});

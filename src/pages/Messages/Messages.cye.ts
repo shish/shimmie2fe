@@ -1,9 +1,9 @@
 /// <reference types="Cypress" />
 
-export {}
+export {};
 
-describe('send and receive messages', () => {
-    it('view messages', () => {
-        cy.visit('/messages')
-    })
-})
+describe("send and receive messages", () => {
+    it("view messages", () => {
+        cy.visit("/messages");
+    });
+});

@@ -7,7 +7,7 @@ export function ErrorPage(props: any) {
     try {
         const routeError = useRouteError();
         error = props.error ?? routeError;
-        console.error(error);    
+        console.error(error);
     } catch (e) {
         console.log("Error in error handler:", e);
         console.log("Original error:", props.error);

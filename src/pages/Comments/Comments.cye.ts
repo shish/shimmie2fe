@@ -1,9 +1,9 @@
 /// <reference types="Cypress" />
 
-export {}
+export {};
 
-describe('look at recent comments', () => {
-    it('get most recent page', () => {
-        cy.visit('/comments')
-    })
-})
+describe("look at recent comments", () => {
+    it("get most recent page", () => {
+        cy.visit("/comments");
+    });
+});

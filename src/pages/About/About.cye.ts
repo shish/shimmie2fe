@@ -1,9 +1,9 @@
 /// <reference types="Cypress" />
 
-export {}
+export {};
 
-describe('about page', () => {
-    it('should exist', () => {
-        cy.visit('/about')
-    })
-})
+describe("about page", () => {
+    it("should exist", () => {
+        cy.visit("/about");
+    });
+});

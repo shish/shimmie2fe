@@ -26,10 +26,10 @@ export const GET_ME = graphql(`
 `);
 
 type UserContextType = {
-    me: MeFragmentFragment,
-    is_anon: boolean,
-    logout: CallableFunction,
-    can: CallableFunction,
+    me: MeFragmentFragment;
+    is_anon: boolean;
+    logout: CallableFunction;
+    can: CallableFunction;
 };
 
 export const UserContext = React.createContext<UserContextType>({
@@ -39,11 +39,13 @@ export const UserContext = React.createContext<UserContextType>({
         avatar_url: null,
         class: {
             permissions: [],
-        }
+        },
     },
     is_anon: true,
-    logout: () => { },
-    can: (action: string): boolean => { return false; }
+    logout: () => {},
+    can: (action: string): boolean => {
+        return false;
+    },
 });
 
 export function LoginProvider(props: any) {
@@ -68,8 +70,9 @@ export function LoginProvider(props: any) {
         return me.class.permissions.includes(action);
     }
 
-    return <UserContext.Provider value={{ me, is_anon, logout, can }}>
-        {props.children}
-    </UserContext.Provider>
-
+    return (
+        <UserContext.Provider value={{ me, is_anon, logout, can }}>
+            {props.children}
+        </UserContext.Provider>
+    );
 }

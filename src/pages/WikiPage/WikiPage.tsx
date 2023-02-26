@@ -40,14 +40,15 @@ export function WikiPage() {
     ///////////////////////////////////////////////////////////////////
     // Render
     const page = q.data!.wiki;
-    
+
     return (
         <article>
             <Block>
                 <BBCode>{page.body}</BBCode>
             </Block>
             <Block>
-                v{page.revision}, last edited by <UserName user={page.owner} /> on {page.date}
+                v{page.revision}, last edited by <UserName user={page.owner} />{" "}
+                on {page.date}
             </Block>
         </article>
     );

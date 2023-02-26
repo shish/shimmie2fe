@@ -2,7 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import { Form, Link } from "react-router-dom";
 import { serverInfo } from "../../../utils";
 import { useLocation } from "react-router-dom";
-import { GET_ME, ME_FRAGMENT, UserContext } from '../../../providers/LoginProvider';
+import {
+    GET_ME,
+    ME_FRAGMENT,
+    UserContext,
+} from "../../../providers/LoginProvider";
 import { Permission } from "../../../gql/graphql";
 import { useSearchParams } from "react-router-dom";
 import { useFragment as fragCast } from "../../../gql/fragment-masking";
@@ -54,14 +58,21 @@ function UserBar({ setBar }: { setBar: CallableFunction }) {
     return (
         <div className={css.user}>
             <Link to={"/user/" + me.name}>My Profile</Link>
-            {can(Permission.ReadPm) &&
-                <Link to="/messages">Messages{pmuc != null && pmuc > 0 && <> ({pmuc})</>}</Link>}
+            {can(Permission.ReadPm) && (
+                <Link to="/messages">
+                    Messages{pmuc != null && pmuc > 0 && <> ({pmuc})</>}
+                </Link>
+            )}
             <span className={css.fill}></span>
-            <span onClick={(e) => {
-                e.preventDefault();
-                logout();
-                setBar(Bars.NONE);
-            }}>Log Out</span>
+            <span
+                onClick={(e) => {
+                    e.preventDefault();
+                    logout();
+                    setBar(Bars.NONE);
+                }}
+            >
+                Log Out
+            </span>
         </div>
     );
 }
@@ -71,7 +82,10 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
     const [pass, setPass] = useState("");
     const [login, q] = useMutation(LOGIN, {
         update: (cache, { data }) => {
-            if (!data) { console.log("Login returned no data"); return; }
+            if (!data) {
+                console.log("Login returned no data");
+                return;
+            }
             const user = fragCast(ME_FRAGMENT, data.login.user);
 
             if (user.name && data.login.session) {
@@ -84,7 +98,7 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
                 query: GET_ME,
                 data: { me: data.login.user },
             });
-            if(data.login.session) {
+            if (data.login.session) {
                 q.client.resetStore();
                 setBar(Bars.NONE);
             }
@@ -96,12 +110,14 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
             className={css.login}
             onSubmit={(e) => {
                 e.preventDefault();
-                login({variables: { username: name, password: pass }});
+                login({ variables: { username: name, password: pass } });
             }}
         >
             <span className={css.fill}></span>
             {q.error && <span className="error">{q.error.message}</span>}
-            {q.data?.login.error && <span className="error">{q.data.login.error}</span>}
+            {q.data?.login.error && (
+                <span className="error">{q.data.login.error}</span>
+            )}
             <input
                 type="text"
                 value={name}
@@ -134,13 +150,18 @@ export function Header() {
         setBar(bar === b ? Bars.NONE : b);
     }
     const location = useLocation();
-    useEffect(() => { setBar(Bars.NONE) }, [location]);
+    useEffect(() => {
+        setBar(Bars.NONE);
+    }, [location]);
 
     // Handy vars for rendering
     return (
         <header id="site-header" className={css.header}>
             <div className={css.topbar}>
-                <BarsIcon data-cy="hamburger" onClick={() => toggleBar(Bars.NAV)} />
+                <BarsIcon
+                    data-cy="hamburger"
+                    onClick={() => toggleBar(Bars.NAV)}
+                />
                 <Link to="/">
                     <img
                         className={css.logo}
@@ -149,12 +170,21 @@ export function Header() {
                     />
                 </Link>
                 <Form className={css.fill} method="get" action="/posts">
-                    <Autocomplete name="tags" value={search} onValue={(v) => setSearch(v)} />
-                    <button data-cy="header-search"><MagnifiyingGlassIcon /></button>
+                    <Autocomplete
+                        name="tags"
+                        value={search}
+                        onValue={(v) => setSearch(v)}
+                    />
+                    <button data-cy="header-search">
+                        <MagnifiyingGlassIcon />
+                    </button>
                 </Form>
                 {is_anon ? (
                     <>
-                        <UserIcon data-cy="user-icon" onClick={() => toggleBar(Bars.LOGIN)} />
+                        <UserIcon
+                            data-cy="user-icon"
+                            onClick={() => toggleBar(Bars.LOGIN)}
+                        />
                     </>
                 ) : (
                     <>
@@ -171,10 +201,14 @@ export function Header() {
                                     onClick={() => toggleBar(Bars.USER)}
                                 />
                             ) : (
-                                <UserIcon data-cy="user-icon" onClick={() => toggleBar(Bars.USER)} />
+                                <UserIcon
+                                    data-cy="user-icon"
+                                    onClick={() => toggleBar(Bars.USER)}
+                                />
                             )}
-                            {(me.private_message_unread_count || 0) >
-                                0 && <span>{me.private_message_unread_count}</span>}
+                            {(me.private_message_unread_count || 0) > 0 && (
+                                <span>{me.private_message_unread_count}</span>
+                            )}
                         </div>
                     </>
                 )}

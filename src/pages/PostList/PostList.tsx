@@ -49,10 +49,13 @@ export function PostList() {
     // Render
     return (
         <article>
-            {posts.length > 0 ?
-                <ThumbnailGrid posts={posts} /> :
-                <Block>No posts tagged with <code>{tags.join(" ")}</code></Block>
-            }
+            {posts.length > 0 ? (
+                <ThumbnailGrid posts={posts} />
+            ) : (
+                <Block>
+                    No posts tagged with <code>{tags.join(" ")}</code>
+                </Block>
+            )}
         </article>
     );
 }

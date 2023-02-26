@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { graphql } from "../gql";
 import { useMutation } from "@apollo/client";
 import { FragmentType, useFragment } from "../gql/fragment-masking";
-import { UserContext } from '../providers/LoginProvider';
+import { UserContext } from "../providers/LoginProvider";
 import { Permission } from "../gql/graphql";
 import { BBCode, Block, UserName } from "./basics";
 
@@ -27,12 +27,13 @@ function Comment(props: { comment: FragmentType<typeof COMMENT_FRAGMENT> }) {
     const comment = useFragment(COMMENT_FRAGMENT, props.comment);
     return (
         <Block>
-            <UserName user={comment.owner} />: <BBCode>{comment.comment}</BBCode>
+            <UserName user={comment.owner} />:{" "}
+            <BBCode>{comment.comment}</BBCode>
         </Block>
     );
 }
 
-function CommentComposer({post_id, postQ}: {post_id: number, postQ: any}) {
+function CommentComposer({ post_id, postQ }: { post_id: number; postQ: any }) {
     const { can } = useContext(UserContext);
     const [comment, setComment] = useState("");
     const [createComment] = useMutation(CREATE_COMMENT, {
@@ -41,23 +42,26 @@ function CommentComposer({post_id, postQ}: {post_id: number, postQ: any}) {
         },
     });
 
-    return can(Permission.CreateComment) &&
-        <form
-            className="block"
-            onSubmit={(e) => {
-                e.preventDefault();
-                createComment({
-                    variables: { post_id: post_id, comment },
-                });
-                setComment("");
-            }}
-        >
-            <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-            />
-            <input type="submit" value="Post Comment" />
-        </form>;
+    return (
+        can(Permission.CreateComment) && (
+            <form
+                className="block"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    createComment({
+                        variables: { post_id: post_id, comment },
+                    });
+                    setComment("");
+                }}
+            >
+                <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                />
+                <input type="submit" value="Post Comment" />
+            </form>
+        )
+    );
 }
 
 export function CommentList(props: {

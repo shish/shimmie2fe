@@ -24,14 +24,20 @@ function CompletionsBar(props: {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            go()
-        }, 500)
-        return () => clearTimeout(timer)
-    }, [go, props.start])
+            go();
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [go, props.start]);
 
-    if (compQ.loading) { return <></> }
-    if (compQ.error) { return <div className={css.completions}>{compQ.error.message}</div> }
-    if ((compQ.data?.tags?.length ?? 0) === 0) { return <></> }
+    if (compQ.loading) {
+        return <></>;
+    }
+    if (compQ.error) {
+        return <div className={css.completions}>{compQ.error.message}</div>;
+    }
+    if ((compQ.data?.tags?.length ?? 0) === 0) {
+        return <></>;
+    }
 
     return (
         <ul className={css.completions}>
@@ -51,44 +57,52 @@ function CompletionsBar(props: {
 }
 
 type AutocompleteProps = {
-    name: string,
-    value: string,
-    placeholder?: string,
-    onValue: (v: string) => any
+    name: string;
+    value: string;
+    placeholder?: string;
+    onValue: (v: string) => any;
 };
 
-export function Autocomplete({ name, value, placeholder, onValue }: AutocompleteProps) {
+export function Autocomplete({
+    name,
+    value,
+    placeholder,
+    onValue,
+}: AutocompleteProps) {
     const [showCompletions, setShowCompletions] = useState(false);
     const [searchPos, setSearchPos] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
-        document.addEventListener('selectionchange', () => {
-            inputRef?.current?.selectionStart && setSearchPos(inputRef.current.selectionStart);
+        document.addEventListener("selectionchange", () => {
+            inputRef?.current?.selectionStart &&
+                setSearchPos(inputRef.current.selectionStart);
         });
-    })
+    });
     function setSearchPart(tag: string) {
         onValue(replace_word(value, searchPos, tag));
         inputRef.current && inputRef.current.focus();
     }
 
-    return <div className={css.autoComplete}>
-        <input
-            type="text"
-            name={name}
-            autoComplete="off"
-            value={value}
-            placeholder={placeholder}
-            className={css.fill}
-            onChange={(e) => onValue(e.target.value)}
-            onFocus={() => setShowCompletions(true)}
-            onBlur={() => setShowCompletions(false)}
-            ref={inputRef}
-        />
-        {showCompletions && (
-            <CompletionsBar
-                start={get_word(value, searchPos)!}
-                setSearchPart={setSearchPart}
+    return (
+        <div className={css.autoComplete}>
+            <input
+                type="text"
+                name={name}
+                autoComplete="off"
+                value={value}
+                placeholder={placeholder}
+                className={css.fill}
+                onChange={(e) => onValue(e.target.value)}
+                onFocus={() => setShowCompletions(true)}
+                onBlur={() => setShowCompletions(false)}
+                ref={inputRef}
             />
-        )}
-    </div>;
+            {showCompletions && (
+                <CompletionsBar
+                    start={get_word(value, searchPos)!}
+                    setSearchPart={setSearchPart}
+                />
+            )}
+        </div>
+    );
 }

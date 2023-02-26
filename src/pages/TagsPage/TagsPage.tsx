@@ -22,7 +22,7 @@ export function TagsPage() {
     let { layout } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const q = useQuery(GET_ALL_TAGS, {
-        variables: { start: searchParams.get("starts_with") ?? "t"},
+        variables: { start: searchParams.get("starts_with") ?? "t" },
     });
 
     ///////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ export function TagsPage() {
     ///////////////////////////////////////////////////////////////////
     // Render
     const tags = q.data!.tags;
-    
+
     function usesToSize(uses: number): number {
         return Math.max(Math.log(uses), 1);
     }
@@ -50,9 +50,21 @@ export function TagsPage() {
     return (
         <article>
             <Block>
-                {initials.map((c) => <a className={css.initial} onClick={(e) => goToLetter(c)}><span>{c}</span></a>)}
+                {initials.map((c) => (
+                    <a className={css.initial} onClick={(e) => goToLetter(c)}>
+                        <span>{c}</span>
+                    </a>
+                ))}
                 <hr />
-                {tags.map(tag => <><Tag key={tag.tag} tag={tag.tag} size={usesToSize(tag.uses)} /> </>)}
+                {tags.map((tag) => (
+                    <>
+                        <Tag
+                            key={tag.tag}
+                            tag={tag.tag}
+                            size={usesToSize(tag.uses)}
+                        />{" "}
+                    </>
+                ))}
             </Block>
         </article>
     );

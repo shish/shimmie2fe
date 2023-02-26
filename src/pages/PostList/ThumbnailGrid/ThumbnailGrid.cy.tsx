@@ -4,9 +4,9 @@
 import React from "react";
 import { ThumbnailGrid } from ".";
 
-describe('test', () => {
-  const posts: any[] = [];
-  it('playground', () => {
-    cy.mount(<ThumbnailGrid posts={posts} />)
-  })
-})
+describe("test", () => {
+    const posts: any[] = [];
+    it("playground", () => {
+        cy.mount(<ThumbnailGrid posts={posts} />);
+    });
+});

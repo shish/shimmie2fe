@@ -48,16 +48,24 @@ export function Comments() {
     const tsize = "6em";
     return (
         <article>
-            {posts.map(post => <>
-                <h3>Post {post.post_id}: {post.tags.join(" ")}</h3>
-                <img
-                    style={{maxWidth: tsize, maxHeight: tsize}}
-                    className="block"
-                    alt="thumbnail"
-                    src={absurl(post.thumb_link)}
-                />
-                <CommentList post_id={post.post_id} postQ={q} comments={post.comments} />
-            </>)}
+            {posts.map((post) => (
+                <>
+                    <h3>
+                        Post {post.post_id}: {post.tags.join(" ")}
+                    </h3>
+                    <img
+                        style={{ maxWidth: tsize, maxHeight: tsize }}
+                        className="block"
+                        alt="thumbnail"
+                        src={absurl(post.thumb_link)}
+                    />
+                    <CommentList
+                        post_id={post.post_id}
+                        postQ={q}
+                        comments={post.comments}
+                    />
+                </>
+            ))}
         </article>
     );
 }

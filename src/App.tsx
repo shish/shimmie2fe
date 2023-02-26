@@ -5,11 +5,8 @@ import {
     InMemoryCache,
     HttpLink,
 } from "@apollo/client";
-import { MockedProvider } from "@apollo/client/testing"
-import {
-    createMemoryRouter,
-    RouterProvider,
-} from "react-router-dom";
+import { MockedProvider } from "@apollo/client/testing";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 
 import { router } from "./pages";
@@ -30,7 +27,7 @@ const createApolloClient = () => {
                     ...headers,
                     authorization: `Bearer ${token}`,
                 },
-            }
+            };
         } else {
             return { headers };
         }
@@ -42,19 +39,17 @@ const createApolloClient = () => {
     });
 };
 
-
 // Set up all the app scaffolding (login, router, etc) but only
 // holding a single component, for easy component testing
-export function DevApp({ component, mocks }: { component: any, mocks: any[] }) {
+export function DevApp({ component, mocks }: { component: any; mocks: any[] }) {
     const FAKE_EVENT = { name: "test event" };
-    const tree =
+    const tree = (
         <React.StrictMode>
             <MockedProvider mocks={mocks} addTypename={true}>
-                <LoginProvider>
-                    {component}
-                </LoginProvider>
+                <LoginProvider>{component}</LoginProvider>
             </MockedProvider>
-        </React.StrictMode>;
+        </React.StrictMode>
+    );
     const routes = [
         {
             path: "/events/:id",
