@@ -140,9 +140,14 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
 
 export function Header() {
     const { me, is_anon } = useContext(UserContext);
-    // eslint-disable-next-line
-    let [searchParams, _setSearchParams] = useSearchParams();
+
+    // search bits
+    const [searchParams] = useSearchParams(); // , setSearchParams
     const [search, setSearch] = useState(searchParams.get("tags") ?? "");
+    useEffect(() => {
+        // When URL changes, update the search box to match
+        setSearch(searchParams.get("tags") ?? "")
+    }, [searchParams.get("tags")])
 
     // Overall bits
     const [bar, setBar] = useState(Bars.NONE);
