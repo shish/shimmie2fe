@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../../gql";
 import { useParams, useSearchParams } from "react-router-dom";
-import { Block, UserName, BBCode, Tag } from "../../components/basics";
+import { Block, Tag } from "../../components/basics";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import css from "./TagsPage.module.scss";

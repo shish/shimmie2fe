@@ -248,13 +248,13 @@ export function Upload() {
                         <input
                             type="submit"
                             value={
-                                files.length == 0 ?
+                                files.length === 0 ?
                                     "No files selected" :
                                     uploading ?
                                         "Upload in progress..." :
                                         "Upload"
                             }
-                            disabled={files.length == 0 || uploading}
+                            disabled={files.length === 0 || uploading}
                         />
                         {error}
                     </form>

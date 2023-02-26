@@ -24,12 +24,13 @@ const documents = {
     "\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n": types.PostScoreFragmentFragmentDoc,
     "\n    mutation createVote($post_id: Int!, $score: Int!) {\n        create_vote(post_id: $post_id, score: $score)\n    }\n": types.CreateVoteDocument,
     "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMediaFragment\n            ...PostMetadataFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetPostDocument,
+    "\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n": types.LoginDocument,
+    "\n    mutation createUser($username: String!, $password1: String!, $password2: String!, $email: String!) {\n        create_user(username: $username, password1: $password1, password2: $password2, email: $email) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n": types.CreateUserDocument,
     "\n    query getAllTags($start: String!) {\n        tags(search: $start, limit: 1000) {\n            tag\n            uses\n        }\n    }\n": types.GetAllTagsDocument,
     "\n    query getUser($user: String!) {\n        user(name: $user) {\n            user_id\n            name\n            join_date\n            avatar_url\n        }\n    }\n": types.GetUserDocument,
     "\n    query getWiki($title: String!) {\n        wiki(title: $title) {\n            title\n            body\n            revision\n            date\n            owner {\n                name\n            }\n        }\n    }\n": types.GetWikiDocument,
     "\n    fragment MeFragment on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n": types.MeFragmentFragmentDoc,
     "\n    query getMe {\n        me {\n            ...MeFragment\n        }\n    }\n": types.GetMeDocument,
-    "\n    mutation login($name: String!, $pass: String!) {\n        login(name: $name, pass: $pass) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n": types.LoginDocument,
 };
 
 /**
@@ -93,6 +94,14 @@ export function graphql(source: "\n    query getPost($post_id: Int!) {\n        
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation createUser($username: String!, $password1: String!, $password2: String!, $email: String!) {\n        create_user(username: $username, password1: $password1, password2: $password2, email: $email) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation createUser($username: String!, $password1: String!, $password2: String!, $email: String!) {\n        create_user(username: $username, password1: $password1, password2: $password2, email: $email) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n    query getAllTags($start: String!) {\n        tags(search: $start, limit: 1000) {\n            tag\n            uses\n        }\n    }\n"): (typeof documents)["\n    query getAllTags($start: String!) {\n        tags(search: $start, limit: 1000) {\n            tag\n            uses\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -110,10 +119,6 @@ export function graphql(source: "\n    fragment MeFragment on User {\n        na
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query getMe {\n        me {\n            ...MeFragment\n        }\n    }\n"): (typeof documents)["\n    query getMe {\n        me {\n            ...MeFragment\n        }\n    }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n    mutation login($name: String!, $pass: String!) {\n        login(name: $name, pass: $pass) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation login($name: String!, $pass: String!) {\n        login(name: $name, pass: $pass) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

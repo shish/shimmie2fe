@@ -9,7 +9,7 @@ describe('test', () => {
   it('navbar', () => {
     cy.mount(<Header />)
     cy.get('[data-cy="hamburger"]').click()
-    cy.contains("Upload") // FIXME: only if user has permission
+    cy.contains("Upload")
     cy.contains("Comments")
   })
 

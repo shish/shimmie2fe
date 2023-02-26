@@ -2,9 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { Form, Link } from "react-router-dom";
 import { serverInfo } from "../../../utils";
 import { useLocation } from "react-router-dom";
-import { UserContext } from '../../../providers/LoginProvider';
+import { GET_ME, ME_FRAGMENT, UserContext } from '../../../providers/LoginProvider';
 import { Permission } from "../../../gql/graphql";
 import { useSearchParams } from "react-router-dom";
+import { useFragment as fragCast } from "../../../gql/fragment-masking";
 
 import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 import { ReactComponent as BarsIcon } from "./bars.svg";
@@ -12,6 +13,20 @@ import { ReactComponent as UserIcon } from "./user.svg";
 import { ReactComponent as MagnifiyingGlassIcon } from "./magnifying-glass.svg";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
+import { useMutation } from "@apollo/client";
+import { graphql } from "../../../gql";
+
+const LOGIN = graphql(`
+    mutation login($username: String!, $password: String!) {
+        login(username: $username, password: $password) {
+            user {
+                ...MeFragment
+            }
+            session
+            error
+        }
+    }
+`);
 
 enum Bars {
     NONE,
@@ -21,9 +36,10 @@ enum Bars {
 }
 
 function NavBar() {
+    const { can } = useContext(UserContext);
     return (
         <div className={css.nav}>
-            <Link to="/upload">Upload</Link>
+            {can(Permission.CreateImage) && <Link to="/upload">Upload</Link>}
             <Link to="/comments">Comments</Link>
             <Link to="/tags/map">Tags</Link>
             <Link to="/wiki/Index">Wiki</Link>
@@ -51,23 +67,41 @@ function UserBar({ setBar }: { setBar: CallableFunction }) {
 }
 
 function LoginBar({ setBar }: { setBar: CallableFunction }) {
-    const { login } = useContext(UserContext);
     const [name, setName] = useState("");
     const [pass, setPass] = useState("");
+    const [login, q] = useMutation(LOGIN, {
+        update: (cache, { data }) => {
+            if (!data) { console.log("Login returned no data"); return; }
+            const user = fragCast(ME_FRAGMENT, data.login.user);
 
-    // FIXME: display UserContext.login_error
+            if (user.name && data.login.session) {
+                localStorage.setItem(
+                    "session",
+                    user.name + ":" + data.login.session,
+                );
+            }
+            cache.writeQuery({
+                query: GET_ME,
+                data: { me: data.login.user },
+            });
+            if(data.login.session) {
+                q.client.resetStore();
+                setBar(Bars.NONE);
+            }
+        },
+    });
+
     return (
         <form
             className={css.login}
             onSubmit={(e) => {
                 e.preventDefault();
-                login({
-                    variables: { name, pass },
-                    onCompleted: () => setBar(Bars.NONE),
-                });
+                login({variables: { username: name, password: pass }});
             }}
         >
             <span className={css.fill}></span>
+            {q.error && <span className="error">{q.error.message}</span>}
+            {q.data?.login.error && <span className="error">{q.data.login.error}</span>}
             <input
                 type="text"
                 value={name}
@@ -80,7 +114,7 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
                 placeholder="Password"
                 onChange={(e) => setPass(e.target.value)}
             />
-            <input type="submit" value="Log In" />
+            <input type="submit" value="Log In" disabled={q.loading} />
             <Link onClick={(e) => setBar(Bars.NONE)} to="/signup">
                 Sign Up
             </Link>

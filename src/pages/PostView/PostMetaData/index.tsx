@@ -90,7 +90,6 @@ export function PostMetaData({ post, postQ }: { post: PostMetadataFragmentFragme
         if(postQ) postQ.refetch();
     }
 
-    // FIXME: don't show edit button if user has no edit permissions
     return <Block className={css.metadata}>
         <table className="form">
             <tbody>

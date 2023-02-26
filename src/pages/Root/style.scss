@@ -2,7 +2,7 @@
   --page-bg: #ACE4A3;
   --block-bg: #ACE4A3;
   --block-border: #7EB977;
-  --block-width: 40em;
+  --block-width: 600px;
   --header-bg: #9CD493;
 }
 
@@ -66,11 +66,21 @@ TABLE.form {
   }
 }
 
-.block {
-  padding: .5em;
-  background: var(--block-bg);
-  border: 1px solid var(--block-border);    
+H3, .block {
+  width: 100%;
   max-width: var(--block-width);
+  border: 1px solid var(--block-border);  
+  padding: 0.5em;
+}
+H3 {
+  background-color: var(--header-bg);
+  margin-bottom: 0;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.block {
+  background: var(--block-bg);
 }
 
 .avatar {
@@ -78,4 +88,8 @@ TABLE.form {
   height: 100%;
   border: 1px solid var(--block-border);
   border-radius: .5em;
+}
+
+.error {
+  color: red;
 }

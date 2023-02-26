@@ -3,9 +3,16 @@ import { useRouteError } from "react-router-dom";
 import { Block } from "../../components/basics";
 
 export function ErrorPage(props: any) {
-    const routeError = useRouteError();
-    const error: any = props.error ?? routeError;
-    console.error(error);
+    let error: any = null;
+    try {
+        const routeError = useRouteError();
+        error = props.error ?? routeError;
+        console.error(error);    
+    } catch (e) {
+        console.log("Error in error handler:", e);
+        console.log("Original error:", props.error);
+        error = props.error;
+    }
 
     return (
         <article id="error-page">
@@ -13,7 +20,7 @@ export function ErrorPage(props: any) {
                 <h1>Oops!</h1>
                 <p>Sorry, an unexpected error has occurred.</p>
                 <p>
-                    <i>{error.statusText || error.message}</i>
+                    <i>{error && (error.statusText || error.message)}</i>
                 </p>
             </Block>
         </article>

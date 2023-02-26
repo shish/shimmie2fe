@@ -1,19 +1,17 @@
 /// <reference types="Cypress" />
 
+export {}
+
 describe('login cycle', () => {
-    it('signup', () => {
+    it('fail to log in', () => {
         cy.visit('/')
+        cy.contains("demo").should('not.exist')
+
         cy.get('[data-cy="user-icon"]').click()
-        cy.contains("Sign Up").click()
-
-        let name = "signupTest" + ((new Date()).getTime() % 1000000);
-        cy.get('[placeholder="User Name"]').type(name)
-        cy.get('[placeholder="Password"]').type(name)
-        cy.get('[placeholder="Repeat Password"]').type(name)
-        cy.get('[placeholder="Email"]').type(name+"@example.com")
-        cy.contains("Sign Up").click()
-
-        cy.contains(name);
+        cy.get('[placeholder="User Name"]').type("notexisting")
+        cy.get('[placeholder="Password"]').type("notexisting")
+        cy.get('[value="Log In"]').click()
+        cy.contains("No user found").should("exist")
     })
 
     it('login with button', () => {
@@ -24,7 +22,7 @@ describe('login cycle', () => {
         cy.get('[placeholder="User Name"]').type("demo")
         cy.get('[placeholder="Password"]').type("demo")
         cy.get('[value="Log In"]').click()
-        cy.contains("demo")
+        cy.contains("demo").should("exist")
     })
 
     it('login with enter', () => {
@@ -34,7 +32,7 @@ describe('login cycle', () => {
         cy.get('[data-cy="user-icon"]').click()
         cy.get('[placeholder="User Name"]').type("demo")
         cy.get('[placeholder="Password"]').type("demo{enter}")
-        cy.contains("demo")
+        cy.contains("demo").should("exist")
     })
 
     it('logout', () => {

@@ -1,14 +1,11 @@
 import React from "react";
-import { TypedDocumentNode, useQuery } from "@apollo/client";
-import { graphql, useFragment as fragCast } from "../../gql";
+import { useQuery } from "@apollo/client";
+import { graphql } from "../../gql";
 import { useSearchParams } from "react-router-dom";
 
-import { Block } from "../../components/basics";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { CommentList } from "../../components/CommentList";
-import { PostMedia, POST_MEDIA_FRAGMENT } from "../../components/PostMedia";
-import { PostMediaFragmentFragment } from "../../gql/graphql";
 import { absurl } from "../../utils";
 
 const GET_COMMENTED_POSTS = graphql(/* GraphQL */ `
@@ -56,6 +53,7 @@ export function Comments() {
                 <img
                     style={{maxWidth: tsize, maxHeight: tsize}}
                     className="block"
+                    alt="thumbnail"
                     src={absurl(post.thumb_link)}
                 />
                 <CommentList post_id={post.post_id} postQ={q} comments={post.comments} />
