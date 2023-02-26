@@ -1,4 +1,6 @@
-.parcel-cache
+.vscode
 node_modules
 dist
 build
+cypress/screenshots
+cypress/videos

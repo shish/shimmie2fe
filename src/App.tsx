@@ -5,13 +5,14 @@ import {
     InMemoryCache,
     HttpLink,
 } from "@apollo/client";
-import { MockedProvider } from "@apollo/client/testing";
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 
 import { router } from "./pages";
 import { serverInfo } from "./utils";
 import { LoginProvider } from "./providers/LoginProvider";
+import { ErrorBoundary } from "./pages/ErrorPage/ErrorPage";
 
 const createApolloClient = () => {
     const httpLink = new HttpLink({
@@ -39,21 +40,34 @@ const createApolloClient = () => {
     });
 };
 
+type AppProps = {
+    router: any,
+    client?: ApolloClient<any>,
+    mocks?: MockedResponse[],
+};
+
+export function AppWithMiddleware({ client, router, mocks }: AppProps) {
+    let app = <RouterProvider router={router} />;
+    app = <LoginProvider>{app}</LoginProvider>;
+    if(client) {
+        app = <ApolloProvider client={client}>{app}</ApolloProvider>;
+    }
+    else if(mocks) {
+        app = <MockedProvider mocks={mocks} addTypename={true}>{app}</MockedProvider>;
+    }
+    app = <ErrorBoundary>{app}</ErrorBoundary>;
+    app = <React.StrictMode>{app}</React.StrictMode>;
+    return app;
+}
+
 // Set up all the app scaffolding (login, router, etc) but only
 // holding a single component, for easy component testing
 export function DevApp({ component, mocks }: { component: any; mocks: any[] }) {
     const FAKE_EVENT = { name: "test event" };
-    const tree = (
-        <React.StrictMode>
-            <MockedProvider mocks={mocks} addTypename={true}>
-                <LoginProvider>{component}</LoginProvider>
-            </MockedProvider>
-        </React.StrictMode>
-    );
     const routes = [
         {
             path: "/events/:id",
-            element: tree,
+            element: component,
             loader: () => FAKE_EVENT,
         },
     ];
@@ -62,20 +76,11 @@ export function DevApp({ component, mocks }: { component: any; mocks: any[] }) {
         initialIndex: 1,
     });
 
-    // router on the outside so that it can handle errors from other middleware
-    return <RouterProvider router={router} />;
+    return <AppWithMiddleware mocks={mocks} router={router} />;
 }
 
 export function App() {
     const [client] = useState(createApolloClient());
 
-    return (
-        <React.StrictMode>
-            <ApolloProvider client={client}>
-                <LoginProvider>
-                    <RouterProvider router={router} />
-                </LoginProvider>
-            </ApolloProvider>
-        </React.StrictMode>
-    );
+    return <AppWithMiddleware client={client} router={router} />;
 }

@@ -51,7 +51,11 @@ export function TagsPage() {
         <article>
             <Block>
                 {initials.map((c) => (
-                    <div className={css.initial} onClick={(e) => goToLetter(c)}>
+                    <div
+                        className={css.initial}
+                        onClick={(e) => goToLetter(c)}
+                        data-cy-initial={c}
+                    >
                         <span>{c}</span>
                     </div>
                 ))}

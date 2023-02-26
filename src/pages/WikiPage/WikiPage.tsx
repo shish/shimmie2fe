@@ -43,6 +43,7 @@ export function WikiPage() {
 
     return (
         <article>
+            <h3>{page_title}</h3>
             <Block>
                 <BBCode>{page.body}</BBCode>
             </Block>
