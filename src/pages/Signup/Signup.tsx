@@ -20,7 +20,7 @@ const CREATE_USER = graphql(`
             email: $email
         ) {
             user {
-                ...MeFragment
+                ...UserLogin
             }
             session
             error

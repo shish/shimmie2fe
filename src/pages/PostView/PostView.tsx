@@ -13,8 +13,8 @@ const GET_POST = graphql(/* GraphQL */ `
         post(post_id: $post_id) {
             post_id
 
-            ...PostMediaFragment
-            ...PostMetadataFragment
+            ...PostMedia
+            ...PostMetadata
             comments {
                 ...CommentFragment
             }

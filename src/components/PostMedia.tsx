@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { graphql } from "../gql";
 import { absurl } from "../utils";
-import { PostMediaFragmentFragment } from "../gql/graphql";
+import { PostMediaFragment } from "../gql/graphql";
 
 export const POST_MEDIA_FRAGMENT = graphql(/* GraphQL */ `
-    fragment PostMediaFragment on Post {
+    fragment PostMedia on Post {
         mime
         image_link
     }
@@ -16,7 +16,7 @@ enum Scale {
     //FIT_WIDTH,
 }
 
-export function PostMedia({ post }: { post: PostMediaFragmentFragment }) {
+export function PostMedia({ post }: { post: PostMediaFragment }) {
     const [scale, setScale] = useState(Scale.FIT_BOTH);
 
     function updateScale() {

@@ -1,10 +1,20 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { graphql } from "../../../gql";
+import { PostThumbnailFragment } from "../../../gql/graphql";
 import { absurl } from "../../../utils";
 
 import css from "./ThumbnailGrid.module.scss";
 
-function Thumbnail({ post }: { post: any }) {
+export const POST_THUMBNAIL_FRAGMENT = graphql(/* GraphQL */ `
+    fragment PostThumbnail on Post {
+        post_id
+        tooltip
+        thumb_link
+    }
+`);
+
+function Thumbnail({ post }: { post: PostThumbnailFragment }) {
     const [searchParams] = useSearchParams();
     let link = "/post/" + post.post_id;
     if(searchParams.get("tags")) {
@@ -24,7 +34,7 @@ function Thumbnail({ post }: { post: any }) {
     );
 }
 
-export function ThumbnailGrid(props: { posts: Array<any> }) {
+export function ThumbnailGrid(props: { posts: Array<PostThumbnailFragment> }) {
     return (
         <div className={css.masonry}>
             {props.posts.map((post) => (

@@ -24,7 +24,7 @@ const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
             user {
-                ...MeFragment
+                ...UserLogin
             }
             session
             error
@@ -143,11 +143,12 @@ export function Header() {
 
     // search bits
     const [searchParams] = useSearchParams(); // , setSearchParams
-    const [search, setSearch] = useState(searchParams.get("tags") ?? "");
+    const searchTags = searchParams.get("tags") ?? "";
+    const [search, setSearch] = useState(searchTags);
     useEffect(() => {
         // When URL changes, update the search box to match
-        setSearch(searchParams.get("tags") ?? "")
-    }, [searchParams.get("tags")])
+        setSearch(searchTags)
+    }, [searchTags])
 
     // Overall bits
     const [bar, setBar] = useState(Bars.NONE);

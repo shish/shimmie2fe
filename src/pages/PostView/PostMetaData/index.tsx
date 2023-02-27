@@ -4,8 +4,8 @@ import { useMutation } from "@apollo/client";
 import { FormItem } from "../../../components/basics/FormItem";
 import {
     Permission,
-    PostMetadataFragmentFragment,
-    PostScoreFragmentFragment,
+    PostMetadataFragment,
+    PostScoreFragment,
 } from "../../../gql/graphql";
 
 import { UserName } from "../../../components/basics/UserName";
@@ -19,7 +19,7 @@ import css from "./PostMetaData.module.scss";
 import { UserContext } from "../../../providers/LoginProvider";
 
 export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
-    fragment PostMetadataFragment on Post {
+    fragment PostMetadata on Post {
         post_id
 
         owner {
@@ -33,13 +33,13 @@ export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
         info
         posted
 
-        ...PostScoreFragment
+        ...PostScore
     }
 `);
 
 // eslint-disable-next-line
 const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
-    fragment PostScoreFragment on Post {
+    fragment PostScore on Post {
         post_id
 
         score
@@ -57,7 +57,7 @@ function Voter({
     post,
     postQ,
 }: {
-    post: PostScoreFragmentFragment;
+    post: PostScoreFragment;
     postQ: any;
 }) {
     const { can } = useContext(UserContext);
@@ -98,7 +98,7 @@ export function PostMetaData({
     post,
     postQ,
 }: {
-    post: PostMetadataFragmentFragment;
+    post: PostMetadataFragment;
     postQ: any;
 }) {
     const { can } = useContext(UserContext);

@@ -17,20 +17,21 @@ const documents = {
     "\n    fragment CommentFragment on Comment {\n        comment_id\n        owner {\n            name\n            avatar_url\n        }\n        comment\n    }\n": types.CommentFragmentFragmentDoc,
     "\n    mutation createComment($post_id: Int!, $comment: String!) {\n        create_comment(post_id: $post_id, comment: $comment)\n    }\n": types.CreateCommentDocument,
     "\n    mutation createPrivateMessage(\n        $to_user_id: Int!\n        $subject: String!\n        $message: String!\n    ) {\n        create_private_message(\n            to_user_id: $to_user_id\n            subject: $subject\n            message: $message\n        )\n    }\n": types.CreatePrivateMessageDocument,
-    "\n    fragment PostMediaFragment on Post {\n        mime\n        image_link\n    }\n": types.PostMediaFragmentFragmentDoc,
-    "\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMediaFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetCommentedPostsDocument,
-    "\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tooltip\n            width\n            height\n        }\n    }\n": types.GetPostsDocument,
-    "\n    fragment PostMetadataFragment on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScoreFragment\n    }\n": types.PostMetadataFragmentFragmentDoc,
-    "\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n": types.PostScoreFragmentFragmentDoc,
+    "\n    fragment PostMedia on Post {\n        mime\n        image_link\n    }\n": types.PostMediaFragmentDoc,
+    "\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMedia\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetCommentedPostsDocument,
+    "\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            ...PostThumbnail\n        }\n    }\n": types.GetPostsDocument,
+    "\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n    }\n": types.PostThumbnailFragmentDoc,
+    "\n    fragment PostMetadata on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScore\n    }\n": types.PostMetadataFragmentDoc,
+    "\n    fragment PostScore on Post {\n        post_id\n\n        score\n        my_vote\n    }\n": types.PostScoreFragmentDoc,
     "\n    mutation createVote($post_id: Int!, $score: Int!) {\n        create_vote(post_id: $post_id, score: $score)\n    }\n": types.CreateVoteDocument,
-    "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMediaFragment\n            ...PostMetadataFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetPostDocument,
-    "\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n": types.LoginDocument,
-    "\n    mutation createUser(\n        $username: String!\n        $password1: String!\n        $password2: String!\n        $email: String!\n    ) {\n        create_user(\n            username: $username\n            password1: $password1\n            password2: $password2\n            email: $email\n        ) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n": types.CreateUserDocument,
+    "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMedia\n            ...PostMetadata\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetPostDocument,
+    "\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...UserLogin\n            }\n            session\n            error\n        }\n    }\n": types.LoginDocument,
+    "\n    mutation createUser(\n        $username: String!\n        $password1: String!\n        $password2: String!\n        $email: String!\n    ) {\n        create_user(\n            username: $username\n            password1: $password1\n            password2: $password2\n            email: $email\n        ) {\n            user {\n                ...UserLogin\n            }\n            session\n            error\n        }\n    }\n": types.CreateUserDocument,
     "\n    query getAllTags($start: String!) {\n        tags(search: $start, limit: 1000) {\n            tag\n            uses\n        }\n    }\n": types.GetAllTagsDocument,
     "\n    query getUser($user: String!) {\n        user(name: $user) {\n            user_id\n            name\n            join_date\n            avatar_url\n        }\n    }\n": types.GetUserDocument,
     "\n    query getWiki($title: String!) {\n        wiki(title: $title) {\n            title\n            body\n            revision\n            date\n            owner {\n                name\n            }\n        }\n    }\n": types.GetWikiDocument,
-    "\n    fragment MeFragment on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n": types.MeFragmentFragmentDoc,
-    "\n    query getMe {\n        me {\n            ...MeFragment\n        }\n    }\n": types.GetMeDocument,
+    "\n    fragment UserLogin on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n": types.UserLoginFragmentDoc,
+    "\n    query getMe {\n        me {\n            ...UserLogin\n        }\n    }\n": types.GetMeDocument,
 };
 
 /**
@@ -66,23 +67,27 @@ export function graphql(source: "\n    mutation createPrivateMessage(\n        $
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment PostMediaFragment on Post {\n        mime\n        image_link\n    }\n"): (typeof documents)["\n    fragment PostMediaFragment on Post {\n        mime\n        image_link\n    }\n"];
+export function graphql(source: "\n    fragment PostMedia on Post {\n        mime\n        image_link\n    }\n"): (typeof documents)["\n    fragment PostMedia on Post {\n        mime\n        image_link\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMediaFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMediaFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
+export function graphql(source: "\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMedia\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMedia\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tooltip\n            width\n            height\n        }\n    }\n"): (typeof documents)["\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tooltip\n            width\n            height\n        }\n    }\n"];
+export function graphql(source: "\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            ...PostThumbnail\n        }\n    }\n"): (typeof documents)["\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            ...PostThumbnail\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment PostMetadataFragment on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScoreFragment\n    }\n"): (typeof documents)["\n    fragment PostMetadataFragment on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScoreFragment\n    }\n"];
+export function graphql(source: "\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n    }\n"): (typeof documents)["\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n"): (typeof documents)["\n    fragment PostScoreFragment on Post {\n        post_id\n\n        score\n        my_vote\n    }\n"];
+export function graphql(source: "\n    fragment PostMetadata on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScore\n    }\n"): (typeof documents)["\n    fragment PostMetadata on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScore\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment PostScore on Post {\n        post_id\n\n        score\n        my_vote\n    }\n"): (typeof documents)["\n    fragment PostScore on Post {\n        post_id\n\n        score\n        my_vote\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -90,15 +95,15 @@ export function graphql(source: "\n    mutation createVote($post_id: Int!, $scor
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMediaFragment\n            ...PostMetadataFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMediaFragment\n            ...PostMetadataFragment\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
+export function graphql(source: "\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMedia\n            ...PostMetadata\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"): (typeof documents)["\n    query getPost($post_id: Int!) {\n        post(post_id: $post_id) {\n            post_id\n\n            ...PostMedia\n            ...PostMetadata\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"];
+export function graphql(source: "\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...UserLogin\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            user {\n                ...UserLogin\n            }\n            session\n            error\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation createUser(\n        $username: String!\n        $password1: String!\n        $password2: String!\n        $email: String!\n    ) {\n        create_user(\n            username: $username\n            password1: $password1\n            password2: $password2\n            email: $email\n        ) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation createUser(\n        $username: String!\n        $password1: String!\n        $password2: String!\n        $email: String!\n    ) {\n        create_user(\n            username: $username\n            password1: $password1\n            password2: $password2\n            email: $email\n        ) {\n            user {\n                ...MeFragment\n            }\n            session\n            error\n        }\n    }\n"];
+export function graphql(source: "\n    mutation createUser(\n        $username: String!\n        $password1: String!\n        $password2: String!\n        $email: String!\n    ) {\n        create_user(\n            username: $username\n            password1: $password1\n            password2: $password2\n            email: $email\n        ) {\n            user {\n                ...UserLogin\n            }\n            session\n            error\n        }\n    }\n"): (typeof documents)["\n    mutation createUser(\n        $username: String!\n        $password1: String!\n        $password2: String!\n        $email: String!\n    ) {\n        create_user(\n            username: $username\n            password1: $password1\n            password2: $password2\n            email: $email\n        ) {\n            user {\n                ...UserLogin\n            }\n            session\n            error\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -114,11 +119,11 @@ export function graphql(source: "\n    query getWiki($title: String!) {\n       
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment MeFragment on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n"): (typeof documents)["\n    fragment MeFragment on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n"];
+export function graphql(source: "\n    fragment UserLogin on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n"): (typeof documents)["\n    fragment UserLogin on User {\n        name\n        private_message_unread_count\n        avatar_url\n        class {\n            permissions\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getMe {\n        me {\n            ...MeFragment\n        }\n    }\n"): (typeof documents)["\n    query getMe {\n        me {\n            ...MeFragment\n        }\n    }\n"];
+export function graphql(source: "\n    query getMe {\n        me {\n            ...UserLogin\n        }\n    }\n"): (typeof documents)["\n    query getMe {\n        me {\n            ...UserLogin\n        }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

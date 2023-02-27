@@ -4,10 +4,10 @@ import { graphql } from "../gql";
 import { useFragment as fragCast } from "../gql/fragment-masking";
 import { LoadingPage } from "../pages/LoadingPage/LoadingPage";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
-import { MeFragmentFragment, Permission } from "../gql/graphql";
+import { UserLoginFragment, Permission } from "../gql/graphql";
 
 export const ME_FRAGMENT = graphql(`
-    fragment MeFragment on User {
+    fragment UserLogin on User {
         name
         private_message_unread_count
         avatar_url
@@ -20,13 +20,13 @@ export const ME_FRAGMENT = graphql(`
 export const GET_ME = graphql(`
     query getMe {
         me {
-            ...MeFragment
+            ...UserLogin
         }
     }
 `);
 
 type UserContextType = {
-    me: MeFragmentFragment;
+    me: UserLoginFragment;
     is_anon: boolean;
     logout: CallableFunction;
     can: CallableFunction;

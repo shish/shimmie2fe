@@ -14,7 +14,7 @@ const GET_COMMENTED_POSTS = graphql(/* GraphQL */ `
             post_id
             thumb_link
             tags
-            ...PostMediaFragment
+            ...PostMedia
             comments {
                 ...CommentFragment
             }

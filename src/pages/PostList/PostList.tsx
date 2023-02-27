@@ -1,9 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../../gql";
+import { graphql, useFragment as fragCast } from "../../gql";
 import { useSearchParams } from "react-router-dom";
 
-import { ThumbnailGrid } from "./ThumbnailGrid";
+import { POST_THUMBNAIL_FRAGMENT, ThumbnailGrid } from "./ThumbnailGrid";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { Block } from "../../components/basics";
@@ -11,11 +11,7 @@ import { Block } from "../../components/basics";
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($start: Int, $tags: [String!]) {
         posts(start: $start, limit: 48, tags: $tags) {
-            post_id
-            thumb_link
-            tooltip
-            width
-            height
+            ...PostThumbnail
         }
     }
 `);
@@ -44,13 +40,14 @@ export function PostList() {
         return <ErrorPage error={q.error} />;
     }
     let posts = q.data!.posts;
+    let post_thumbs = posts.map(p => fragCast(POST_THUMBNAIL_FRAGMENT, p));
 
     ///////////////////////////////////////////////////////////////////
     // Render
     return (
         <article>
             {posts.length > 0 ? (
-                <ThumbnailGrid posts={posts} />
+                <ThumbnailGrid posts={post_thumbs} />
             ) : (
                 <Block>
                     No posts tagged with <code>{tags.join(" ")}</code>
