@@ -25,7 +25,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write 'src/**/*.ts{,x}' --tab-width 4 --trailing-comma all"
+    "format": "prettier --write 'src/**/*.ts{,x}' --tab-width 4 --trailing-comma all",
+    "codegen": "graphql-codegen --watch",
+    "dev": "concurrently npm:start npm:test npm:codegen 'npx cypress open'"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +66,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "cypress": "^12.7.0",
     "prettier": "^2.8.4",
     "sass": "^1.58.3"

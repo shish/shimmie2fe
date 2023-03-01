@@ -4,12 +4,12 @@
 import React from "react";
 import { PostMetaData } from ".";
 import {
-    PostMetadataFragmentFragment,
-    PostScoreFragmentFragment,
+    PostMetadataFragment,
+    PostScoreFragment,
 } from "../../../gql/graphql";
 
 describe("test", () => {
-    const post: PostMetadataFragmentFragment & PostScoreFragmentFragment = {
+    const post: PostMetadataFragment & PostScoreFragment = {
         post_id: 123,
         tags: ["my", "test", "tags"],
         locked: false,
