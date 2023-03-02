@@ -19,7 +19,7 @@ export const POST_THUMBNAIL_FRAGMENT = graphql(/* GraphQL */ `
 function Thumbnail({ post }: { post: PostThumbnailFragment }) {
     const [searchParams] = useSearchParams();
     let link = "/post/" + post.post_id;
-    if(searchParams.get("tags")) {
+    if (searchParams.get("tags")) {
         link += "?tags=" + searchParams.get("tags");
     }
     return (

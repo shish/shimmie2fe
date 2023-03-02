@@ -28,7 +28,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
         },
         {
             validate: () => {
-                cy.contains("demo")
+                cy.contains(username).should('exist')
             }
         }
     )

@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { Autocomplete } from "../../components/Autocomplete/Autocomplete";
 import { Block, FormItem } from "../../components/basics";
+import { MaybeError } from "../../components/basics/MaybeError";
 import { human_size, serverInfo } from "../../utils";
 
 import css from "./Upload.module.scss";
@@ -231,11 +232,7 @@ export function Upload() {
                                                 setSource(n, e.target.value)
                                             }
                                         />
-                                        {file.error && (
-                                            <div className={css.error}>
-                                                {file.error}
-                                            </div>
-                                        )}
+                                        <MaybeError error={file.error} />
                                     </div>
                                     {file.data?.name &&
                                         thumbs[file.data?.name] && (

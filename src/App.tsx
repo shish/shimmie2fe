@@ -41,19 +41,22 @@ const createApolloClient = () => {
 };
 
 type AppProps = {
-    router: any,
-    client?: ApolloClient<any>,
-    mocks?: MockedResponse[],
+    router: any;
+    client?: ApolloClient<any>;
+    mocks?: MockedResponse[];
 };
 
 export function AppWithMiddleware({ client, router, mocks }: AppProps) {
     let app = <RouterProvider router={router} />;
     app = <LoginProvider>{app}</LoginProvider>;
-    if(client) {
+    if (client) {
         app = <ApolloProvider client={client}>{app}</ApolloProvider>;
-    }
-    else if(mocks) {
-        app = <MockedProvider mocks={mocks} addTypename={true}>{app}</MockedProvider>;
+    } else if (mocks) {
+        app = (
+            <MockedProvider mocks={mocks} addTypename={true}>
+                {app}
+            </MockedProvider>
+        );
     }
     app = <ErrorBoundary>{app}</ErrorBoundary>;
     app = <React.StrictMode>{app}</React.StrictMode>;

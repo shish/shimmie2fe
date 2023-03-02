@@ -5,6 +5,7 @@ import { Block, FormItem } from "../../components/basics";
 import { graphql } from "../../gql";
 import { GET_ME, ME_FRAGMENT } from "../../providers/LoginProvider";
 import { useFragment as fragCast } from "../../gql/fragment-masking";
+import { MaybeError } from "../../components/basics/MaybeError";
 
 const CREATE_USER = graphql(`
     mutation createUser(
@@ -108,14 +109,7 @@ export function Signup() {
                             required
                         />
                     </FormItem>
-                    {q.error && (
-                        <span className="error">{q.error.message}</span>
-                    )}
-                    {q.data?.create_user.error && (
-                        <span className="error">
-                            {q.data.create_user.error}
-                        </span>
-                    )}
+                    <MaybeError query={q} error={q.data?.create_user.error} />
                     <input type="submit" value="Sign Up" disabled={q.loading} />
                 </form>
             </Block>

@@ -40,7 +40,7 @@ export function PostList() {
         return <ErrorPage error={q.error} />;
     }
     let posts = q.data!.posts;
-    let post_thumbs = posts.map(p => fragCast(POST_THUMBNAIL_FRAGMENT, p));
+    let post_thumbs = posts.map((p) => fragCast(POST_THUMBNAIL_FRAGMENT, p));
 
     ///////////////////////////////////////////////////////////////////
     // Render

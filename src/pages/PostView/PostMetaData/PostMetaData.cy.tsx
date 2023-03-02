@@ -3,10 +3,7 @@
 
 import React from "react";
 import { PostMetaData } from ".";
-import {
-    PostMetadataFragment,
-    PostScoreFragment,
-} from "../../../gql/graphql";
+import { PostMetadataFragment, PostScoreFragment } from "../../../gql/graphql";
 
 describe("test", () => {
     const post: PostMetadataFragment & PostScoreFragment = {

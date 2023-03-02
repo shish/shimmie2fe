@@ -9,6 +9,7 @@ function AutocompleteHarness() {
     return <Autocomplete name="tags" value={value} onValue={setValue} />;
 }
 
+// FIXME: test error handling
 describe("test", () => {
     it("autocomplete", () => {
         const mocks = [

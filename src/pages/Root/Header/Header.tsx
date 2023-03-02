@@ -19,6 +19,7 @@ import css from "./Header.module.scss";
 import logo from "./logo.png";
 import { useMutation } from "@apollo/client";
 import { graphql } from "../../../gql";
+import { MaybeError } from "../../../components/basics/MaybeError";
 
 const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {
@@ -36,7 +37,6 @@ enum Bars {
     NONE,
     NAV,
     USER,
-    LOGIN,
 }
 
 function NavBar() {
@@ -114,10 +114,7 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
             }}
         >
             <span className={css.fill}></span>
-            {q.error && <span className="error">{q.error.message}</span>}
-            {q.data?.login.error && (
-                <span className="error">{q.data.login.error}</span>
-            )}
+            <MaybeError query={q} error={q.data?.login.error} />
             <input
                 type="text"
                 value={name}
@@ -147,8 +144,8 @@ export function Header() {
     const [search, setSearch] = useState(searchTags);
     useEffect(() => {
         // When URL changes, update the search box to match
-        setSearch(searchTags)
-    }, [searchTags])
+        setSearch(searchTags);
+    }, [searchTags]);
 
     // Overall bits
     const [bar, setBar] = useState(Bars.NONE);
@@ -189,7 +186,7 @@ export function Header() {
                     <>
                         <UserIcon
                             data-cy="user-icon"
-                            onClick={() => toggleBar(Bars.LOGIN)}
+                            onClick={() => toggleBar(Bars.USER)}
                         />
                     </>
                 ) : (
@@ -220,8 +217,12 @@ export function Header() {
                 )}
             </div>
             {bar === Bars.NAV && <NavBar />}
-            {bar === Bars.USER && <UserBar setBar={setBar} />}
-            {bar === Bars.LOGIN && <LoginBar setBar={setBar} />}
+            {bar === Bars.USER &&
+                (is_anon ? (
+                    <LoginBar setBar={setBar} />
+                ) : (
+                    <UserBar setBar={setBar} />
+                ))}
         </header>
     );
 }

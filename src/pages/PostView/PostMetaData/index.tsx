@@ -2,21 +2,17 @@ import React, { useContext, useState } from "react";
 import { graphql, useFragment as fragCast } from "../../../gql";
 import { useMutation } from "@apollo/client";
 import { FormItem } from "../../../components/basics/FormItem";
-import {
-    Permission,
-    PostMetadataFragment,
-    PostScoreFragment,
-} from "../../../gql/graphql";
+import { Permission, PostMetadataFragment } from "../../../gql/graphql";
 
 import { UserName } from "../../../components/basics/UserName";
 import { Tag } from "../../../components/basics/Tag";
 import { Block } from "../../../components/basics/Block";
 import { Avatar } from "../../../components/basics/Avatar";
 
-import { ReactComponent as ChevronUpIcon } from "./chevron-up.svg";
-import { ReactComponent as ChevronDownIcon } from "./chevron-down.svg";
 import css from "./PostMetaData.module.scss";
 import { UserContext } from "../../../providers/LoginProvider";
+import { MaybeError } from "../../../components/basics/MaybeError";
+import { POST_SCORE_FRAGMENT, Voter } from "../Voter/Voter";
 
 export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadata on Post {
@@ -36,63 +32,6 @@ export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
         ...PostScore
     }
 `);
-
-// eslint-disable-next-line
-const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
-    fragment PostScore on Post {
-        post_id
-
-        score
-        my_vote
-    }
-`);
-
-const CREATE_VOTE = graphql(`
-    mutation createVote($post_id: Int!, $score: Int!) {
-        create_vote(post_id: $post_id, score: $score)
-    }
-`);
-
-function Voter({
-    post,
-    postQ,
-}: {
-    post: PostScoreFragment;
-    postQ: any;
-}) {
-    const { can } = useContext(UserContext);
-    const [voted, setVoted] = useState(post.my_vote);
-    const [createVote] = useMutation(CREATE_VOTE);
-
-    function vote(score: number) {
-        setVoted(score);
-        createVote({
-            variables: { post_id: post.post_id, score: score },
-        });
-        postQ.refetch();
-    }
-
-    return can(Permission.CreateVote) ? (
-        <div className={css.voter}>
-            <ChevronUpIcon
-                className={voted === 1 ? css.voted : null}
-                onClick={() => vote(1)}
-            />
-            <span
-                className={voted === 0 ? css.voted : null}
-                onClick={() => vote(0)}
-            >
-                {post.score}
-            </span>
-            <ChevronDownIcon
-                className={voted === -1 ? css.voted : null}
-                onClick={() => vote(-1)}
-            />
-        </div>
-    ) : (
-        <span>{post.score}</span>
-    );
-}
 
 export function PostMetaData({
     post,

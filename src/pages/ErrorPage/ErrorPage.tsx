@@ -2,7 +2,10 @@ import React from "react";
 import { useRouteError } from "react-router-dom";
 import { Block } from "../../components/basics";
 
-export class ErrorBoundary extends React.Component<{children: any}, {error: any}> {
+export class ErrorBoundary extends React.Component<
+    { children: any },
+    { error: any }
+> {
     constructor(props: any) {
         super(props);
         this.state = {
