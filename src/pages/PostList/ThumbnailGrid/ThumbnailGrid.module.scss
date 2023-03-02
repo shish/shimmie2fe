@@ -17,7 +17,9 @@
     .thumbnail {
         IMG {
             max-width: 100%;
-            max-height: 50vw;
+            max-height: 150px;
+            height: auto;
+            object-fit: contain;
         }
     }
 }
@@ -28,7 +30,8 @@
         IMG {
             object-fit: cover;
             width: 100%;
-            max-height: 50vw;
+            max-height: 150px;
+            height: auto;
             border: 1px solid var(--block-border);
         }
     }

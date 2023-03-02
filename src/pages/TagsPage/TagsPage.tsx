@@ -22,7 +22,7 @@ export function TagsPage() {
     // let { layout } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const q = useQuery(GET_ALL_TAGS, {
-        variables: { start: searchParams.get("starts_with") ?? "t" },
+        variables: { start: searchParams.get("starts_with") ?? "a" },
     });
 
     ///////////////////////////////////////////////////////////////////

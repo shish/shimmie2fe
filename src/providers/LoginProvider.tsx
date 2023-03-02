@@ -32,15 +32,17 @@ type UserContextType = {
     can: CallableFunction;
 };
 
-export const UserContext = React.createContext<UserContextType>({
-    me: {
-        name: "Anonymous",
-        private_message_unread_count: 0,
-        avatar_url: null,
-        class: {
-            permissions: [],
-        },
+const defaultUser: UserLoginFragment = {
+    name: "Anonymous",
+    private_message_unread_count: null,
+    avatar_url: null,
+    class: {
+        permissions: [],
     },
+};
+
+export const UserContext = React.createContext<UserContextType>({
+    me: defaultUser,
     is_anon: true,
     logout: () => {},
     can: (action: string): boolean => {
@@ -51,13 +53,10 @@ export const UserContext = React.createContext<UserContextType>({
 export function LoginProvider(props: any) {
     const q = useQuery(GET_ME, { pollInterval: 10 * 1000 });
 
-    if (q.loading) {
-        return <LoadingPage />;
-    }
     if (q.error) {
         return <ErrorPage error={q.error} />;
     }
-    const me = fragCast(ME_FRAGMENT, q!.data!.me);
+    const me = q.loading ? defaultUser : fragCast(ME_FRAGMENT, q.data!.me!);
     const is_anon = me.name === "Anonymous";
 
     function logout() {

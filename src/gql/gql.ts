@@ -20,7 +20,7 @@ const documents = {
     "\n    fragment PostMedia on Post {\n        mime\n        image_link\n    }\n": types.PostMediaFragmentDoc,
     "\n    query getCommentedPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            post_id\n            thumb_link\n            tags\n            ...PostMedia\n            comments {\n                ...CommentFragment\n            }\n        }\n    }\n": types.GetCommentedPostsDocument,
     "\n    query getPosts($start: Int, $tags: [String!]) {\n        posts(start: $start, limit: 48, tags: $tags) {\n            ...PostThumbnail\n        }\n    }\n": types.GetPostsDocument,
-    "\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n    }\n": types.PostThumbnailFragmentDoc,
+    "\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n        width\n        height\n    }\n": types.PostThumbnailFragmentDoc,
     "\n    fragment PostMetadata on Post {\n        post_id\n\n        owner {\n            name\n            avatar_url\n        }\n\n        tags\n        source\n        locked\n        info\n        posted\n\n        ...PostScore\n    }\n": types.PostMetadataFragmentDoc,
     "\n    fragment PostScore on Post {\n        post_id\n\n        score\n        my_vote\n    }\n": types.PostScoreFragmentDoc,
     "\n    mutation createVote($post_id: Int!, $score: Int!) {\n        create_vote(post_id: $post_id, score: $score)\n    }\n": types.CreateVoteDocument,
@@ -79,7 +79,7 @@ export function graphql(source: "\n    query getPosts($start: Int, $tags: [Strin
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n    }\n"): (typeof documents)["\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n    }\n"];
+export function graphql(source: "\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n        width\n        height\n    }\n"): (typeof documents)["\n    fragment PostThumbnail on Post {\n        post_id\n        tooltip\n        thumb_link\n        width\n        height\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

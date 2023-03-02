@@ -11,6 +11,8 @@ export const POST_THUMBNAIL_FRAGMENT = graphql(/* GraphQL */ `
         post_id
         tooltip
         thumb_link
+        width
+        height
     }
 `);
 
@@ -26,9 +28,8 @@ function Thumbnail({ post }: { post: PostThumbnailFragment }) {
                 alt={post.tooltip}
                 title={post.tooltip}
                 src={absurl(post.thumb_link)}
-                // FIXME: set aspect ratio?
-                // width={post!.width}
-                // height={post!.height}
+                width={post.width}
+                height={post.height}
             />
         </Link>
     );
@@ -36,7 +37,7 @@ function Thumbnail({ post }: { post: PostThumbnailFragment }) {
 
 export function ThumbnailGrid(props: { posts: Array<PostThumbnailFragment> }) {
     return (
-        <div className={css.masonry}>
+        <div className={css.grid}>
             {props.posts.map((post) => (
                 <Thumbnail key={post.post_id} post={post} />
             ))}
