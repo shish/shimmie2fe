@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 /// <reference path="../../../cypress/support/component.ts" />
 
-import React, { useState } from "react";
+import React from "react";
 import { PostMedia } from "./PostMedia";
 
 
@@ -23,6 +23,15 @@ describe("PostMedia", () => {
         };
         cy.mount(<PostMedia post={post} />);
         cy.get('video[data-cy="media"]').should("exist");
+    });
+
+    it("Renders Error", () => {
+        const post = {
+            mime: "text/html",
+            image_link: "https://example.com"
+        };
+        cy.mount(<PostMedia post={post} />);
+        cy.get('[data-cy="media"]').should("not.exist");
     });
 
     it("playground", () => {

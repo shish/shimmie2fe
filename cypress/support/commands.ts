@@ -2,6 +2,9 @@
 
 export {};
 
+// Add before-all / after-all coverage hooks
+import '@cypress/code-coverage/support'
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
