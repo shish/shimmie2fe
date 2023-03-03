@@ -6,7 +6,7 @@ import { CommentList } from "../../components/CommentList";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { PostMetaData, POST_METADATA_FRAGMENT } from "./PostMetaData";
-import { PostMedia, POST_MEDIA_FRAGMENT } from "../../components/PostMedia";
+import { PostMedia, POST_MEDIA_FRAGMENT } from "../../components/PostMedia/PostMedia";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {

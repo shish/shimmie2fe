@@ -4,3 +4,5 @@ dist
 build
 cypress/screenshots
 cypress/videos
+coverage
+.nyc_output

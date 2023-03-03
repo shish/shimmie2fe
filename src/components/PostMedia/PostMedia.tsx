@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { graphql } from "../gql";
-import { absurl } from "../utils";
-import { PostMediaFragment } from "../gql/graphql";
+import { graphql } from "../../gql";
+import { absurl } from "../../utils";
+import { PostMediaFragment } from "../../gql/graphql";
 
 export const POST_MEDIA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMedia on Post {
@@ -48,6 +48,7 @@ export function PostMedia({ post }: { post: PostMediaFragment }) {
                 style={style}
                 onClick={updateScale}
                 className="block"
+                data-cy="media"
             />
         );
     } else if (post.mime!.startsWith("video/")) {
@@ -57,6 +58,7 @@ export function PostMedia({ post }: { post: PostMediaFragment }) {
                 style={{ display: "block", width: "100%" }}
                 controls={true}
                 className="block"
+                data-cy="media"
             />
         );
     } else {
