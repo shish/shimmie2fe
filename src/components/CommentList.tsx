@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import { FragmentType, useFragment } from "../gql/fragment-masking";
 import { UserContext } from "../providers/LoginProvider";
 import { Permission } from "../gql/graphql";
-import { BBCode, Block, UserName } from "./basics";
+import { BBCode, Block, Submit, UserName } from "./basics";
 import { MaybeError } from "./basics/MaybeError";
 
 export const COMMENT_FRAGMENT = graphql(/* GraphQL */ `
@@ -39,6 +39,7 @@ function CommentComposer({ post_id, postQ }: { post_id: number; postQ: any }) {
     const [comment, setComment] = useState("");
     const [createComment, q] = useMutation(CREATE_COMMENT, {
         update: (cache, { data }) => {
+            // FIXME: append to local comment list
             postQ.refetch();
         },
     });
@@ -60,10 +61,11 @@ function CommentComposer({ post_id, postQ }: { post_id: number; postQ: any }) {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                 />
-                <input
-                    type="submit"
-                    value="Post Comment"
-                    disabled={q.loading}
+                <Submit
+                    passive={"Post Comment"}
+                    active={"Posting Comment"}
+                    query={q}
+                    condition={comment !== ""}
                 />
             </form>
         )

@@ -3,10 +3,21 @@ import { Link } from "react-router-dom";
 
 import { Avatar } from "../../../components/basics/Avatar";
 import { Block } from "../../../components/basics/Block";
+import { graphql } from "../../../gql";
+import { UserInfoFragment } from "../../../gql/graphql";
 
 import css from "./UserInfo.module.scss";
 
-export function UserInfo({ user }: { user: any }) {
+export const USER_INFO_FRAGMENT = graphql(/* GraphQL */ `
+    fragment UserInfo on User {
+        user_id
+        name
+        join_date
+        avatar_url
+    }
+`);
+
+export function UserInfo({ user }: { user: UserInfoFragment }) {
     return (
         <Block className={css.userInfo}>
             <div>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { graphql, useFragment as fragCast } from "../../../gql";
+import { graphql } from "../../../gql";
 import { useMutation } from "@apollo/client";
 import { Permission, PostScoreFragment } from "../../../gql/graphql";
 
@@ -7,7 +7,7 @@ import { ReactComponent as ChevronUpIcon } from "./chevron-up.svg";
 import { ReactComponent as ChevronDownIcon } from "./chevron-down.svg";
 import css from "./Voter.module.scss";
 import { UserContext } from "../../../providers/LoginProvider";
-import { MaybeError } from "../../../components/basics/MaybeError";
+import { MaybeError } from "../../../components/basics";
 
 export const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostScore on Post {

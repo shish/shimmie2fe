@@ -1,7 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { Autocomplete } from "../../components/Autocomplete/Autocomplete";
-import { Block, FormItem } from "../../components/basics";
-import { MaybeError } from "../../components/basics/MaybeError";
+import { Block, FormItem, MaybeError, Submit } from "../../components/basics";
 import { human_size, serverInfo } from "../../utils";
 
 import css from "./Upload.module.scss";
@@ -270,17 +269,16 @@ export function Upload() {
                                     }}
                                 />
                             </div>
+                            <div style={{textAlign: "center", marginTop: "0.5em"}}>
+                                <i>or drag & drop onto this window</i>
+                            </div>
                         </FormItem>
-                        <input
-                            type="submit"
-                            value={
-                                files.length === 0
-                                    ? "No files selected"
-                                    : uploading
-                                    ? "Upload in progress..."
-                                    : "Upload"
-                            }
-                            disabled={files.length === 0 || uploading}
+                        <Submit
+                            passive={"Upload"}
+                            active={"Upload in progress..."}
+                            inactive={"No files selected"}
+                            query={{ loading: uploading }}
+                            condition={files.length > 0}
                         />
                         {error}
                     </form>

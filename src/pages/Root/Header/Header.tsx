@@ -19,7 +19,7 @@ import css from "./Header.module.scss";
 import logo from "./logo.png";
 import { useMutation } from "@apollo/client";
 import { graphql } from "../../../gql";
-import { MaybeError } from "../../../components/basics/MaybeError";
+import { MaybeError, Submit } from "../../../components/basics";
 
 const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {
@@ -127,7 +127,12 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
                 placeholder="Password"
                 onChange={(e) => setPass(e.target.value)}
             />
-            <input type="submit" value="Log In" disabled={q.loading} />
+            <Submit
+                passive={"Log In"}
+                active={"Logging In"}
+                query={q}
+                condition={name !== "" && pass !== ""}
+            />
             <Link onClick={(e) => setBar(Bars.NONE)} to="/signup">
                 Sign Up
             </Link>

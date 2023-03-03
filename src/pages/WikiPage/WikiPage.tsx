@@ -41,6 +41,7 @@ export function WikiPage() {
     // Render
     const page = q.data!.wiki;
 
+    // FIXME: include navbar content
     return (
         <article>
             <h3>{page_title}</h3>

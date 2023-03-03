@@ -4,7 +4,6 @@ import { graphql } from "../../gql";
 import { useSearchParams } from "react-router-dom";
 import { Block, Tag } from "../../components/basics";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
-import { LoadingPage } from "../LoadingPage/LoadingPage";
 import css from "./TagsPage.module.scss";
 
 const GET_ALL_TAGS = graphql(`
@@ -27,49 +26,66 @@ export function TagsPage() {
 
     ///////////////////////////////////////////////////////////////////
     // Hook edge case handling
-    if (q.loading) {
-        return <LoadingPage />;
-    }
     if (q.error) {
         return <ErrorPage error={q.error} />;
     }
 
     ///////////////////////////////////////////////////////////////////
     // Render
-    const tags = q.data!.tags;
+    return (
+        <article>
+            <Nav
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+            />
+            {q.loading ? (
+                <Block>Loading...</Block>
+            ) : (
+                <Map tags={q.data!.tags} />
+            )}
+        </article>
+    );
+}
 
-    function usesToSize(uses: number): number {
-        return Math.max(Math.log(uses), 1);
-    }
+function Nav(props: { searchParams: any; setSearchParams: any }) {
     function goToLetter(c: string) {
-        let sp = searchParams;
+        let sp = props.searchParams;
         sp.set("starts_with", c);
-        setSearchParams(sp);
+        props.setSearchParams(sp);
     }
     const initials = "0123456789abcdefghijklmnopqrstuvwxyz".split("");
     return (
-        <article>
-            <Block>
-                {initials.map((c) => (
-                    <div
-                        className={css.initial}
-                        onClick={(e) => goToLetter(c)}
-                        data-cy-initial={c}
-                    >
-                        <span>{c}</span>
-                    </div>
-                ))}
-                <hr />
-                {tags.map((tag) => (
-                    <>
-                        <Tag
-                            key={tag.tag}
-                            tag={tag.tag}
-                            size={usesToSize(tag.uses)}
-                        />{" "}
-                    </>
-                ))}
-            </Block>
-        </article>
+        <Block>
+            {initials.map((c) => (
+                <div
+                    className={css.initial}
+                    onClick={(e) => goToLetter(c)}
+                    data-cy-initial={c}
+                >
+                    <span>{c}</span>
+                </div>
+            ))}
+        </Block>
+    );
+}
+
+type TagList = { tag: string; uses: number }[];
+
+function Map(props: { tags: TagList }) {
+    function usesToSize(uses: number): number {
+        return Math.max(Math.log(uses), 1);
+    }
+    return (
+        <Block>
+            {props.tags.map((tag) => (
+                <>
+                    <Tag
+                        key={tag.tag}
+                        tag={tag.tag}
+                        size={usesToSize(tag.uses)}
+                    />{" "}
+                </>
+            ))}
+        </Block>
     );
 }

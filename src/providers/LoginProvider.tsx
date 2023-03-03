@@ -2,7 +2,6 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { graphql } from "../gql";
 import { useFragment as fragCast } from "../gql/fragment-masking";
-import { LoadingPage } from "../pages/LoadingPage/LoadingPage";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 import { UserLoginFragment, Permission } from "../gql/graphql";
 

@@ -6,6 +6,7 @@ import { UserInfo } from ".";
 
 describe("test", () => {
     const user = {
+        user_id: 123,
         name: "BillyBob",
         avatar_url:
             "https://www.gravatar.com/avatar/fd4960ec4e2fde2de7d56dbdf5b00c1c.jpg?s=80&d=&r=g&cacheBreak=2023-02-19",

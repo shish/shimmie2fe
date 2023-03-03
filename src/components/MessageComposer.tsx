@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { UserContext } from "../providers/LoginProvider";
 import { graphql } from "../gql";
 import { Permission } from "../gql/graphql";
+import { MaybeError, Submit } from "./basics";
 
 const CREATE_PRIVATE_MESSAGE = graphql(/* GraphQL */ `
     mutation createPrivateMessage(
@@ -28,7 +29,7 @@ export function MessageComposer({
     const { can } = useContext(UserContext);
     const [subject_, setSubject] = useState<string>(subject ?? "");
     const [message, setMessage] = useState("");
-    const [createPrivateMessage] = useMutation(CREATE_PRIVATE_MESSAGE);
+    const [createPrivateMessage, q] = useMutation(CREATE_PRIVATE_MESSAGE);
 
     return (
         can(Permission.SendPm) && (
@@ -42,6 +43,7 @@ export function MessageComposer({
                     setMessage("");
                 }}
             >
+                <MaybeError query={q} />
                 {subject || (
                     <input
                         type="text"
@@ -55,7 +57,12 @@ export function MessageComposer({
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Message"
                 />
-                <input type="submit" value="Send" />
+                <Submit
+                    passive={"Send Message"}
+                    active={"Sending Message"}
+                    query={q}
+                    condition={message !== ""}
+                />
             </form>
         )
     );

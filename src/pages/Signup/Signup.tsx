@@ -1,11 +1,10 @@
 import { useMutation } from "@apollo/client";
 import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Block, FormItem } from "../../components/basics";
+import { Block, FormItem, MaybeError, Submit } from "../../components/basics";
 import { graphql } from "../../gql";
 import { GET_ME, ME_FRAGMENT } from "../../providers/LoginProvider";
 import { useFragment as fragCast } from "../../gql/fragment-masking";
-import { MaybeError } from "../../components/basics/MaybeError";
 
 const CREATE_USER = graphql(`
     mutation createUser(
@@ -110,7 +109,16 @@ export function Signup() {
                         />
                     </FormItem>
                     <MaybeError query={q} error={q.data?.create_user.error} />
-                    <input type="submit" value="Sign Up" disabled={q.loading} />
+                    <Submit
+                        passive={"Sign Up"}
+                        active={"Creating Account"}
+                        query={q}
+                        condition={
+                            username !== "" &&
+                            password1 !== "" &&
+                            password2 !== ""
+                        }
+                    />
                 </form>
             </Block>
         </article>

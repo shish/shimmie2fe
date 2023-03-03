@@ -27,7 +27,9 @@
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.ts{,x}' --tab-width 4 --trailing-comma all",
     "codegen": "graphql-codegen --watch",
-    "dev": "concurrently npm:start npm:test npm:codegen 'npx cypress open'"
+    "server": "cd ../shimmie2 && PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:8000 -q tests/router.php",
+    "cypress": "npx cypress open",
+    "dev": "concurrently npm:start npm:test npm:codegen npm:cypress npm:server"
   },
   "eslintConfig": {
     "extends": [

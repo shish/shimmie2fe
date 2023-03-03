@@ -5,15 +5,14 @@ import { useQuery } from "@apollo/client";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { MessageComposer } from "../../components/MessageComposer";
-import { UserInfo } from "./UserInfo";
+import { UserInfo, USER_INFO_FRAGMENT } from "./UserInfo";
+import { useFragment as fragCast } from "../../gql/fragment-masking";
 
 const GET_USER = graphql(`
     query getUser($user: String!) {
         user(name: $user) {
             user_id
-            name
-            join_date
-            avatar_url
+            ...UserInfo
         }
     }
 `);
@@ -41,7 +40,7 @@ export function UserPage() {
 
     return (
         <article>
-            <UserInfo user={user} />
+            <UserInfo user={fragCast(USER_INFO_FRAGMENT, user)} />
             <MessageComposer to_user_id={user.user_id} />
         </article>
     );

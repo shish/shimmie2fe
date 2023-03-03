@@ -5,14 +5,12 @@ import { FormItem } from "../../../components/basics/FormItem";
 import { Permission, PostMetadataFragment } from "../../../gql/graphql";
 
 import { UserName } from "../../../components/basics/UserName";
-import { Tag } from "../../../components/basics/Tag";
-import { Block } from "../../../components/basics/Block";
-import { Avatar } from "../../../components/basics/Avatar";
+import { Tag, Block, Avatar, MaybeError } from "../../../components/basics";
 
 import css from "./PostMetaData.module.scss";
 import { UserContext } from "../../../providers/LoginProvider";
-import { MaybeError } from "../../../components/basics/MaybeError";
 import { POST_SCORE_FRAGMENT, Voter } from "../Voter/Voter";
+import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 
 export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadata on Post {
@@ -33,6 +31,17 @@ export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     }
 `);
 
+const UPDATE_POST_METADATA = graphql(`
+    mutation updatePostMetadata($post_id: Int!, $metadata: MetadataInput!) {
+        update_post_metadata(post_id: $post_id, metadata: $metadata) {
+            id
+            post_id
+            tags
+            source
+        }
+    }
+`);
+
 export function PostMetaData({
     post,
     postQ,
@@ -44,11 +53,17 @@ export function PostMetaData({
     const [editing, setEditing] = useState<boolean>(false);
     const [tags, setTags] = useState(post.tags.join(" "));
     const [source, setSource] = useState(post.source || "");
+    const [updatePostMetadata, q] = useMutation(UPDATE_POST_METADATA, {
+        update: (cache, { data }) => {
+            postQ.refetch();
+        },
+    });
 
     function save() {
-        // FIXME: implement metadata setting
         setEditing(false);
-        if (postQ) postQ.refetch();
+        updatePostMetadata({
+            variables: { post_id: post.post_id, metadata: { tags, source } },
+        });
     }
 
     return (
@@ -69,13 +84,10 @@ export function PostMetaData({
                         <td>
                             <FormItem label="Tags">
                                 {editing ? (
-                                    <input
-                                        type="text"
+                                    <Autocomplete
                                         name="tags"
                                         value={tags}
-                                        onChange={(e) =>
-                                            setTags(e.target.value)
-                                        }
+                                        onValue={(v) => setTags(v)}
                                     />
                                 ) : (
                                     tags.split(" ").map((t) => (
@@ -123,6 +135,7 @@ export function PostMetaData({
                     {can(Permission.EditImageTag) && (
                         <tr>
                             <td colSpan={2}>
+                                <MaybeError query={q} />
                                 {post?.locked ? (
                                     <button disabled={true}>Locked</button>
                                 ) : editing ? (
