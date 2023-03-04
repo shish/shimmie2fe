@@ -28,9 +28,11 @@ Cypress.Commands.add('login', (username: string, password: string) => {
             cy.get('[placeholder="User Name"]').type(username)
             cy.get('[placeholder="Password"]').type(password)
             cy.get('[value="Log In"]').click()
+            cy.contains(username).should('exist')
         },
         {
             validate: () => {
+                cy.visit('/')
                 cy.contains(username).should('exist')
             }
         }
