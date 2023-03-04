@@ -8,6 +8,7 @@ import {
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 import { router } from "./pages";
 import { serverInfo } from "./utils";
@@ -36,7 +37,15 @@ const createApolloClient = () => {
 
     return new ApolloClient({
         link: authLink.concat(httpLink),
-        cache: new InMemoryCache(),
+        cache: new InMemoryCache({
+            typePolicies: {
+                Query: {
+                    fields: {
+                        posts: offsetLimitPagination(),
+                    }
+                },
+            },
+        }),
     });
 };
 

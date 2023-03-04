@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { graphql, useFragment as fragCast } from "../../gql";
 import { useSearchParams } from "react-router-dom";
@@ -7,10 +7,11 @@ import { POST_THUMBNAIL_FRAGMENT, ThumbnailGrid } from "./ThumbnailGrid";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { Block } from "../../components/basics";
+import { ScrollContext } from "../../providers/ScrollProvider";
 
 const GET_POSTS = graphql(/* GraphQL */ `
-    query getPosts($start: Int, $tags: [String!]) {
-        posts(start: $start, limit: 48, tags: $tags) {
+    query getPosts($offset: Int, $limit: Int, $tags: [String!]) {
+        posts(offset: $offset, limit: $limit, tags: $tags) {
             ...PostThumbnail
         }
     }
@@ -19,17 +20,48 @@ const GET_POSTS = graphql(/* GraphQL */ `
 export function PostList() {
     ///////////////////////////////////////////////////////////////////
     // Hooks
+    const { windowFull, nearBottom, body } = useContext(ScrollContext);
     // eslint-disable-next-line
     const [searchParams, _setSearchParams] = useSearchParams();
-    const page = parseInt(searchParams.get("page") ?? "1");
     const tags = searchParams.get("tags")?.split(" ") ?? [];
 
     const q = useQuery(GET_POSTS, {
         variables: {
-            start: (page - 1) * 48,
+            offset: 0,
+            limit: 12,
             tags: tags,
         },
+        onCompleted: (data) => {
+            // Keep loading more until we have enough thumbnails
+            // to fill up a screen. Note that this is counted
+            // _before_ rendering - so when we have enough thumbs
+            // to fill up a screen, we will first fetch more, then
+            // render this set of thumbs, then stop.
+            // TODO: circuit breaker to stop infinite loop?
+            /*
+            if(!windowFull) {
+                console.log("Window not full, fetching more", data.posts.length);
+                q.fetchMore({
+                    variables: {
+                        offset: data.posts.length
+                    },
+                })
+            }
+            */
+        }
     });
+    /*
+    useEffect(() => {
+        if(nearBottom && q.data?.posts) {
+            console.log("Near bottom, fetching more")
+            q.fetchMore({
+                variables: {
+                    offset: q.data?.posts.length
+                },
+            })
+        }
+    }, [nearBottom, q.data?.posts.length]);
+    */
 
     ///////////////////////////////////////////////////////////////////
     // Hook edge case handling
@@ -44,10 +76,18 @@ export function PostList() {
 
     ///////////////////////////////////////////////////////////////////
     // Render
+
     return (
         <article>
             {posts.length > 0 ? (
-                <ThumbnailGrid posts={post_thumbs} />
+                <ThumbnailGrid
+                    posts={post_thumbs}
+                    onLoadMore={() => q.fetchMore({
+                        variables: {
+                            offset: posts.length
+                        },
+                    })}
+                />
             ) : (
                 <Block>
                     No posts tagged with <code>{tags.join(" ")}</code>

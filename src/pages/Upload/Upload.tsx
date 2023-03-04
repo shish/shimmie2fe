@@ -52,29 +52,34 @@ export function Upload() {
             addFiles(e.dataTransfer.files);
         }
     }
-    function addFiles(fs: FileList) {
+    function addFiles(added_files: FileList) {
         let new_files = [...files];
-        for (let i = 0; i < fs.length; i++) {
+        // added_files spontaneously becomes empty at some point, so let's
+        // fetch all the data into our own storage ASAP, and then process
+        // our own storage.
+        for (let i = 0; i < added_files.length; i++) {
             let fd: FileState = {
-                data: fs[i],
+                data: added_files[i],
                 tags: "",
                 source: "",
             };
             new_files.push(fd);
-            if (fs[i].type.startsWith("image/")) {
+        }
+        new_files.forEach((fd) => {
+            if (fd.data && fd.data.type.startsWith("image/") && thumbs[fd.data.name] === undefined) {
                 let fr = new FileReader();
                 fr.onload = function () {
                     setThumbs((thumbs) => {
                         let new_thumbs = { ...thumbs };
-                        if (fr.result) {
-                            new_thumbs[fs[i].name] = fr.result?.toString();
+                        if (fr.result && fd.data) {
+                            new_thumbs[fd.data.name] = fr.result?.toString();
                         }
                         return new_thumbs;
                     });
                 };
-                fr.readAsDataURL(fs[i]);
+                fr.readAsDataURL(fd.data);
             }
-        }
+        });
         setFiles(new_files);
     }
 

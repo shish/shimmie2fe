@@ -35,12 +35,14 @@ function Thumbnail({ post }: { post: PostThumbnailFragment }) {
     );
 }
 
-export function ThumbnailGrid(props: { posts: Array<PostThumbnailFragment> }) {
+export function ThumbnailGrid(props: { posts: Array<PostThumbnailFragment>, onLoadMore?: CallableFunction }) {
+    const olm = props.onLoadMore;
     return (
         <div className={css.grid}>
             {props.posts.map((post) => (
                 <Thumbnail key={post.post_id} post={post} />
             ))}
+            {olm && <div onClick={() => olm()}>Load More</div>}
         </div>
     );
 }

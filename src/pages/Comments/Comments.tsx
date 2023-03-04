@@ -9,8 +9,8 @@ import { CommentList } from "../../components/CommentList";
 import { absurl } from "../../utils";
 
 const GET_COMMENTED_POSTS = graphql(/* GraphQL */ `
-    query getCommentedPosts($start: Int, $tags: [String!]) {
-        posts(start: $start, limit: 48, tags: $tags) {
+    query getCommentedPosts($offset: Int, $tags: [String!]) {
+        posts(offset: $offset, limit: 48, tags: $tags) {
             post_id
             thumb_link
             tags
@@ -27,7 +27,7 @@ export function Comments() {
     const page = parseInt(searchParams.get("page") ?? "1");
     const q = useQuery(GET_COMMENTED_POSTS, {
         variables: {
-            start: (page - 1) * 48,
+            offset: (page - 1) * 48,
             tags: [],
         },
     });

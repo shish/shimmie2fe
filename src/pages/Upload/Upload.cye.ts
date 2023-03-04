@@ -9,6 +9,7 @@ describe("upload", () => {
     beforeEach(() => {
         cy.login("demo", "demo");
         cy.visit("/upload");
+        cy.contains("demo").should('exist')
     });
 
     it("nothing to upload", () => {
@@ -16,17 +17,20 @@ describe("upload", () => {
     });
     it("add one image", () => {
         cy.get('input[type="file"]').selectFile(f1);
+        cy.wait(250)  // 
         cy.get('input[type="submit"]').should("not.be.disabled");
         cy.get("article img").should("exist");
     });
     it("add multiple image", () => {
         cy.get('input[type="file"]').selectFile([f1, f2]);
+        cy.wait(250)  // 
         cy.get('input[type="submit"]').should("not.be.disabled");
         cy.get("article img").eq(1).should("exist");
         cy.get("article img").eq(2).should("not.exist");
     });
     it("drag & drop multiple images", () => {
         cy.get("article").selectFile([f1, f2], { action: "drag-drop" });
+        cy.wait(250)  // 
         cy.get('input[type="submit"]').should("not.be.disabled");
         cy.get("article img").eq(1).should("exist");
         cy.get("article img").eq(2).should("not.exist");
@@ -37,6 +41,7 @@ describe("upload", () => {
             fileName: "file.txt",
             lastModified: Date.now(),
         });
+        cy.wait(250)  // 
         cy.get('input[type="submit"]').should("not.be.disabled");
         cy.get("article img").should("not.exist");
     });
