@@ -16,9 +16,12 @@ export const ScrollContext = React.createContext<ScrollContextType>({
     body: null,
 });
 
+// Using a global variable instead of useState because
+// setState causes everything to be rerendered, using
+// a lot of CPU
+let prevScroll = 0;
 export function ScrollProvider(props: any) {
     const containerRef = useRef<HTMLInputElement>(null);
-    const [prevScroll, setPrevScroll] = useState(0);
     const [down, setDown] = useState(false);
     const [windowFull, setWindowFull] = useState(false);
     const [nearBottom, setNearBottom] = useState(false);
@@ -27,7 +30,7 @@ export function ScrollProvider(props: any) {
     const onScroll = (event: UIEvent) => {
         const el = event.target as HTMLElement;
         setDown(el.scrollTop > prevScroll);
-        setPrevScroll(el.scrollTop);
+        prevScroll = el.scrollTop;
     };
 
     /*
