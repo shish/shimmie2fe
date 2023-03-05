@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { graphql } from "../../gql";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { get_word, replace_word } from "../../utils";
+import { useDebounce } from "../../hooks";
 
 import css from "./Autocomplete.module.scss";
 
@@ -18,16 +19,10 @@ function CompletionsBar(props: {
     start: string;
     setSearchPart: CallableFunction;
 }) {
-    const [go, compQ] = useLazyQuery(GET_TAGS, {
-        variables: { start: props.start },
+    const dbStart = useDebounce(props.start, 500);
+    const compQ = useQuery(GET_TAGS, {
+        variables: { start: dbStart },
     });
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            go();
-        }, 500);
-        return () => clearTimeout(timer);
-    }, [go, props.start]);
 
     if (compQ.loading) {
         return <></>;
