@@ -41,7 +41,7 @@ const createApolloClient = () => {
             typePolicies: {
                 Query: {
                     fields: {
-                        posts: offsetLimitPagination(),
+                        posts: offsetLimitPagination(["tags"]),
                     }
                 },
             },
