@@ -1,11 +1,13 @@
 import React from "react";
-import { describe, expect, test } from 'vitest'
-import ReactDOMServer from 'react-dom/server';
+import { describe, expect, test } from "vitest";
+import ReactDOMServer from "react-dom/server";
 import { BBCode } from "./BBCode";
 
 function t(bb: any, exp: any) {
     const r1 = ReactDOMServer.renderToString(<BBCode>{bb}</BBCode>);
-    const r2 = ReactDOMServer.renderToString(<span style={{overflowWrap: "anywhere"}}>{exp}</span>);
+    const r2 = ReactDOMServer.renderToString(
+        <span style={{ overflowWrap: "anywhere" }}>{exp}</span>,
+    );
     expect(r1).toEqual(r2);
 }
 

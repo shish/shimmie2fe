@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test } from "vitest";
 import * as u from "./utils";
 
 describe("get_word", () => {

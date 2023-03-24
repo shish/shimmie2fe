@@ -20,7 +20,8 @@ const GET_POSTS = graphql(/* GraphQL */ `
 export function PostList() {
     ///////////////////////////////////////////////////////////////////
     // Hooks
-    const { windowFull, nearBottom, scrollContentRef } = useContext(ScrollContext);
+    const { windowFull, nearBottom, scrollContentRef } =
+        useContext(ScrollContext);
     // eslint-disable-next-line
     const [searchParams, _setSearchParams] = useSearchParams();
     const tags = searchParams.get("tags")?.split(" ") ?? [];
@@ -38,15 +39,18 @@ export function PostList() {
             // to fill up a screen, we will first fetch more, then
             // render this set of thumbs, then stop.
             // TODO: circuit breaker to stop infinite loop?
-            if(!windowFull) {
-                console.log("Window not full, fetching more", data.posts.length);
+            if (!windowFull) {
+                console.log(
+                    "Window not full, fetching more",
+                    data.posts.length,
+                );
                 q.fetchMore({
                     variables: {
-                        offset: data.posts.length
+                        offset: data.posts.length,
                     },
-                })
+                });
             }
-        }
+        },
     });
     /*
     useEffect(() => {
@@ -80,11 +84,13 @@ export function PostList() {
             {posts.length > 0 ? (
                 <ThumbnailGrid
                     posts={post_thumbs}
-                    onLoadMore={() => q.fetchMore({
-                        variables: {
-                            offset: posts.length
-                        },
-                    })}
+                    onLoadMore={() =>
+                        q.fetchMore({
+                            variables: {
+                                offset: posts.length,
+                            },
+                        })
+                    }
                 />
             ) : (
                 <Block>

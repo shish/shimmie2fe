@@ -66,7 +66,11 @@ export function Upload() {
             new_files.push(fd);
         }
         new_files.forEach((fd) => {
-            if (fd.data && fd.data.type.startsWith("image/") && thumbs[fd.data.name] === undefined) {
+            if (
+                fd.data &&
+                fd.data.type.startsWith("image/") &&
+                thumbs[fd.data.name] === undefined
+            ) {
                 let fr = new FileReader();
                 fr.onload = function () {
                     setThumbs((thumbs) => {
@@ -274,7 +278,12 @@ export function Upload() {
                                     }}
                                 />
                             </div>
-                            <div style={{textAlign: "center", marginTop: "0.5em"}}>
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                    marginTop: "0.5em",
+                                }}
+                            >
                                 <i>or drag & drop onto this window</i>
                             </div>
                         </FormItem>

@@ -42,7 +42,7 @@ const createApolloClient = () => {
                 Query: {
                     fields: {
                         posts: offsetLimitPagination(["tags"]),
-                    }
+                    },
                 },
             },
         }),

@@ -35,7 +35,10 @@ function Thumbnail({ post }: { post: PostThumbnailFragment }) {
     );
 }
 
-export function ThumbnailGrid(props: { posts: Array<PostThumbnailFragment>, onLoadMore?: CallableFunction }) {
+export function ThumbnailGrid(props: {
+    posts: Array<PostThumbnailFragment>;
+    onLoadMore?: CallableFunction;
+}) {
     const olm = props.onLoadMore;
     return (
         <div className={css.grid}>

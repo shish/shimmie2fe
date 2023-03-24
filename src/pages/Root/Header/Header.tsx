@@ -149,12 +149,12 @@ export function Header() {
     const { down } = useContext(ScrollContext);
     useEffect(() => {
         const header = headerRef?.current;
-        if(header) {
+        if (header) {
             if (down) {
                 header.style.top = -header.clientHeight + "px";
             } else {
                 header.style.top = "0px";
-            }    
+            }
         }
     }, [down]);
 
