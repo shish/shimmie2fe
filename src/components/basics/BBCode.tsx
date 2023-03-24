@@ -55,7 +55,7 @@ export function BBCode(props: { children: string }) {
         );
         html = html.replace(
             /\[spoiler\](.*?)\[\/spoiler\]/gs,
-            '<span style="background-color: black; color: black;">$1</span>',
+            '<span style="background-color:black;color:black">$1</span>',
         );
     }
 

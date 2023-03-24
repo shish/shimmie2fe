@@ -1,13 +1,12 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { describe, expect, test } from 'vitest'
+import ReactDOMServer from 'react-dom/server';
 import { BBCode } from "./BBCode";
 
 function t(bb: any, exp: any) {
-    const r1 = render(<BBCode>{bb}</BBCode>);
-    const r2 = render(<span>{exp}</span>);
-    (expect((r1.asFragment().firstChild as any)?.innerHTML) as any).toEqual(
-        (r2.asFragment().firstChild as any)?.innerHTML,
-    );
+    const r1 = ReactDOMServer.renderToString(<BBCode>{bb}</BBCode>);
+    const r2 = ReactDOMServer.renderToString(<span style={{overflowWrap: "anywhere"}}>{exp}</span>);
+    expect(r1).toEqual(r2);
 }
 
 describe("Standard BBCode", () => {
