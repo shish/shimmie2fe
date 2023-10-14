@@ -5,6 +5,8 @@ export function BBCode(props: { children: string }) {
     html = html.replace(/&/g, "&amp;");
     html = html.replace(/</g, "&lt;");
     html = html.replace(/>/g, "&gt;");
+    html = html.replace(/'/g, "&#x27;");
+    html = html.replace(/"/g, "&quot;");
 
     html = html.replace(/\[code\](.*?)\[\/code\]/gs, (m, c) => {
         return "[code!]" + btoa(c) + "[/code!]";
