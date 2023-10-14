@@ -1,4 +1,3 @@
-import React, { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { graphql, useFragment as fragCast } from "../../gql";
 import { useSearchParams } from "react-router-dom";
@@ -7,7 +6,6 @@ import { POST_THUMBNAIL_FRAGMENT, ThumbnailGrid } from "./ThumbnailGrid";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { Block } from "../../components/basics";
-import { ScrollContext } from "../../providers/ScrollProvider";
 
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($offset: Int, $limit: Int, $tags: [String!]) {
@@ -20,8 +18,6 @@ const GET_POSTS = graphql(/* GraphQL */ `
 export function PostList() {
     ///////////////////////////////////////////////////////////////////
     // Hooks
-    const { windowFull, nearBottom, scrollContentRef } =
-        useContext(ScrollContext);
     // eslint-disable-next-line
     const [searchParams, _setSearchParams] = useSearchParams();
     const tags = searchParams.get("tags")?.split(" ") ?? [];
@@ -32,6 +28,7 @@ export function PostList() {
             limit: 12,
             tags: tags,
         },
+        /*
         onCompleted: (data) => {
             // Keep loading more until we have enough thumbnails
             // to fill up a screen. Note that this is counted
@@ -39,7 +36,7 @@ export function PostList() {
             // to fill up a screen, we will first fetch more, then
             // render this set of thumbs, then stop.
             // TODO: circuit breaker to stop infinite loop?
-            if (!windowFull) {
+            if (inView) {
                 console.log(
                     "Window not full, fetching more",
                     data.posts.length,
@@ -51,19 +48,8 @@ export function PostList() {
                 });
             }
         },
+        */
     });
-    /*
-    useEffect(() => {
-        if(nearBottom && q.data?.posts) {
-            console.log("Near bottom, fetching more")
-            q.fetchMore({
-                variables: {
-                    offset: q.data?.posts.length
-                },
-            })
-        }
-    }, [nearBottom, q.data?.posts.length]);
-    */
 
     ///////////////////////////////////////////////////////////////////
     // Hook edge case handling
@@ -80,7 +66,7 @@ export function PostList() {
     // Render
 
     return (
-        <article ref={scrollContentRef}>
+        <article>
             {posts.length > 0 ? (
                 <ThumbnailGrid
                     posts={post_thumbs}

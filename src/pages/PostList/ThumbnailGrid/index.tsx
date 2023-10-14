@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { Link, useSearchParams } from "react-router-dom";
 import { graphql } from "../../../gql";
 import { PostThumbnailFragment } from "../../../gql/graphql";
@@ -39,13 +40,34 @@ export function ThumbnailGrid(props: {
     posts: Array<PostThumbnailFragment>;
     onLoadMore?: CallableFunction;
 }) {
+    const { ref, inView, entry } = useInView({
+        onChange(inView) {
+            if(inView && props.onLoadMore) {
+                props.onLoadMore();
+            }
+        }
+    });
+    const [ hasReachedEnd, setHasReachedEnd] = useState(false);
+    /*
+    useEffect(() => {
+        if(inView && q.data?.posts) {
+            console.log("Bottom marker is in view, fetching more")
+            q.fetchMore({
+                variables: {
+                    offset: q.data?.posts.length
+                },
+            })
+        }
+    }, [inView, q.data?.posts.length]);
+    */
+
     const olm = props.onLoadMore;
     return (
         <div className={css.grid}>
             {props.posts.map((post) => (
                 <Thumbnail key={post.post_id} post={post} />
             ))}
-            {olm && <div onClick={() => olm()}>Load More</div>}
+            {olm && <div ref={ref} onClick={() => olm()}>Load More</div>}
         </div>
     );
 }

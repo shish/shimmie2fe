@@ -20,7 +20,6 @@ import logo from "./logo.png";
 import { useMutation } from "@apollo/client";
 import { graphql } from "../../../gql";
 import { MaybeError, Submit } from "../../../components/basics";
-import { ScrollContext } from "../../../providers/ScrollProvider";
 
 const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {
@@ -141,22 +140,17 @@ function LoginBar({ setBar }: { setBar: CallableFunction }) {
     );
 }
 
-export function Header() {
+export function Header({ display }: { display: boolean }) {
     const { me, is_anon } = useContext(UserContext);
 
     // show / hide header
     const headerRef = useRef<HTMLInputElement>(null);
-    const { down } = useContext(ScrollContext);
     useEffect(() => {
         const header = headerRef?.current;
         if (header) {
-            if (down) {
-                header.style.top = -header.clientHeight + "px";
-            } else {
-                header.style.top = "0px";
-            }
+            header.style.top = display ? "0px" : -header.clientHeight + "px";
         }
-    }, [down]);
+    }, [display]);
 
     // search bits
     const [searchParams] = useSearchParams(); // , setSearchParams
