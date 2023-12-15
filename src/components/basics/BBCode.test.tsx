@@ -110,20 +110,17 @@ describe("Standard BBCode", () => {
         );
     });
 
+    // prettier-ignore
     test("Anchor", () => {
         t(
             "[anchor=rules]Rules[/anchor]",
             <span className="anchor">
-                Rules{" "}
-                <a
+                Rules <a
                     className="alink"
                     href="#bb-rules"
                     id="bb-rules"
                     title="link to this anchor"
-                >
-                    {" "}
-                    ¶{" "}
-                </a>
+                > ¶ </a>
             </span>,
         );
     });
