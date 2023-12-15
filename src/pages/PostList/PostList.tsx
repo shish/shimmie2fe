@@ -8,7 +8,7 @@ import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { Block } from "../../components/basics";
 
 const GET_POSTS = graphql(/* GraphQL */ `
-    query getPosts($offset: Int, $limit: Int, $tags: [String!]) {
+    query getPosts($offset: Int!, $limit: Int, $tags: [String!]) {
         posts(offset: $offset, limit: $limit, tags: $tags) {
             ...PostThumbnail
         }

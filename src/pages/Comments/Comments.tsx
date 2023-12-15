@@ -9,7 +9,7 @@ import { CommentList } from "../../components/CommentList";
 import { absurl } from "../../utils";
 
 const GET_COMMENTED_POSTS = graphql(/* GraphQL */ `
-    query getCommentedPosts($offset: Int, $tags: [String!]) {
+    query getCommentedPosts($offset: Int!, $tags: [String!]) {
         posts(offset: $offset, limit: 48, tags: $tags) {
             post_id
             thumb_link

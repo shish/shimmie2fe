@@ -10,13 +10,13 @@
     "watch": "vite build -w",
     "preview": "vite preview",
     "format": "prettier --write 'src/**/*.ts{,x}' --tab-width 4 --trailing-comma all",
-    "codegen": "graphql-codegen --watch",
+    "codegen": "sleep 3 && graphql-codegen --watch",
     "server": "cd ../shimmie2 && PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:8000 -q tests/router.php",
     "cypress": "npx cypress open",
     "cypress-coverage": "rm -rf coverage .nyc_output ; npx cypress run ; npx nyc report --check-coverage --lines 80",
     "dev": "concurrently npm:start npm:test npm:codegen npm:cypress npm:server",
     "nginx": "WEB_ROOT=$(pwd)/dist/ /bin/sh ./nginx.sh /etc/nginx/http.d/default.conf",
-    "container-dev": "concurrently npm:watch npm:test npm:nginx"
+    "container-dev": "concurrently npm:watch npm:test npm:nginx npm:codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
