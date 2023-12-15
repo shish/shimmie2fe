@@ -1,0 +1,14 @@
+server {
+    listen 80;
+
+    location /graphql {
+      proxy_pass ${BACKEND_PROTO}://${BACKEND_HOST}/graphql;
+      proxy_set_header Host ${BACKEND_HOST};
+    }
+
+    location / {
+      root ${WEB_ROOT};
+      try_files $uri $uri/ /index.html;
+    }
+}
+
