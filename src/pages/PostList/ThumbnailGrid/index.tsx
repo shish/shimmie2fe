@@ -42,12 +42,12 @@ export function ThumbnailGrid(props: {
 }) {
     const { ref, inView, entry } = useInView({
         onChange(inView) {
-            if(inView && props.onLoadMore) {
+            if (inView && props.onLoadMore) {
                 props.onLoadMore();
             }
-        }
+        },
     });
-    const [ hasReachedEnd, setHasReachedEnd] = useState(false);
+    const [hasReachedEnd, setHasReachedEnd] = useState(false);
     /*
     useEffect(() => {
         if(inView && q.data?.posts) {
@@ -67,7 +67,11 @@ export function ThumbnailGrid(props: {
             {props.posts.map((post) => (
                 <Thumbnail key={post.post_id} post={post} />
             ))}
-            {olm && <div ref={ref} onClick={() => olm()}>Load More</div>}
+            {olm && (
+                <div ref={ref} onClick={() => olm()}>
+                    Load More
+                </div>
+            )}
         </div>
     );
 }

@@ -29,7 +29,7 @@ describe("test", () => {
         cy.contains("tagme").click();
         cy.get('[name="tags"]').should("have.value", "tagme ");
         cy.get('[data-cy="header-search"]').click();
-        cy.url().should('include', '/posts?tags=cake')
+        cy.url().should("include", "/posts?tags=cake");
     });
 
     it("userbar", () => {
@@ -42,11 +42,11 @@ describe("test", () => {
     it.skip("hide and show", () => {
         // FIXME: change props instead of re-mounting
         cy.mount(<Header display={true} />);
-        cy.get('[data-cy="user-icon"]').should('be.visible');
+        cy.get('[data-cy="user-icon"]').should("be.visible");
         cy.mount(<Header display={false} />);
-        cy.get('[data-cy="user-icon"]').should('not.be.visible');
+        cy.get('[data-cy="user-icon"]').should("not.be.visible");
         cy.mount(<Header display={true} />);
-        cy.get('[data-cy="user-icon"]').should('be.visible');
+        cy.get('[data-cy="user-icon"]').should("be.visible");
     });
 
     it("playground", () => {

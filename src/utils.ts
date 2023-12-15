@@ -1,7 +1,7 @@
 export const serverInfo = {
     name: "My Site",
     // root: "https://rule34.paheal.net",
-    root: "",  // defaulting to current host, expecting nginx to forward it
+    root: "", // defaulting to current host, expecting nginx to forward it
 };
 
 export function absurl(path: string): string {
