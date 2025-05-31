@@ -1,5 +1,5 @@
 # Dev container mode
-FROM node:20-alpine AS dev
+FROM node:24-alpine AS dev
 RUN apk add nginx git envsubst
 EXPOSE 80
 ENV BACKEND_PROTO=https
@@ -8,7 +8,7 @@ ENV WEB_ROOT=/workspaces/shimmie2fev/dist
 ENV WEB_CONF=/etc/nginx/http.d/default.conf
 
 # Build stage
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
