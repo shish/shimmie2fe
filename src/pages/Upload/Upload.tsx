@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Autocomplete } from "../../components/Autocomplete/Autocomplete";
 import { Block, FormItem, MaybeError, Submit } from "../../components/basics";
 import { human_size, serverInfo } from "../../utils";

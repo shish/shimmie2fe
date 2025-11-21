@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { useEffect, useRef, useState } from "react";
 import { graphql } from "../../gql";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import { get_word, replace_word } from "../../utils";
 import { useDebounce } from "../../hooks";
+import { get_word, replace_word } from "../../utils";
 
 import css from "./Autocomplete.module.scss";
 

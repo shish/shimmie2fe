@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import { graphql } from "../../../gql";
 import { useMutation } from "@apollo/client";
+import { useContext, useState } from "react";
+import { graphql } from "../../../gql";
 import { Permission, PostScoreFragment } from "../../../gql/graphql";
 
-import { ReactComponent as ChevronUpIcon } from "./chevron-up.svg";
-import { ReactComponent as ChevronDownIcon } from "./chevron-down.svg";
-import css from "./Voter.module.scss";
-import { UserContext } from "../../../providers/LoginProvider";
 import { MaybeError } from "../../../components/basics";
+import { UserContext } from "../../../providers/LoginProvider";
+import { ReactComponent as ChevronDownIcon } from "./chevron-down.svg";
+import { ReactComponent as ChevronUpIcon } from "./chevron-up.svg";
+import css from "./Voter.module.scss";
 
 export const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostScore on Post {

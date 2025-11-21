@@ -1,5 +1,3 @@
-import React from "react";
-
 type SubmitProps = {
     passive: string;
     active: string;
@@ -22,7 +20,7 @@ export function Submit({
                     ? query.loading
                         ? active
                         : passive
-                    : inactive ?? passive
+                    : (inactive ?? passive)
             }
             disabled={!condition || query.loading}
         />

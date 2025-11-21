@@ -1,9 +1,9 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
+import React from "react";
 import { graphql } from "../gql";
 import { useFragment as fragCast } from "../gql/fragment-masking";
+import { Permission, UserLoginFragment } from "../gql/graphql";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
-import { UserLoginFragment, Permission } from "../gql/graphql";
 
 export const ME_FRAGMENT = graphql(`
     fragment UserLogin on User {

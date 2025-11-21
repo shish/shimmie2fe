@@ -1,8 +1,7 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../../gql";
 import { useParams } from "react-router-dom";
-import { Block, UserName, BBCode } from "../../components/basics";
+import { BBCode, Block, UserName } from "../../components/basics";
+import { graphql } from "../../gql";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link, useSearchParams } from "react-router-dom";
 import { graphql } from "../../../gql";

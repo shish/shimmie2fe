@@ -1,16 +1,16 @@
-import React, { useContext, useState } from "react";
-import { graphql, useFragment as fragCast } from "../../../gql";
 import { useMutation } from "@apollo/client";
+import { useContext, useState } from "react";
 import { FormItem } from "../../../components/basics/FormItem";
+import { graphql, useFragment as fragCast } from "../../../gql";
 import { Permission, PostMetadataFragment } from "../../../gql/graphql";
 
+import { Avatar, Block, MaybeError, Tag } from "../../../components/basics";
 import { UserName } from "../../../components/basics/UserName";
-import { Tag, Block, Avatar, MaybeError } from "../../../components/basics";
 
-import css from "./PostMetaData.module.scss";
+import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 import { UserContext } from "../../../providers/LoginProvider";
 import { POST_SCORE_FRAGMENT, Voter } from "../Voter/Voter";
-import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
+import css from "./PostMetaData.module.scss";
 
 export const POST_METADATA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMetadata on Post {

@@ -1,12 +1,11 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../../gql";
 import { useSearchParams } from "react-router-dom";
+import { graphql } from "../../gql";
 
-import { ErrorPage } from "../ErrorPage/ErrorPage";
-import { LoadingPage } from "../LoadingPage/LoadingPage";
 import { CommentList } from "../../components/CommentList";
 import { absurl } from "../../utils";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { LoadingPage } from "../LoadingPage/LoadingPage";
 
 const GET_COMMENTED_POSTS = graphql(/* GraphQL */ `
     query getCommentedPosts($offset: Int!, $tags: [String!]) {

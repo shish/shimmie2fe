@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 /// <reference path="../../../cypress/support/component.ts" />
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Autocomplete, GET_TAGS } from "./Autocomplete";
 
 function AutocompleteHarness() {

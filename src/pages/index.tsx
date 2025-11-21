@@ -1,22 +1,21 @@
-import React from "react";
 import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
 } from "react-router-dom";
 
+import { About } from "./About/About";
+import { Comments } from "./Comments/Comments";
 import { ErrorPage } from "./ErrorPage/ErrorPage";
+import { Messages } from "./Messages/Messages";
 import { PostList } from "./PostList/PostList";
 import { PostView } from "./PostView/PostView";
-import { Signup } from "./Signup/Signup";
 import { Root } from "./Root/Root";
-import { About } from "./About/About";
-import { WikiPage } from "./WikiPage/WikiPage";
-import { UserPage } from "./UserPage/UserPage";
+import { Signup } from "./Signup/Signup";
 import { TagsPage } from "./TagsPage/TagsPage";
-import { Messages } from "./Messages/Messages";
-import { Comments } from "./Comments/Comments";
 import { Upload } from "./Upload/Upload";
+import { UserPage } from "./UserPage/UserPage";
+import { WikiPage } from "./WikiPage/WikiPage";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

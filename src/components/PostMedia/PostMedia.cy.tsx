@@ -1,7 +1,6 @@
 /// <reference types="Cypress" />
 /// <reference path="../../../cypress/support/component.ts" />
 
-import React from "react";
 import { PostMedia } from "./PostMedia";
 
 // FIXME: test error handling

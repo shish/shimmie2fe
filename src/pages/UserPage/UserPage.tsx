@@ -1,12 +1,11 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { graphql } from "../../gql";
 import { useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
+import { MessageComposer } from "../../components/MessageComposer";
+import { graphql } from "../../gql";
+import { useFragment as fragCast } from "../../gql/fragment-masking";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
-import { MessageComposer } from "../../components/MessageComposer";
 import { UserInfo, USER_INFO_FRAGMENT } from "./UserInfo";
-import { useFragment as fragCast } from "../../gql/fragment-masking";
 
 const GET_USER = graphql(`
     query getUser($user: String!) {

@@ -1,15 +1,14 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql, useFragment as fragCast } from "../../gql";
 import { useParams } from "react-router-dom";
 import { CommentList } from "../../components/CommentList";
-import { ErrorPage } from "../ErrorPage/ErrorPage";
-import { LoadingPage } from "../LoadingPage/LoadingPage";
-import { PostMetaData, POST_METADATA_FRAGMENT } from "./PostMetaData";
 import {
     PostMedia,
     POST_MEDIA_FRAGMENT,
 } from "../../components/PostMedia/PostMedia";
+import { graphql, useFragment as fragCast } from "../../gql";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { LoadingPage } from "../LoadingPage/LoadingPage";
+import { PostMetaData, POST_METADATA_FRAGMENT } from "./PostMetaData";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {

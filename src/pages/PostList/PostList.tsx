@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { graphql, useFragment as fragCast } from "../../gql";
 import { useSearchParams } from "react-router-dom";
+import { graphql, useFragment as fragCast } from "../../gql";
 
-import { POST_THUMBNAIL_FRAGMENT, ThumbnailGrid } from "./ThumbnailGrid";
+import { Block } from "../../components/basics";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
-import { Block } from "../../components/basics";
+import { POST_THUMBNAIL_FRAGMENT, ThumbnailGrid } from "./ThumbnailGrid";
 
 const GET_POSTS = graphql(/* GraphQL */ `
     query getPosts($offset: Int!, $limit: Int, $tags: [String!]) {

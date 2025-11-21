@@ -19,52 +19,54 @@ import "./commands";
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import { mount } from "cypress/react";
+import { mount, MountOptions, MountReturn } from "cypress/react";
 import React from "react";
 import { DevApp } from "../../src/App";
-import { GET_ME } from "../../src/providers/LoginProvider";
-import { MountOptions, MountReturn } from "cypress/react";
 import { Permission } from "../../src/gql/graphql";
+import { GET_ME } from "../../src/providers/LoginProvider";
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts
 // with a <reference path="./component" /> at the top of your spec.
 declare global {
-  namespace Cypress {
-    interface Chainable<Subject> {
-      mount(
-        component: React.ReactNode,
-        options?: MountOptions & { mocks?: any[] }
-      ): Cypress.Chainable<MountReturn>;
+    namespace Cypress {
+        interface Chainable<Subject> {
+            mount(
+                component: React.ReactNode,
+                options?: MountOptions & { mocks?: any[] },
+            ): Cypress.Chainable<MountReturn>;
+        }
     }
-  }
 }
 
 //Cypress.Commands.add('mount', mount)
 Cypress.Commands.add("mount", (component, options: any = {}) => {
-  let mocks = options.mocks ?? [];
-  // DevApp includes LoginProvider which does this
-  mocks.unshift({
-    request: {
-      query: GET_ME,
-      variables: {},
-    },
-    result: {
-      data: {
-        me: {
-          __typename: "User",
-          name: "Mochael",
-          private_message_unread_count: 0,
-          avatar_url:
-            "https://www.gravatar.com/avatar/fd4960ec4e2fde2de7d56dbdf5b00c1c.jpg?s=80&d=&r=g&cacheBreak=2023-02-19",
-          class: {
-            permissions: [Permission.EditImageTag, Permission.CreateImage],
-          },
+    let mocks = options.mocks ?? [];
+    // DevApp includes LoginProvider which does this
+    mocks.unshift({
+        request: {
+            query: GET_ME,
+            variables: {},
         },
-      },
-    },
-  });
-  const provider = React.createElement(DevApp, { component, mocks });
-  return mount(provider, options);
+        result: {
+            data: {
+                me: {
+                    __typename: "User",
+                    name: "Mochael",
+                    private_message_unread_count: 0,
+                    avatar_url:
+                        "https://www.gravatar.com/avatar/fd4960ec4e2fde2de7d56dbdf5b00c1c.jpg?s=80&d=&r=g&cacheBreak=2023-02-19",
+                    class: {
+                        permissions: [
+                            Permission.EditImageTag,
+                            Permission.CreateImage,
+                        ],
+                    },
+                },
+            },
+        },
+    });
+    const provider = React.createElement(DevApp, { component, mocks });
+    return mount(provider, options);
 });

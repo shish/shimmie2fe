@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Block, FormItem, MaybeError, Submit } from "../../components/basics";
 import { graphql } from "../../gql";
-import { GET_ME, ME_FRAGMENT } from "../../providers/LoginProvider";
 import { useFragment as fragCast } from "../../gql/fragment-masking";
+import { GET_ME, ME_FRAGMENT } from "../../providers/LoginProvider";
 
 const CREATE_USER = graphql(`
     mutation createUser(

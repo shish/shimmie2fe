@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { Form, Link } from "react-router-dom";
-import { serverInfo } from "../../../utils";
-import { useLocation } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Form, Link, useLocation, useSearchParams } from "react-router-dom";
+import { useFragment as fragCast } from "../../../gql/fragment-masking";
+import { Permission } from "../../../gql/graphql";
 import {
     GET_ME,
     ME_FRAGMENT,
     UserContext,
 } from "../../../providers/LoginProvider";
-import { Permission } from "../../../gql/graphql";
-import { useSearchParams } from "react-router-dom";
-import { useFragment as fragCast } from "../../../gql/fragment-masking";
+import { serverInfo } from "../../../utils";
 
+import { useMutation } from "@apollo/client";
 import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
+import { MaybeError, Submit } from "../../../components/basics";
+import { graphql } from "../../../gql";
 import { ReactComponent as BarsIcon } from "./bars.svg";
-import { ReactComponent as UserIcon } from "./user.svg";
-import { ReactComponent as MagnifiyingGlassIcon } from "./magnifying-glass.svg";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
-import { useMutation } from "@apollo/client";
-import { graphql } from "../../../gql";
-import { MaybeError, Submit } from "../../../components/basics";
+import { ReactComponent as MagnifiyingGlassIcon } from "./magnifying-glass.svg";
+import { ReactComponent as UserIcon } from "./user.svg";
 
 const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {

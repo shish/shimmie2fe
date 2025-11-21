@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { graphql } from "../../gql";
-import { absurl } from "../../utils";
 import { PostMediaFragment } from "../../gql/graphql";
+import { absurl } from "../../utils";
 
 export const POST_MEDIA_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostMedia on Post {

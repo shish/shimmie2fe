@@ -14,27 +14,27 @@ export {};
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add('login', (username: string, password: string) => {
+Cypress.Commands.add("login", (username: string, password: string) => {
     cy.session(
         [username, password],
         () => {
-            cy.visit('/')
-            cy.contains("demo").should('not.exist')
+            cy.visit("/");
+            cy.contains("demo").should("not.exist");
 
-            cy.get('[data-cy="user-icon"]').click()
-            cy.get('[placeholder="User Name"]').type(username)
-            cy.get('[placeholder="Password"]').type(password)
-            cy.get('[value="Log In"]').click()
-            cy.contains(username).should('exist')
+            cy.get('[data-cy="user-icon"]').click();
+            cy.get('[placeholder="User Name"]').type(username);
+            cy.get('[placeholder="Password"]').type(password);
+            cy.get('[value="Log In"]').click();
+            cy.contains(username).should("exist");
         },
         {
             validate: () => {
-                cy.visit('/')
-                cy.contains(username).should('exist')
-            }
-        }
-    )
-})
+                cy.visit("/");
+                cy.contains(username).should("exist");
+            },
+        },
+    );
+});
 //
 //
 // -- This is a child command --
@@ -52,7 +52,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 declare global {
     namespace Cypress {
         interface Chainable {
-            login(username: string, password: string): Chainable
+            login(username: string, password: string): Chainable;
             //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
             //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
             //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>

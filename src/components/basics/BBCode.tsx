@@ -1,5 +1,3 @@
-import React from "react";
-
 export function BBCode(props: { children: string }) {
     let html = props.children;
     html = html.replace(/&/g, "&amp;");

@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom"; // ScrollRestoration
-import { Header } from "./Header/Header";
 import { Footer } from "./Footer/Footer";
+import { Header } from "./Header/Header";
 import css from "./Root.module.scss";
 import "./style.scss";
-import { useState } from "react";
 
 // Using a global variable instead of useState because
 // setState causes everything to be rerendered, using

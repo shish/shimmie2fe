@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
-import { UserContext } from "../providers/LoginProvider";
+import { useContext, useState } from "react";
 import { graphql } from "../gql";
 import { Permission } from "../gql/graphql";
+import { UserContext } from "../providers/LoginProvider";
 import { MaybeError, Submit } from "./basics";
 
 const CREATE_PRIVATE_MESSAGE = graphql(/* GraphQL */ `

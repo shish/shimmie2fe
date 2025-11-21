@@ -1,19 +1,19 @@
-import React, { useState } from "react";
 import {
     ApolloClient,
     ApolloProvider,
-    InMemoryCache,
     HttpLink,
+    InMemoryCache,
 } from "@apollo/client";
-import { MockedProvider, MockedResponse } from "@apollo/client/testing";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { offsetLimitPagination } from "@apollo/client/utilities";
+import React, { useState } from "react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
 import { router } from "./pages";
-import { serverInfo } from "./utils";
-import { LoginProvider } from "./providers/LoginProvider";
 import { ErrorBoundary } from "./pages/ErrorPage/ErrorPage";
+import { LoginProvider } from "./providers/LoginProvider";
+import { serverInfo } from "./utils";
 
 const createApolloClient = () => {
     const httpLink = new HttpLink({

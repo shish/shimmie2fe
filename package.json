@@ -9,7 +9,7 @@
     "test": "vitest",
     "watch": "vite build -w",
     "preview": "vite preview",
-    "format": "prettier --write 'src/**/*.ts{,x}' --tab-width 4 --trailing-comma all",
+    "format": "prettier --write '**/*.ts{,x}'",
     "codegen": "sleep 3 && graphql-codegen --watch",
     "server": "cd ../shimmie2 && PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:8000 -q tests/router.php",
     "cypress": "npx cypress open",
@@ -33,11 +33,19 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "concurrently": "^7.6.0",
     "cypress": "^15.7.0",
-    "prettier": "^2.8.7",
+    "prettier": "^3.6",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "sass": "^1.60.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-svgr": "^2.4.0",
     "vitest": "^4.0.12"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "tabWidth": 4,
+    "plugins": [
+      "prettier-plugin-organize-imports"
+    ]
   }
 }

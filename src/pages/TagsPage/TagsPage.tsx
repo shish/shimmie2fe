@@ -1,8 +1,7 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
-import { graphql } from "../../gql";
 import { useSearchParams } from "react-router-dom";
 import { Block, Tag } from "../../components/basics";
+import { graphql } from "../../gql";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import css from "./TagsPage.module.scss";
 

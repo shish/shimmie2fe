@@ -1,6 +1,5 @@
-import React from "react";
-import { describe, expect, test } from "vitest";
 import ReactDOMServer from "react-dom/server";
+import { describe, expect, test } from "vitest";
 import { BBCode } from "./BBCode";
 
 function t(bb: any, exp: any) {
