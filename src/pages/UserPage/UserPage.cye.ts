@@ -1,7 +1,3 @@
-/// <reference types="Cypress" />
-
-export {};
-
 describe("view user page", () => {
     it("load demo user", () => {
         cy.visit("/user/demo");

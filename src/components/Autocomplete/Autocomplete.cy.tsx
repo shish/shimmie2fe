@@ -1,6 +1,3 @@
-/// <reference types="Cypress" />
-/// <reference path="../../../cypress/support/component.ts" />
-
 import { useState } from "react";
 import { Autocomplete, GET_TAGS } from "./Autocomplete";
 

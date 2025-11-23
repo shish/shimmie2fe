@@ -1,7 +1,3 @@
-/// <reference types="Cypress" />
-
-export {};
-
 describe("create new account", () => {
     it("signup", () => {
         let name = "signupTest" + (new Date().getTime() % 1000000);

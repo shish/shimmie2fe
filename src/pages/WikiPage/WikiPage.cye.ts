@@ -1,7 +1,3 @@
-/// <reference types="Cypress" />
-
-export {};
-
 describe("use wiki", () => {
     it("load index", () => {
         cy.visit("/wiki/Index");

@@ -1,7 +1,3 @@
-/// <reference types="Cypress" />
-
-export {};
-
 describe("view post", () => {
     it("select a post", () => {
         cy.visit("/");

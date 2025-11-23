@@ -1,7 +1,3 @@
-/// <reference types="Cypress" />
-
-export {};
-
 describe("login cycle", () => {
     it("fail to log in", () => {
         cy.visit("/");

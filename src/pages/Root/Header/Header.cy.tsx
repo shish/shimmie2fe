@@ -1,6 +1,3 @@
-/// <reference types="Cypress" />
-/// <reference path="../../../../cypress/support/component.ts" />
-
 import { GET_TAGS } from "../../../components/Autocomplete/Autocomplete";
 import { Header } from "./Header";
 

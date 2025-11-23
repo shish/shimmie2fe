@@ -1,6 +1,3 @@
-/// <reference types="Cypress" />
-/// <reference path="../../../../cypress/support/component.ts" />
-
 import { PostMetaData } from ".";
 import { PostMetadataFragment, PostScoreFragment } from "../../../gql/graphql";
 

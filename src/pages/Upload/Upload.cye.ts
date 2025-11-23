@@ -1,7 +1,3 @@
-/// <reference types="Cypress" />
-
-export {};
-
 const f1 = "cypress/fixtures/bedroom_workshop.jpg";
 const f2 = "cypress/fixtures/pbx_screenshot.jpg";
 
