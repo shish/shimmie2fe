@@ -9,7 +9,7 @@ import {
 } from "../../../providers/LoginProvider";
 import { serverInfo } from "../../../utils";
 
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 import { MaybeError, Submit } from "../../../components/basics";
 import { graphql } from "../../../gql";

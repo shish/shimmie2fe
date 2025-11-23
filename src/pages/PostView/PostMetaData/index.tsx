@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { useContext, useState } from "react";
 import { FormItem } from "../../../components/basics/FormItem";
 import { graphql, useFragment as fragCast } from "../../../gql";

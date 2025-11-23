@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Block, FormItem, MaybeError, Submit } from "../../components/basics";

@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router-dom";
 import { BBCode, Block, UserName } from "../../components/basics";
 import { graphql } from "../../gql";

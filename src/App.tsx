@@ -1,11 +1,8 @@
-import {
-    ApolloClient,
-    ApolloProvider,
-    HttpLink,
-    InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 import { setContext } from "@apollo/client/link/context";
-import { MockedProvider, MockedResponse } from "@apollo/client/testing";
+import { MockedProvider } from "@apollo/client/testing/react";
+import { MockLink } from "@apollo/client/testing";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 import React, { useState } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -51,8 +48,8 @@ const createApolloClient = () => {
 
 type AppProps = {
     router: any;
-    client?: ApolloClient<any>;
-    mocks?: MockedResponse[];
+    client?: ApolloClient;
+    mocks?: MockLink.MockedResponse[];
 };
 
 export function AppWithMiddleware({ client, router, mocks }: AppProps) {
@@ -62,7 +59,7 @@ export function AppWithMiddleware({ client, router, mocks }: AppProps) {
         app = <ApolloProvider client={client}>{app}</ApolloProvider>;
     } else if (mocks) {
         app = (
-            <MockedProvider mocks={mocks} addTypename={true}>
+            <MockedProvider mocks={mocks}>
                 {app}
             </MockedProvider>
         );

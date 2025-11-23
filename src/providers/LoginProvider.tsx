@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import React from "react";
 import { graphql } from "../gql";
 import { useFragment as fragCast } from "../gql/fragment-masking";

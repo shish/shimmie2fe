@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { useContext, useState } from "react";
 import { graphql } from "../gql";
 import { FragmentType, useFragment } from "../gql/fragment-masking";

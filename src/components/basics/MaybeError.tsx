@@ -1,4 +1,4 @@
-import { MutationResult } from "@apollo/client";
+import { MutationResult } from "@apollo/client/react";
 
 export function MaybeError({
     query,
