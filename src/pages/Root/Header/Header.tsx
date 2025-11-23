@@ -13,11 +13,10 @@ import { useMutation } from "@apollo/client";
 import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 import { MaybeError, Submit } from "../../../components/basics";
 import { graphql } from "../../../gql";
-import { ReactComponent as BarsIcon } from "./bars.svg";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
-import { ReactComponent as MagnifiyingGlassIcon } from "./magnifying-glass.svg";
-import { ReactComponent as UserIcon } from "./user.svg";
+import { faBars, faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 
 const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {
@@ -173,10 +172,9 @@ export function Header({ display }: { display: boolean }) {
     return (
         <header ref={headerRef} className={css.header}>
             <div className={css.topbar}>
-                <BarsIcon
-                    data-cy="hamburger"
-                    onClick={() => toggleBar(Bars.NAV)}
-                />
+                <div onClick={() => toggleBar(Bars.NAV)}>
+                    <FontAwesomeIcon icon={faBars} data-cy="hamburger" />
+                </div>
                 <Link to="/">
                     <img
                         className={css.logo}
@@ -191,16 +189,13 @@ export function Header({ display }: { display: boolean }) {
                         onValue={(v) => setSearch(v)}
                     />
                     <button data-cy="header-search">
-                        <MagnifiyingGlassIcon />
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
                 </Form>
                 {is_anon ? (
-                    <>
-                        <UserIcon
-                            data-cy="user-icon"
-                            onClick={() => toggleBar(Bars.USER)}
-                        />
-                    </>
+                    <div onClick={() => toggleBar(Bars.USER)}>
+                        <FontAwesomeIcon icon={faUser} data-cy="user-icon" />
+                    </div>
                 ) : (
                     <>
                         <span onClick={() => toggleBar(Bars.USER)}>
@@ -216,10 +211,9 @@ export function Header({ display }: { display: boolean }) {
                                     onClick={() => toggleBar(Bars.USER)}
                                 />
                             ) : (
-                                <UserIcon
-                                    data-cy="user-icon"
-                                    onClick={() => toggleBar(Bars.USER)}
-                                />
+                                <div onClick={() => toggleBar(Bars.USER)}>
+                                    <FontAwesomeIcon icon={faUser} data-cy="user-icon" />
+                                </div>
                             )}
                             {(me.private_message_unread_count || 0) > 0 && (
                                 <span>{me.private_message_unread_count}</span>

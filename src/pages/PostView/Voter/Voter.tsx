@@ -5,9 +5,9 @@ import { Permission, PostScoreFragment } from "../../../gql/graphql";
 
 import { MaybeError } from "../../../components/basics";
 import { UserContext } from "../../../providers/LoginProvider";
-import { ReactComponent as ChevronDownIcon } from "./chevron-down.svg";
-import { ReactComponent as ChevronUpIcon } from "./chevron-up.svg";
 import css from "./Voter.module.scss";
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 
 export const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostScore on Post {
@@ -46,20 +46,24 @@ export function Voter({
     return can(Permission.CreateVote) ? (
         <div className={css.voter}>
             <MaybeError query={q} />
-            <ChevronUpIcon
-                className={voted === 1 ? css.voted : null}
-                onClick={() => vote(1)}
-            />
+            <div onClick={() => vote(1)}>
+                <FontAwesomeIcon
+                    icon={faChevronUp}
+                    className={voted === 1 ? css.voted : null}
+                />
+            </div>
             <span
                 className={voted === 0 ? css.voted : null}
                 onClick={() => vote(0)}
             >
                 {post.score}
             </span>
-            <ChevronDownIcon
-                className={voted === -1 ? css.voted : null}
-                onClick={() => vote(-1)}
-            />
+            <div onClick={() => vote(-1)}>
+                <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className={voted === -1 ? css.voted : null}
+                />
+            </div>
         </div>
     ) : (
         <span>{post.score}</span>
