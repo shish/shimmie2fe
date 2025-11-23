@@ -1,51 +1,51 @@
 {
-  "name": "shimmie2fe",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "start": "vite --host 127.0.0.1",
-    "build": "tsc && vite build",
-    "test": "vitest",
-    "watch": "vite build -w",
-    "preview": "vite preview",
-    "format": "prettier --write '**/*.ts{,x}'",
-    "codegen": "sleep 3 && graphql-codegen --watch",
-    "server": "cd ../shimmie2 && PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:8000 -q tests/router.php",
-    "cypress": "npx cypress open",
-    "cypress-coverage": "rm -rf coverage .nyc_output ; npx cypress run ; npx nyc report --check-coverage --lines 80",
-    "dev": "concurrently npm:start npm:test npm:codegen npm:cypress npm:server",
-    "nginx": "WEB_ROOT=$(pwd)/dist/ /bin/sh ./nginx.sh /etc/nginx/http.d/default.conf",
-    "container-dev": "concurrently npm:watch npm:test npm:nginx npm:codegen"
-  },
-  "dependencies": {
-    "@apollo/client": "^4",
-    "@fortawesome/free-solid-svg-icons": "^7",
-    "react": "^19",
-    "react-dom": "^19",
-    "react-intersection-observer": "^10",
-    "react-router-dom": "^7.9"
-  },
-  "devDependencies": {
-    "@graphql-codegen/cli": "^6.1",
-    "@graphql-codegen/client-preset": "^5.2",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@vitejs/plugin-react-swc": "^4.2.2",
-    "concurrently": "^9.2.1",
-    "cypress": "^15.7.0",
-    "prettier": "^3.6",
-    "prettier-plugin-organize-imports": "^4.3.0",
-    "sass": "^1.60.0",
-    "typescript": "^5.9",
-    "vite": "^7.2.4",
-    "vitest": "^4.0.12"
-  },
-  "prettier": {
-    "trailingComma": "all",
-    "tabWidth": 4,
-    "plugins": [
-      "prettier-plugin-organize-imports"
-    ]
-  }
+    "name": "shimmie2fe",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "vite --host 127.0.0.1",
+        "build": "tsc && vite build",
+        "test": "vitest",
+        "watch": "vite build -w",
+        "preview": "vite preview",
+        "format": "prettier --write .",
+        "codegen": "sleep 3 && graphql-codegen --watch",
+        "server": "cd ../shimmie2 && PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:8000 -q tests/router.php",
+        "cypress": "npx cypress open",
+        "cypress-coverage": "rm -rf coverage .nyc_output ; npx cypress run ; npx nyc report --check-coverage --lines 80",
+        "dev": "concurrently npm:start npm:test npm:codegen npm:cypress npm:server",
+        "nginx": "WEB_ROOT=$(pwd)/dist/ /bin/sh ./nginx.sh /etc/nginx/http.d/default.conf",
+        "container-dev": "concurrently npm:watch npm:test npm:nginx npm:codegen"
+    },
+    "dependencies": {
+        "@apollo/client": "^4",
+        "@fortawesome/free-solid-svg-icons": "^7",
+        "react": "^19",
+        "react-dom": "^19",
+        "react-intersection-observer": "^10",
+        "react-router-dom": "^7.9"
+    },
+    "devDependencies": {
+        "@graphql-codegen/cli": "^6.1",
+        "@graphql-codegen/client-preset": "^5.2",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "@vitejs/plugin-react-swc": "^4.2.2",
+        "concurrently": "^9.2.1",
+        "cypress": "^15.7.0",
+        "prettier": "^3.6",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "sass": "^1.60.0",
+        "typescript": "^5.9",
+        "vite": "^7.2.4",
+        "vitest": "^4.0.12"
+    },
+    "prettier": {
+        "trailingComma": "all",
+        "tabWidth": 4,
+        "plugins": [
+            "prettier-plugin-organize-imports"
+        ]
+    }
 }

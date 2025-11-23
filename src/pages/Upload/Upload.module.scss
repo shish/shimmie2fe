@@ -1,5 +1,5 @@
 .uploadForm {
-    &>*+* {
+    & > * + * {
         margin-top: 1em;
     }
 }
@@ -27,10 +27,10 @@
 .fileEntry {
     display: flex;
     gap: 1em;
-    &>DIV {
+    & > DIV {
         flex: 1 1 auto;
     }
-    &>IMG {
+    & > IMG {
         width: 8em;
         max-height: 6em;
         object-fit: contain;

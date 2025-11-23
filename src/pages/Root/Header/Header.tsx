@@ -10,13 +10,17 @@ import {
 import { serverInfo } from "../../../utils";
 
 import { useMutation } from "@apollo/client/react";
+import {
+    faBars,
+    faMagnifyingGlass,
+    faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
 import { MaybeError, Submit } from "../../../components/basics";
+import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 import { graphql } from "../../../gql";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
-import { faBars, faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 
 const LOGIN = graphql(`
     mutation login($username: String!, $password: String!) {
@@ -212,7 +216,10 @@ export function Header({ display }: { display: boolean }) {
                                 />
                             ) : (
                                 <div onClick={() => toggleBar(Bars.USER)}>
-                                    <FontAwesomeIcon icon={faUser} data-cy="user-icon" />
+                                    <FontAwesomeIcon
+                                        icon={faUser}
+                                        data-cy="user-icon"
+                                    />
                                 </div>
                             )}
                             {(me.private_message_unread_count || 0) > 0 && (

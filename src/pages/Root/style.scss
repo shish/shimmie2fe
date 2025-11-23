@@ -1,9 +1,9 @@
 :root {
-  --page-bg: #ACE4A3;
-  --block-bg: #ACE4A3;
-  --block-border: #7EB977;
-  --block-width: 600px;
-  --header-bg: #9CD493;
+    --page-bg: #ace4a3;
+    --block-bg: #ace4a3;
+    --block-border: #7eb977;
+    --block-width: 600px;
+    --header-bg: #9cd493;
 }
 
 /*
@@ -15,81 +15,82 @@
 */
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 svg {
-  height: 1em;
-  display: block;
+    height: 1em;
+    display: block;
 
-  path {
-    fill: currentColor;
-  }
+    path {
+        fill: currentColor;
+    }
 }
 IMG {
-  display: block;
+    display: block;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-image: url("bg.png");
-  background-color: var(--page-bg);
+    font-family: "Arial", sans-serif;
+    background-image: url("bg.png");
+    background-color: var(--page-bg);
 }
 
 A {
-  text-decoration: none;
+    text-decoration: none;
 }
 TEXTAREA {
-  width: 100%;
-  height: 5em;
+    width: 100%;
+    height: 5em;
 }
 INPUT,
 BUTTON {
-  width: 100%;
+    width: 100%;
 }
 
 .formItem {
-  padding-left: 1em;
-  LABEL {
-    font-weight: bold;
-    font-size: .75em;
-    display: block;
-    position: relative;
-    left: -1em;
-  }
+    padding-left: 1em;
+    LABEL {
+        font-weight: bold;
+        font-size: 0.75em;
+        display: block;
+        position: relative;
+        left: -1em;
+    }
 }
 TABLE.form {
-  width: 100%;
+    width: 100%;
 
-  TD {
-    vertical-align: top;
-  }
+    TD {
+        vertical-align: top;
+    }
 }
 
-H3, .block {
-  width: 100%;
-  max-width: var(--block-width);
-  border: 1px solid var(--block-border);  
-  padding: 0.5em;
+H3,
+.block {
+    width: 100%;
+    max-width: var(--block-width);
+    border: 1px solid var(--block-border);
+    padding: 0.5em;
 }
 H3 {
-  background-color: var(--header-bg);
-  margin-bottom: 0;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    background-color: var(--header-bg);
+    margin-bottom: 0;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .block {
-  background: var(--block-bg);
+    background: var(--block-bg);
 }
 
 .avatar {
-  aspect-ratio: 1/1;
-  height: 100%;
-  border: 1px solid var(--block-border);
-  border-radius: .5em;
+    aspect-ratio: 1/1;
+    height: 100%;
+    border: 1px solid var(--block-border);
+    border-radius: 0.5em;
 }
 
 .error {
-  color: red;
+    color: red;
 }

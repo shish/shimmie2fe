@@ -1,8 +1,8 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { ApolloProvider } from "@apollo/client/react";
 import { setContext } from "@apollo/client/link/context";
-import { MockedProvider } from "@apollo/client/testing/react";
+import { ApolloProvider } from "@apollo/client/react";
 import { MockLink } from "@apollo/client/testing";
+import { MockedProvider } from "@apollo/client/testing/react";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 import React, { useState } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -58,11 +58,7 @@ export function AppWithMiddleware({ client, router, mocks }: AppProps) {
     if (client) {
         app = <ApolloProvider client={client}>{app}</ApolloProvider>;
     } else if (mocks) {
-        app = (
-            <MockedProvider mocks={mocks}>
-                {app}
-            </MockedProvider>
-        );
+        app = <MockedProvider mocks={mocks}>{app}</MockedProvider>;
     }
     app = <ErrorBoundary>{app}</ErrorBoundary>;
     app = <React.StrictMode>{app}</React.StrictMode>;

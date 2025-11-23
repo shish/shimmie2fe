@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client/react";
 import { useContext, useState } from "react";
 import { FormItem } from "../../../components/basics/FormItem";
-import { graphql, useFragment as fragCast } from "../../../gql";
+import { useFragment as fragCast, graphql } from "../../../gql";
 import { Permission, PostMetadataFragment } from "../../../gql/graphql";
 
 import { Avatar, Block, MaybeError, Tag } from "../../../components/basics";

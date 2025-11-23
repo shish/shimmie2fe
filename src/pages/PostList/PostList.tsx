@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router-dom";
-import { graphql, useFragment as fragCast } from "../../gql";
+import { useFragment as fragCast, graphql } from "../../gql";
 
 import { Block } from "../../components/basics";
 import { ErrorPage } from "../ErrorPage/ErrorPage";

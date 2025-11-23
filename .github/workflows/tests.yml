@@ -1,48 +1,48 @@
 name: Tests
 
 on:
-  push:
-    branches:
-      - main
-      - master
-      - branch-2.*
-    tags:
-      - "v*"
-  pull_request:
-  schedule:
-    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
+    push:
+        branches:
+            - main
+            - master
+            - branch-2.*
+        tags:
+            - "v*"
+    pull_request:
+    schedule:
+        - cron: "0 2 * * 0" # Weekly on Sundays at 02:00
 
 jobs:
-  format:
-    name: Format
-    runs-on: ubuntu-24.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set Up Cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          node_modules
-        key: node_modules-${{ hashFiles('package.lock') }}
-    - name: Install JS Packages
-      run: npm install
-    - name: Format
-      run: npm run format && git diff --exit-code
+    format:
+        name: Format
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Set Up Cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      node_modules
+                  key: node_modules-${{ hashFiles('package.lock') }}
+            - name: Install JS Packages
+              run: npm install
+            - name: Format
+              run: npm run format && git diff --exit-code
 
-  test:
-    name: Tests
-    runs-on: ubuntu-24.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set Up Cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          node_modules
-        key: node_modules-${{ hashFiles('package.lock') }}
-    - name: Install JS Packages
-      run: npm install
-    - name: Run test suite
-      run: npm run test
+    test:
+        name: Tests
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Set Up Cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      node_modules
+                  key: node_modules-${{ hashFiles('package.lock') }}
+            - name: Install JS Packages
+              run: npm install
+            - name: Run test suite
+              run: npm run test

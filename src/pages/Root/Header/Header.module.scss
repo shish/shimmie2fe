@@ -2,20 +2,20 @@
     display: block;
     position: fixed;
     top: 0;
-    transition: top .3s ease;
+    transition: top 0.3s ease;
     left: 0;
     right: 0;
-    padding: .5em;
+    padding: 0.5em;
     background: var(--block-bg);
     border-bottom: 1px solid var(--block-border);
     white-space: nowrap;
 
     .topbar {
-        margin: .25em 1em;
+        margin: 0.25em 1em;
         display: flex;
         align-items: center;
         gap: 1em;
-        &>* {
+        & > * {
             flex: 0 0 auto;
         }
         .logo {
@@ -31,7 +31,7 @@
                 INPUT[type="text"] {
                     border: 1px solid var(--block-border);
                     border-right: 0;
-                    border-radius: .2em 0 0 .2em;
+                    border-radius: 0.2em 0 0 0.2em;
                 }
             }
             BUTTON {
@@ -41,7 +41,7 @@
                 width: auto;
                 border: 0px;
                 padding-top: 0.2em;
-                border-radius: 0 .2em .2em 0;
+                border-radius: 0 0.2em 0.2em 0;
                 border: 1px solid var(--block-border);
             }
         }
@@ -54,8 +54,8 @@
             .avatar {
                 width: 2em;
                 height: 2em;
-                border-radius: .5em;
-                border: 1px solid var(--block-border)
+                border-radius: 0.5em;
+                border: 1px solid var(--block-border);
             }
             SPAN {
                 position: absolute;
@@ -63,7 +63,7 @@
                 right: -0.2em;
                 background: red;
                 border: 1px solid #800;
-                padding: 0 .2em;
+                padding: 0 0.2em;
                 border-radius: 1em;
                 font-size: 0.5em;
                 font-weight: bold;
@@ -73,19 +73,19 @@
     .nav,
     .user,
     .login {
-        margin: .25em 1em;
+        margin: 0.25em 1em;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         margin-top: 1em;
-        &>* {
+        & > * {
             margin-left: 1em;
             flex: 0 0 auto;
         }
-        &>*:first-child {
+        & > *:first-child {
             margin-left: 0em;
         }
-        &>.fill {
+        & > .fill {
             flex: 1 1 auto;
         }
         FORM {

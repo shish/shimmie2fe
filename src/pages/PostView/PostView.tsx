@@ -2,13 +2,13 @@ import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router-dom";
 import { CommentList } from "../../components/CommentList";
 import {
-    PostMedia,
     POST_MEDIA_FRAGMENT,
+    PostMedia,
 } from "../../components/PostMedia/PostMedia";
-import { graphql, useFragment as fragCast } from "../../gql";
+import { useFragment as fragCast, graphql } from "../../gql";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
-import { PostMetaData, POST_METADATA_FRAGMENT } from "./PostMetaData";
+import { POST_METADATA_FRAGMENT, PostMetaData } from "./PostMetaData";
 
 const GET_POST = graphql(/* GraphQL */ `
     query getPost($post_id: Int!) {

@@ -5,7 +5,7 @@ import { graphql } from "../../gql";
 import { useFragment as fragCast } from "../../gql/fragment-masking";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoadingPage } from "../LoadingPage/LoadingPage";
-import { UserInfo, USER_INFO_FRAGMENT } from "./UserInfo";
+import { USER_INFO_FRAGMENT, UserInfo } from "./UserInfo";
 
 const GET_USER = graphql(`
     query getUser($user: String!) {

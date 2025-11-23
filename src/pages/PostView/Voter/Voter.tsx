@@ -3,11 +3,11 @@ import { useContext, useState } from "react";
 import { graphql } from "../../../gql";
 import { Permission, PostScoreFragment } from "../../../gql/graphql";
 
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { MaybeError } from "../../../components/basics";
+import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 import { UserContext } from "../../../providers/LoginProvider";
 import css from "./Voter.module.scss";
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 
 export const POST_SCORE_FRAGMENT = graphql(/* GraphQL */ `
     fragment PostScore on Post {

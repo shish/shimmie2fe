@@ -15,16 +15,16 @@
     }
     ARTICLE {
         flex: 1 0 auto;
-        padding: .5em;
+        padding: 0.5em;
         margin-top: 2.7em;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.5em;
-        &>H3 {
+        & > H3 {
             flex: 0 0 auto;
         }
-        &>.block {
+        & > .block {
             flex: 1 1 auto;
         }
     }
