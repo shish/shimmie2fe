@@ -1,11 +1,12 @@
 import { useMutation } from "@apollo/client/react";
 import { useContext, useState } from "react";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { FAIcon } from "@shish2k/react-faicon";
+
 import { graphql } from "../../../gql";
 import { Permission, PostScoreFragment } from "../../../gql/graphql";
 
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { MaybeError } from "../../../components/basics";
-import { FontAwesomeIcon } from "../../../components/FontAwesomeIcon";
 import { UserContext } from "../../../providers/LoginProvider";
 import css from "./Voter.module.scss";
 
@@ -47,7 +48,7 @@ export function Voter({
         <div className={css.voter}>
             <MaybeError query={q} />
             <div onClick={() => vote(1)}>
-                <FontAwesomeIcon
+                <FAIcon
                     icon={faChevronUp}
                     className={voted === 1 ? css.voted : null}
                 />
@@ -59,7 +60,7 @@ export function Voter({
                 {post.score}
             </span>
             <div onClick={() => vote(-1)}>
-                <FontAwesomeIcon
+                <FAIcon
                     icon={faChevronDown}
                     className={voted === -1 ? css.voted : null}
                 />

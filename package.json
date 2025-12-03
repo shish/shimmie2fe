@@ -21,6 +21,7 @@
     "dependencies": {
         "@apollo/client": "^4",
         "@fortawesome/free-solid-svg-icons": "^7",
+        "@shish2k/react-faicon": "^0.0.1",
         "react": "^19",
         "react-dom": "^19",
         "react-intersection-observer": "^10",
