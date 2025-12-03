@@ -1,13 +1,16 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Form, Link, useLocation, useSearchParams } from "react-router-dom";
-import { FAIcon } from "@shish2k/react-faicon";
 import { useMutation } from "@apollo/client/react";
 import {
     faBars,
     faMagnifyingGlass,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { FAIcon } from "@shish2k/react-faicon";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Form, Link, useLocation, useSearchParams } from "react-router-dom";
 
+import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
+import { MaybeError, Submit } from "../../../components/basics";
+import { graphql } from "../../../gql";
 import { useFragment as fragCast } from "../../../gql/fragment-masking";
 import { Permission } from "../../../gql/graphql";
 import {
@@ -16,9 +19,6 @@ import {
     UserContext,
 } from "../../../providers/LoginProvider";
 import { serverInfo } from "../../../utils";
-import { Autocomplete } from "../../../components/Autocomplete/Autocomplete";
-import { MaybeError, Submit } from "../../../components/basics";
-import { graphql } from "../../../gql";
 import css from "./Header.module.scss";
 import logo from "./logo.png";
 
@@ -176,7 +176,11 @@ export function Header({ display }: { display: boolean }) {
     return (
         <header ref={headerRef} className={css.header}>
             <div className={css.topbar}>
-                <FAIcon icon={faBars} data-cy="hamburger" onClick={() => toggleBar(Bars.NAV)} />
+                <FAIcon
+                    icon={faBars}
+                    data-cy="hamburger"
+                    onClick={() => toggleBar(Bars.NAV)}
+                />
                 <Link to="/">
                     <img
                         className={css.logo}
@@ -195,7 +199,11 @@ export function Header({ display }: { display: boolean }) {
                     </button>
                 </Form>
                 {is_anon ? (
-                    <FAIcon icon={faUser} data-cy="user-icon" onClick={() => toggleBar(Bars.USER)} />
+                    <FAIcon
+                        icon={faUser}
+                        data-cy="user-icon"
+                        onClick={() => toggleBar(Bars.USER)}
+                    />
                 ) : (
                     <>
                         <span onClick={() => toggleBar(Bars.USER)}>
@@ -211,11 +219,11 @@ export function Header({ display }: { display: boolean }) {
                                     onClick={() => toggleBar(Bars.USER)}
                                 />
                             ) : (
-                                    <FAIcon
-                                        icon={faUser}
-                                        onClick={() => toggleBar(Bars.USER)}
-                                        data-cy="user-icon"
-                                    />
+                                <FAIcon
+                                    icon={faUser}
+                                    onClick={() => toggleBar(Bars.USER)}
+                                    data-cy="user-icon"
+                                />
                             )}
                             {(me.private_message_unread_count || 0) > 0 && (
                                 <span>{me.private_message_unread_count}</span>

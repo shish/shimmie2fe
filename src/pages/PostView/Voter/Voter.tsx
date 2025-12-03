@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client/react";
-import { useContext, useState } from "react";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FAIcon } from "@shish2k/react-faicon";
+import { useContext, useState } from "react";
 
 import { graphql } from "../../../gql";
 import { Permission, PostScoreFragment } from "../../../gql/graphql";
