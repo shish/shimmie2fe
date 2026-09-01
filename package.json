@@ -24,7 +24,7 @@
         "@shish2k/react-faicon": "^0.1.0",
         "react": "^19",
         "react-dom": "^19",
-        "react-intersection-observer": "^10",
+        "react-intersection-observer": "^11",
         "react-router-dom": "^7.18"
     },
     "devDependencies": {
